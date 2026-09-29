@@ -49,7 +49,7 @@ public class PossibleCellsForNumberColumnCaseRule extends CaseRule {
 
         for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
             puzzleElement.setData(model.getModelColumnNumbers(puzzleElement.getIndex()));
-            sudokuBoard.addPickableElement(puzzleElement);
+            sudokuBoard.addCasePickableElement(puzzleElement);
         }
         return sudokuBoard;
     }

@@ -44,9 +44,9 @@ public class FillinRowCaseRule extends CaseRule {
             // treeTentBoard.getRowCol(((TreeTentCell)element).getLocation().x,
             // TreeTentType.UNKNOWN,
             // false).size() != 0)) {
-            //     caseBoard.addPickableElement(element);
+            //     caseBoard.addCasePickableElement(element);
             // }
-            treeTentBoard.addPickableElement(element);
+            treeTentBoard.addCasePickableElement(element);
         }
         return treeTentBoard;
     }

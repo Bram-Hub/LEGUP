@@ -156,6 +156,7 @@ public class SkyscrapersView extends GridBoardView {
         }
     }
 
+
     @Override
     protected void setCasePickable() {
         for (ElementView elementView : elementViews) {

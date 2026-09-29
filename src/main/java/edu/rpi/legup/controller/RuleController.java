@@ -75,7 +75,7 @@ public class RuleController implements ActionListener {
                                 // Skyscraper cellForNumber
                                 Board caseBoard =
                                         caseRule.getApplicableLocationsBoard(element.getBoard());
-                                if (caseBoard != null && caseBoard.getCount() > 0) {
+                                if (caseBoard != null && caseBoard.getCasePickableCount() > 0) {
                                     puzzle.notifyBoardListeners(
                                             listener -> listener.onCaseBoardAdded(caseBoard));
                                 } else {

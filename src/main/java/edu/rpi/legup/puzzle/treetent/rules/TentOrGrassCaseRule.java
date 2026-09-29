@@ -27,7 +27,7 @@ public class TentOrGrassCaseRule extends CaseRule {
 
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.UNKNOWN) {
-                treeTentBoard.addPickableElement(element);
+                treeTentBoard.addCasePickableElement(element);
             }
         }
         return treeTentBoard;

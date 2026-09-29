@@ -39,7 +39,7 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
 
         for (PuzzleElement element : thermometerBoard.getPuzzleElements()) {
             if (((ThermometerCell) element).getFill() == ThermometerFill.UNKNOWN) {
-                thermometerBoard.addPickableElement(element);
+                thermometerBoard.addCasePickableElement(element);
             }
         }
         return thermometerBoard;

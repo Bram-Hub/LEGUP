@@ -27,7 +27,7 @@ public class LightOrEmptyCaseRule extends CaseRule {
 
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             if (((LightUpCell) data).getType() == LightUpCellType.UNKNOWN) {
-                lightUpBoard.addPickableElement(data);
+                lightUpBoard.addCasePickableElement(data);
             }
         }
         return lightUpBoard;

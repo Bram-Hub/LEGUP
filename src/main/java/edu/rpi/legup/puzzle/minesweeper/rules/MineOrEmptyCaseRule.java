@@ -28,7 +28,7 @@ public class MineOrEmptyCaseRule extends CaseRule {
         for (PuzzleElement data : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) data;
             if (cell.getData().isUnset()) {
-                minesweeperBoard.addPickableElement(data);
+                minesweeperBoard.addCasePickableElement(data);
             }
         }
         return minesweeperBoard;

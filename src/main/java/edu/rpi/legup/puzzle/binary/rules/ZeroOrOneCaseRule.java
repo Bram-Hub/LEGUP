@@ -34,7 +34,7 @@ public class ZeroOrOneCaseRule extends CaseRule {
         binaryBoard.setModifiable(false);
         for (PuzzleElement element : binaryBoard.getPuzzleElements()) {
             if (((BinaryCell) element).getType() == BinaryType.UNKNOWN) {
-                binaryBoard.addPickableElement(element);
+                binaryBoard.addCasePickableElement(element);
             }
         }
         return binaryBoard;

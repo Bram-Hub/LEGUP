@@ -27,7 +27,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
             if (cell.getType() == FillapixCellType.UNKNOWN) {
-                fillapixBoard.addPickableElement(data);
+                fillapixBoard.addCasePickableElement(data);
             }
         }
         return fillapixBoard;

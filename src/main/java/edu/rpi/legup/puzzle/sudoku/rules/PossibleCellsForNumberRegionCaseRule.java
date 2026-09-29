@@ -46,7 +46,7 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
 
         for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
             puzzleElement.setData(model.getModelRegionNumbers(puzzleElement.getIndex()));
-            sudokuBoard.addPickableElement(puzzleElement);
+            sudokuBoard.addCasePickableElement(puzzleElement);
         }
         return sudokuBoard;
     }

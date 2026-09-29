@@ -35,7 +35,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
         lightUpBoard.setModifiable(false);
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             if (((LightUpCell) data).getType() == LightUpCellType.NUMBER) {
-                lightUpBoard.addPickableElement(data);
+                lightUpBoard.addCasePickableElement(data);
             }
         }
         return lightUpBoard;

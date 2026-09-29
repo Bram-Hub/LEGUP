@@ -25,16 +25,16 @@ public class NumberForCellCaseRule extends CaseRule {
 
     @Override
     public Board getApplicableLocationsBoard(Board board) {
-        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) board.copy();
-        lightUpBoard.setModifiable(false);
-        lightUpBoard.setCaseRule(this);
+        SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board.copy();
+        skyscrapersboard.setModifiable(false);
+        skyscrapersboard.setCaseRule(this);
 
-        for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
+        for (PuzzleElement data : skyscrapersboard.getPuzzleElements()) {
             if (((SkyscrapersCell) data).getType() == SkyscrapersType.UNKNOWN) {
-                lightUpBoard.addPickableElement(data);
+                skyscrapersboard.addCasePickableElement(data);
             }
         }
-        return lightUpBoard;
+        return skyscrapersboard;
     }
 
     /**

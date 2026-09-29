@@ -21,7 +21,7 @@ public abstract class Board {
     protected boolean isModifiable;
 
     protected CaseRule caseRule;
-    protected Set<PuzzleElement> pickablePuzzleElements;
+    protected Set<PuzzleElement> casePickableElements;
 
     /** Board Constructor creates an empty board. */
     public Board() {
@@ -31,7 +31,7 @@ public abstract class Board {
         this.goal = null;
 
         this.caseRule = null;
-        this.pickablePuzzleElements = new HashSet<>();
+        this.casePickableElements = new HashSet<>();
     }
 
     /**
@@ -122,22 +122,22 @@ public abstract class Board {
      *
      * @return the pickable puzzle elements
      */
-    public Set<PuzzleElement> getPickablePuzzleElements() { return pickablePuzzleElements; }
+    public Set<PuzzleElement> getCasePickableElements() { return casePickableElements; }
 
     /**
      * Sets the pickable puzzle elements for this board.
      *
-     * @param pickablePuzzleElements the new pickable puzzle elements
+     * @param casePickableElements the new pickable puzzle elements
      */
-    public void setPickablePuzzleElements(Set<PuzzleElement> pickablePuzzleElements) { this.pickablePuzzleElements = pickablePuzzleElements; }
+    public void setCasePickableElements(Set<PuzzleElement> casePickableElements) { this.casePickableElements = casePickableElements; }
 
     /**
      * Adds a puzzle element to the set of pickable elements.
      *
      * @param puzzleElement the puzzle element to add
      */
-    public void addPickableElement(PuzzleElement puzzleElement) {
-        pickablePuzzleElements.add(puzzleElement);
+    public void addCasePickableElement(PuzzleElement puzzleElement) {
+        casePickableElements.add(puzzleElement);
     }
 
     /**
@@ -145,8 +145,8 @@ public abstract class Board {
      *
      * @param puzzleElement the puzzle element to remove
      */
-    public void removePickableElement(PuzzleElement puzzleElement) {
-        pickablePuzzleElements.remove(puzzleElement);
+    public void removeCasePickableElement(PuzzleElement puzzleElement) {
+        casePickableElements.remove(puzzleElement);
     }
 
     /**
@@ -154,8 +154,8 @@ public abstract class Board {
      *
      * @return the number of pickable elements
      */
-    public int getCount() {
-        return pickablePuzzleElements.size();
+    public int getCasePickableCount() {
+        return casePickableElements.size();
     }
 
     /**
@@ -166,7 +166,7 @@ public abstract class Board {
      * @return true if the puzzle element is pickable, false otherwise
      */
     public boolean isPickable(PuzzleElement puzzleElement, MouseEvent e) {
-        return pickablePuzzleElements.contains(getPuzzleElement(puzzleElement));
+        return casePickableElements.contains(getPuzzleElement(puzzleElement));
     }
 
     /**
@@ -297,6 +297,7 @@ public abstract class Board {
 
     /**
      * Performs a deep copy of this board.
+     * Note: This method does not copy caseRule and pickablePuzzleElements.
      *
      * @return a new copy of the board that is independent of this one
      */

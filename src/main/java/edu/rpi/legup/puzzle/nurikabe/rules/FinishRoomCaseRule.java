@@ -67,7 +67,7 @@ public class FinishRoomCaseRule extends CaseRule {
                 // if size of region is 1 less than the number block and the number block is only
                 // number block in the region
                 if (disRow.size() < ((NurikabeCell) element).getData() && only) {
-                    nurikabeBoard.addPickableElement(element); // add that room as a pickable element
+                    nurikabeBoard.addCasePickableElement(element); // add that room as a pickable element
                 }
             }
         }

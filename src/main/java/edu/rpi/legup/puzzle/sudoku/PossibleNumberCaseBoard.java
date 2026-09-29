@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+/** PossibleNumberCaseBoard is seemingly not used */
 public abstract class PossibleNumberCaseBoard extends Board {
 
     private SudokuCell cell;

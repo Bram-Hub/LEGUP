@@ -27,7 +27,7 @@ public class CaseRuleAtomic extends CaseRule_Generic {
 
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
             if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN) {
-                sttBoard.addPickableElement(element);
+                sttBoard.addCasePickableElement(element);
             }
         }
         return sttBoard;

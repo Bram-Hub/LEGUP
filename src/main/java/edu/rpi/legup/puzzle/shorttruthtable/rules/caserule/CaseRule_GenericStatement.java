@@ -69,7 +69,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
                 continue;
             }
             // if the element has passed all the checks, it can be selected
-            sttBoard.addPickableElement(element);
+            sttBoard.addCasePickableElement(element);
         }
         return sttBoard;
     }

@@ -42,7 +42,7 @@ public class LinkTentCaseRule extends CaseRule {
                     }
                 }
                 if (canAdd) {
-                    treeTentBoard.addPickableElement(element);
+                    treeTentBoard.addCasePickableElement(element);
                 }
             }
         }

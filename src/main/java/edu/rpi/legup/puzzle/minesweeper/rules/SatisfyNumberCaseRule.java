@@ -28,7 +28,7 @@ public class SatisfyNumberCaseRule extends CaseRule {
             if (cell.getTileNumber() > 0
                     && cell.getTileNumber() <= 8
                     && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
-                minesweeperBoard.addPickableElement(data);
+                minesweeperBoard.addCasePickableElement(data);
             }
         }
         return minesweeperBoard;

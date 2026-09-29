@@ -27,7 +27,7 @@ public class StarOrEmptyCaseRule extends CaseRule {
         starBattleBoard.setModifiable(false);
         for (PuzzleElement element : starBattleBoard.getPuzzleElements()) {
             if (((StarBattleCell) element).getType() == StarBattleCellType.UNKNOWN) {
-                starBattleBoard.addPickableElement(element);
+                starBattleBoard.addCasePickableElement(element);
             }
         }
         return starBattleBoard;

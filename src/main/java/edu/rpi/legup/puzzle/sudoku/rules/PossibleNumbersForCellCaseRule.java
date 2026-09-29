@@ -39,7 +39,7 @@ public class PossibleNumbersForCellCaseRule extends CaseRule {
 
         for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
             if (((SudokuCell) puzzleElement).getData() == 0) {
-                sudokuBoard.addPickableElement(puzzleElement);
+                sudokuBoard.addCasePickableElement(puzzleElement);
             }
         }
         return sudokuBoard;

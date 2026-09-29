@@ -35,7 +35,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
         nurikabeBoard.setModifiable(false);
         for (PuzzleElement element : nurikabeBoard.getPuzzleElements()) {
             if (((NurikabeCell) element).getType() == NurikabeType.UNKNOWN) {
-                nurikabeBoard.addPickableElement(element);
+                nurikabeBoard.addCasePickableElement(element);
             }
         }
         return nurikabeBoard;

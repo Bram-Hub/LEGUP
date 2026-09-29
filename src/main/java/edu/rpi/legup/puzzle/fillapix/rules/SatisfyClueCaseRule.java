@@ -30,7 +30,7 @@ public class SatisfyClueCaseRule extends CaseRule {
             if (cell.getNumber() >= 0
                     && cell.getNumber() <= 9
                     && FillapixUtilities.hasEmptyAdjacent(fillapixBoard, cell)) {
-                fillapixBoard.addPickableElement(data);
+                fillapixBoard.addCasePickableElement(data);
             }
         }
         return fillapixBoard;

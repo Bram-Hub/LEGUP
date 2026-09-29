@@ -28,11 +28,11 @@ public class CellForNumberCaseRule extends CaseRule {
 
         for (SkyscrapersClue data : currentBoard.getWestClues()) {
             // System.out.println(data.getType());
-            currentBoard.addPickableElement(data);
+            currentBoard.addCasePickableElement(data);
         }
         for (SkyscrapersClue data : currentBoard.getNorthClues()) {
             // System.out.println(data.getType());
-            currentBoard.addPickableElement(data);
+            currentBoard.addCasePickableElement(data);
         }
 
         // selects integer before checking Command.canExecute for use in Command.getErrorString
