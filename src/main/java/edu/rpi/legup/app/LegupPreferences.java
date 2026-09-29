@@ -25,7 +25,7 @@ public class LegupPreferences {
 
     public enum LegupPreference {
         WORK_DIRECTORY("work-directory", defaultUserDirectory(), o -> o),
-        START_FULL_SCREEN("start-full-screen", false, Boolean::parseBoolean),
+        FULL_SCREEN("full-screen", false, Boolean::parseBoolean),
         AUTO_UPDATE("auto-update", true, Boolean::parseBoolean),
         DARK_MODE("night-mode", false, Boolean::parseBoolean),
         USE_CUSTOM_COLOR_THEME("use-custom-color-theme", false, Boolean::parseBoolean),
@@ -227,9 +227,7 @@ public class LegupPreferences {
         return LegupPreference.WORK_DIRECTORY.stringValue();
     }
 
-    public static boolean startFullScreen() {
-        return LegupPreference.START_FULL_SCREEN.asBoolean();
-    }
+    public static boolean setFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
 
     public static boolean autoUpdate() {
         return LegupPreference.AUTO_UPDATE.asBoolean();

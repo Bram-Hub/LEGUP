@@ -214,9 +214,9 @@ public class LegupUI extends JFrame implements WindowListener {
                                                         "edu/rpi/legup/images/Legup/Direct Rules.gif")))
                         .getImage());
 
-        if (LegupPreferences.startFullScreen()) {
-            setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        }
+        //if (LegupPreferences.startFullScreen()) {
+        //    setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        //}
 
         this.addWindowListener(this);
         addKeyListener(
