@@ -701,19 +701,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         String url;
         switch (puz) {
             case "LightUp":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Light%20up-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Light%20up-Rules";
                 break;
-            case "Nurikabe":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Nurikabe-Rules";
+            case "Fillapix":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Fill‐A‐Pix-Rules";
                 break;
             case "TreeTent":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Tree-Tent-Rules";
-                break;
-            case "Skyscrapers":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Skyscrapers-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Tree-Tent-Rules";
                 break;
             case "ShortTruthTable":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Short-Truth-Table-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Short-Truth-Table-Rules";
                 break;
             default:
                 url =  "https://github.com/Bram-Hub/LEGUP/wiki/" + puz + "-rules";
