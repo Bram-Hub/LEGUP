@@ -712,8 +712,23 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             case "ShortTruthTable":
                 url = "https://github.com/Bram-Hub/LEGUP/wiki/Short-Truth-Table-Rules";
                 break;
+            case "Binary":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Binary-Rules";
+                break;
+            case "Minesweeper":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Minesweeper-Rules";
+                break;
+            case "Skyscrapers":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Skyscrapers-Rules";
+                break;
+            case "Nurikabe":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Nurikabe-Rules";
+                break;
+            case "Sudoku":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Sudoku-Tutorial";
+                break;
             default:
-                url =  "https://github.com/Bram-Hub/LEGUP/wiki/" + puz + "-rules";
+                url =  "https://github.com/Bram-Hub/LEGUP/wiki/";
         }
         try {
             Desktop.getDesktop().browse(java.net.URI.create(url));
