@@ -716,7 +716,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                 url = "https://github.com/Bram-Hub/Legup/wiki/Short-Truth-Table-Rules";
                 break;
             default:
-                url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial";
+                url =  "https://github.com/Bram-Hub/LEGUP/wiki/" + puz + "-rules";
         }
         try {
             Desktop.getDesktop().browse(java.net.URI.create(url));
@@ -879,7 +879,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * actions when clicked:
      *
      * <ul>
-     *   <li>'Directions' button triggers the `directionsToolButton` method.
+     *   <li>'Directions' button triggers the `helpTutorial` method.
      *   <li>'Undo' button triggers the undo action in the puzzle's history.
      *   <li>'Redo' button triggers the redo action in the puzzle's history.
      *   <li>'Check' button triggers the `checkProof` method.
@@ -899,7 +899,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                                 this.TOOLBAR_ICON_SCALE,
                                 this.TOOLBAR_ICON_SCALE));
         directions.setFocusPainted(false);
-        directions.addActionListener((ActionEvent) -> directionsToolButton());
+        directions.addActionListener((ActionEvent) -> helpTutorial());
 
         getToolBar2Buttons()[0] = directions;
         toolBar2.add(getToolBar2Buttons()[0]);
@@ -1013,51 +1013,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             String message = "\nThe game board is not solved.";
             JOptionPane.showMessageDialog(
                     null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Retrieves the puzzle name from the `GameBoardFacade` and opens a corresponding rules page in
-     * the default web browser.
-     *
-     * @throws IOException if an error occurs while trying to open the web page
-     */
-    private void directionsToolButton() {
-        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzleName);
-        }
-        try {
-            if (puzzleName.equals("Fillapix")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
-            } else if (puzzleName.equals("LightUp")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
-            } else if (puzzleName.equals("TreeTent")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
-            } else if (puzzleName.equals("ShortTruthTables")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
-            } else {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/"
-                                                + puzzleName
-                                                + "-rules"));
-            }
-        } catch (IOException e) {
-            LOGGER.error("Can't open web page");
         }
     }
 
