@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.starbattle;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public class StarBattleBoard extends GridBoard {
@@ -165,7 +167,7 @@ public class StarBattleBoard extends GridBoard {
      *
      * @return a new independent copy of the board
      */
-    public StarBattleBoard copy() {
+    public @NotNull StarBattleBoard copy() {
         StarBattleBoard copy = new StarBattleBoard(size, puzzleNum);
         for (int r = 0; r < this.regions.size(); ++r) {
             StarBattleRegion regionCopy = this.regions.get(r).copy();

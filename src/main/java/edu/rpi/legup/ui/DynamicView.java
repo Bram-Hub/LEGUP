@@ -54,10 +54,6 @@ public class DynamicView extends JPanel {
     @Nullable private JPanel setUpZoomer(@NotNull DynamicViewType type) {
         if (type == DynamicViewType.BOARD) {
             return setUpBoardZoomer();
-        } else {
-            if (type == DynamicViewType.PROOF_TREE) {
-                return setUpProofTreeZoomer();
-            }
         }
 
         // Should never reach here; if you reach here, that's a problem!
@@ -72,22 +68,6 @@ public class DynamicView extends JPanel {
     @NotNull private JPanel setUpBoardZoomer() {
         final String label = "Resize Board";
         ActionListener listener = (ActionListener) -> this.fitBoardViewToScreen();
-        return this.setUpZoomerHelper(label, listener);
-    }
-
-    /**
-     * Sets up the zoomer for the proof tree view
-     *
-     * @return A JPanel containing the zoomer
-     */
-    @NotNull private JPanel setUpProofTreeZoomer() {
-        final String label = "Resize Proof";
-        ActionListener listener =
-                (ActionListener) ->
-                        GameBoardFacade.getInstance()
-                                .getLegupUI()
-                                .getProofEditor()
-                                .fitTreeViewToScreen();
         return this.setUpZoomerHelper(label, listener);
     }
 

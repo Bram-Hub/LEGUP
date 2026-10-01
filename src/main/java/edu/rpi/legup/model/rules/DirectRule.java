@@ -1,6 +1,6 @@
 package edu.rpi.legup.model.rules;
 
-import static edu.rpi.legup.model.rules.RuleType.BASIC;
+import static edu.rpi.legup.model.rules.RuleType.DIRECT;
 
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -26,7 +26,7 @@ public abstract class DirectRule extends Rule {
      */
     public DirectRule(String ruleID, String ruleName, String description, String imageName) {
         super(ruleID, ruleName, description, imageName);
-        this.ruleType = BASIC;
+        this.ruleType = DIRECT;
     }
 
     /**

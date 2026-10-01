@@ -118,7 +118,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         }
 
         TreeNodeView nodeView = (TreeNodeView) treeElementView;
-        if (!nodeView.getChildrenViews().isEmpty()) {
+        if (!nodeView.getChildViews().isEmpty()) {
             return CommandError.NO_CHILDREN.toString();
         }
 

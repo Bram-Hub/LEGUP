@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.fillapix;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.logging.Logger;
 
@@ -26,7 +28,7 @@ public class FillapixBoard extends GridBoard {
      * @return a new copy of the board that is independent of this one
      */
     @Override
-    public FillapixBoard copy() {
+    public @NotNull FillapixBoard copy() {
         FillapixBoard copy = new FillapixBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

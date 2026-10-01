@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.sudoku;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -155,7 +157,7 @@ public class SudokuBoard extends GridBoard {
      * @param puzzleElement equivalent puzzle element with the new data.
      */
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         super.notifyChange(puzzleElement);
         Set<SudokuCell> affected = getAffected((SudokuCell) puzzleElement);
         for (SudokuCell c : affected) {
@@ -169,7 +171,7 @@ public class SudokuBoard extends GridBoard {
      * @return a new copy of the board that is independent of this one
      */
     @Override
-    public SudokuBoard copy() {
+    public @NotNull SudokuBoard copy() {
         SudokuBoard copy = new SudokuBoard(size);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

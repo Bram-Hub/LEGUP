@@ -1,8 +1,9 @@
 package edu.rpi.legup.model.tree;
 
-import edu.rpi.legup.controller.TreeController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.ui.proofeditorui.treeview.TreeView;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,19 +17,17 @@ public class Tree {
     private TreeNode rootNode;
 
     /**
-     * Tree Constructor creates the tree structure from the initial {@link Board}
+     * {@code Tree} constructor creates the tree structure from the initial {@code Board}.
      *
      * @param initBoard initial board
      */
-    public Tree(Board initBoard) {
+    public Tree(@NotNull Board initBoard) {
         this.rootNode = new TreeNode(initBoard);
         this.rootNode.setRoot(true);
     }
 
-    /** Tree Constructor creates the tree structure with null root node */
-    public Tree() {
-        this.rootNode = null;
-    }
+    /** {@code Tree} constructor creates the tree structure with {@code null} root node. */
+    public Tree() { this.rootNode = null; }
 
     /**
      * Adds a new transition to the specified node.
@@ -36,7 +35,7 @@ public class Tree {
      * @param treeNode the node to add a transition to
      * @return the created transition
      */
-    public TreeTransition addNewTransition(TreeNode treeNode) {
+    public TreeTransition addNewTransition(@NotNull TreeNode treeNode) {
         TreeTransition transition = new TreeTransition(treeNode, treeNode.getBoard().copy());
         treeNode.addChild(transition);
         treeNode.getChildren().forEach(TreeTransition::reverify);
@@ -49,7 +48,7 @@ public class Tree {
      * @param element the tree element to add
      * @return the added tree element
      */
-    public TreeElement addTreeElement(TreeElement element) {
+    public TreeElement addTreeElement(@NotNull TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode treeNode = (TreeNode) element;
             return addTreeElement(
@@ -69,7 +68,7 @@ public class Tree {
      * @param transition the transition to associate with the node
      * @return the added transition
      */
-    public TreeElement addTreeElement(TreeNode treeNode, TreeTransition transition) {
+    public TreeElement addTreeElement(@NotNull TreeNode treeNode, @NotNull TreeTransition transition) {
         treeNode.addChild(transition);
         treeNode.getChildren().forEach(TreeTransition::reverify);
         return transition;
@@ -82,7 +81,7 @@ public class Tree {
      * @param treeNode the tree node to associate with the transition
      * @return the added tree node
      */
-    public TreeElement addTreeElement(TreeTransition transition, TreeNode treeNode) {
+    public TreeElement addTreeElement(@NotNull TreeTransition transition, @NotNull TreeNode treeNode) {
         transition.setChildNode(treeNode);
         treeNode.setParent(transition);
         return treeNode;
@@ -93,37 +92,50 @@ public class Tree {
      *
      * @param element the tree element to remove
      */
-    public void removeTreeElement(TreeElement element) {
-        if (element.getType() == TreeElementType.NODE) {
-            TreeNode node = (TreeNode) element;
+    public void removeTreeElement(@NotNull TreeElement element) {
+        if (element.getType() == TreeElementType.NODE) { removeTreeNode((TreeNode) element); }
+        else { removeTreeTransition((TreeTransition) element); }
+    }
 
-            node.getParent().removeChild(node);
+    /**
+     * Recursively removes a {@code TreeNode} from the tree.
+     *
+     * @param node {@code TreeNode} to remove subtree of
+     */
+    private void removeTreeNode(@NotNull TreeNode node) {
+        while (!node.getChildren().isEmpty()) { removeTreeTransition(node.getChildren().getFirst()); }
+        if (node.getParent() != null) {
             node.getParent().setChildNode(null);
-        } else {
-            TreeTransition transition = (TreeTransition) element;
-
-            transition.getParents().forEach(n -> n.removeChild(transition));
-            TreeController treeController = new TreeController();
-            TreeView treeView = new TreeView(treeController);
-            treeView.removeTreeTransition(transition);
-            transition.getParents().get(0).getChildren().forEach(TreeTransition::reverify);
+            node.setParent(null);
         }
     }
 
     /**
-     * Determines if the tree is valid by checking whether this tree puzzleElement and all
-     * descendants of this tree puzzleElement is justified and justified correctly
+     * Recursively removes a {@code TreeTransition} from the tree.
      *
-     * @return true if tree is valid, false otherwise
+     * @param transition {@code TreeTransition} to remove subtree of
      */
-    public boolean isValid() {
-        return rootNode.isValidBranch();
+    private void removeTreeTransition(@NotNull TreeTransition transition) {
+        if (transition.getChildNode() != null) { removeTreeNode(transition.getChildNode()); }
+        for (TreeNode parent : transition.getParents()) {
+            parent.removeChild(transition);
+            parent.getChildren().forEach(TreeTransition::reverify);
+        }
+        transition.setParents(new ArrayList<>());
     }
 
     /**
-     * Gets a Set of TreeNodes that are leaf nodes
+     * Determines if the tree is valid by checking whether this tree element and all
+     * descendants of this tree element is justified and justified correctly
      *
-     * @return Set of TreeNodes that are leaf nodes
+     * @return {@code true} if tree is valid; {@code false} otherwise
+     */
+    public boolean isValid() { return rootNode.isValidBranch(); }
+
+    /**
+     * Gets a {@code Set} of {@code TreeNodes} that are leaf nodes of the tree.
+     *
+     * @return {@code Set} of {@code TreeNodes} that are leaf nodes
      */
     public Set<TreeElement> getLeafTreeElements() {
         Set<TreeElement> leafs = new HashSet<>();
@@ -132,24 +144,24 @@ public class Tree {
     }
 
     /**
-     * Gets a Set of TreeNodes that are leaf nodes from the subtree rooted at the specified node
+     * Gets a {@code Set} of {@code TreeNodes} that are leaf nodes of the subtree rooted at the specified node.
      *
-     * @param node node that is input
-     * @return Set of TreeNodes that are leaf nodes from the subtree
+     * @param node root of the subtree
+     * @return {@code Set} of {@code TreeNodes} that are leaf nodes of the subtree
      */
-    public Set<TreeElement> getLeafTreeElements(TreeNode node) {
+    public Set<TreeElement> getLeafTreeElements(@NotNull TreeNode node) {
         Set<TreeElement> leafs = new HashSet<>();
         getLeafTreeElements(leafs, node);
         return leafs;
     }
 
     /**
-     * Recursively gets a Set of TreeNodes that are leaf nodes
+     * Recursively gets a {@code Set} of {@code TreeNodes} that are leaf nodes.
      *
-     * @param leafs Set of TreeNodes that are leaf nodes
-     * @param element current TreeNode being evaluated
+     * @param leafs {@code Set} of {@code TreeNodes} that are leaf nodes
+     * @param element current {@code TreeNode} being evaluated
      */
-    private void getLeafTreeElements(Set<TreeElement> leafs, TreeElement element) {
+    private void getLeafTreeElements(@NotNull Set<TreeElement> leafs, @NotNull TreeElement element) {
         if (element.getType() == TreeElementType.NODE) {
             TreeNode node = (TreeNode) element;
             List<TreeTransition> childTrans = node.getChildren();
@@ -170,48 +182,46 @@ public class Tree {
     }
 
     /**
-     * Gets the lowest common ancestor (LCA) among the list of {@link TreeNode} passed into the
+     * Gets the lowest common ancestor (LCA) among the list of {@link TreeNode}s passed into the
      * function. This lowest common ancestor is the most immediate ancestor node such that the list
-     * of tree nodes specified are descendants of the node. This will return null if no such
-     * ancestor exists
+     * of tree nodes specified are descendants of the node.
      *
-     * @param nodes list of tree nodes to find the LCA
-     * @return the first ancestor node that all tree nodes have in common, otherwise null if none
-     *     exists
+     * @param nodes list of tree nodes to find the LCA of
+     * @return the first ancestor node that all tree nodes have in common
+     * @throws IllegalArgumentException if {@code nodes} is empty or tree nodes do not all belong to the same tree
      */
-    public static TreeNode getLowestCommonAncestor(List<TreeNode> nodes) {
-        if (nodes.isEmpty()) {
-            return null;
-        } else {
-            if (nodes.size() == 1) {
-                return nodes.get(0);
-            } else {
-                List<List<TreeNode>> ancestors = new ArrayList<>();
-                for (TreeNode node : nodes) {
-                    ancestors.add(node.getAncestors());
-                }
+    public static TreeNode getLowestCommonAncestor(@NotNull List<TreeNode> nodes) {
+        if (!nodes.isEmpty()) {
 
-                List<TreeNode> first = ancestors.get(0);
+            if (nodes.size() == 1) { return nodes.getFirst(); }
+            else {
+                List<List<TreeNode>> ancestors = new ArrayList<>();
+                for (TreeNode node : nodes) { ancestors.add(node.getAncestors()); }
+
+                List<TreeNode> first = ancestors.getFirst();
 
                 for (TreeNode node : first) {
+
                     boolean isCommon = true;
                     for (List<TreeNode> nList : ancestors) {
-                        isCommon &= nList.contains(node);
+                        if (!nList.contains(node)) {
+                            isCommon = false;
+                            break;
+                        }
                     }
 
-                    if (isCommon) {
-                        return node;
-                    }
+                    if (isCommon) { return node; }
                 }
             }
         }
-        return null;
+
+        throw new IllegalArgumentException("List of nodes is empty or the nodes do not all belong to the same tree.");
     }
 
     /**
-     * Determines if the tree contains all contradictory branches (puzzle has no solution)
+     * Determines if the tree contains all contradictory branches (puzzle has no solution).
      *
-     * @return true if the whole tree is contradictory, false otherwise
+     * @return {@code true} if the whole tree is contradictory; {@code false} otherwise
      */
     public boolean isContradictory() {
         for (TreeElement leaf : getLeafTreeElements()) {
@@ -227,23 +237,24 @@ public class Tree {
     }
 
     /**
-     * Gets the root node of this tree
+     * Gets the root node of this tree.
      *
      * @return the root node of the tree
      */
-    public TreeNode getRootNode() {
-        return rootNode;
-    }
+    public TreeNode getRootNode() { return rootNode; }
 
     /**
-     * Sets the root node of this tree
+     * Sets the root node of this tree.
      *
      * @param rootNode the root node of the tree
      */
-    public void setRootNode(TreeNode rootNode) {
-        this.rootNode = rootNode;
-    }
+    public void setRootNode(@Nullable TreeNode rootNode) { this.rootNode = rootNode; }
 
+    /**
+     * Checks if every leaf of the tree is a {@code TreeNode}.
+     *
+     * @return {@code true} if every leaf of the tree is a {@code TreeNode}; {@code false} otherwise
+     */
     public boolean isClosed() {
         for (TreeElement leaf : getLeafTreeElements()) {
             if (leaf.getType() != TreeElementType.NODE) {

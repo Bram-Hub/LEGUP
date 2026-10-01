@@ -1,8 +1,11 @@
 package edu.rpi.legup.model.tree;
 
 import edu.rpi.legup.model.gameboard.Board;
+import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.RuleType;
 import edu.rpi.legup.utility.DisjointSets;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 /**
@@ -11,16 +14,17 @@ import java.util.*;
  * the tree.
  */
 public class TreeNode extends TreeElement {
+
     private TreeTransition parent;
     private List<TreeTransition> children;
     private boolean isRoot;
 
     /**
-     * TreeNode Constructor creates a tree node whenever a rule has been made
+     * {@code TreeNode} constructor creates a tree node whenever a rule has been made.
      *
      * @param board board associated with this tree node
      */
-    public TreeNode(Board board) {
+    public TreeNode(@NotNull Board board) {
         super(TreeElementType.NODE);
         this.board = board;
         this.parent = null;
@@ -30,9 +34,9 @@ public class TreeNode extends TreeElement {
 
     /**
      * Determines if this tree node leads to a contradiction. Every path from this tree node must
-     * lead to a contradiction including all of its children
+     * lead to a contradiction including all of its children.
      *
-     * @return true if this tree node leads to a contradiction, false otherwise
+     * @return {@code true} if this tree node leads to a contradiction; {@code false} otherwise
      */
     @Override
     public boolean isContradictoryBranch() {
@@ -50,12 +54,12 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Recursively determines if the sub tree rooted at this tree puzzleElement is valid by checking
-     * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
-     * and justified correctly
+     * Recursively determines if the subtree rooted at this tree element is valid by checking
+     * whether this tree element and all descendants of this tree element is justified
+     * and justified correctly.
      *
-     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is
-     *     valid, false otherwise
+     * @return {@code true} if this tree element and all descendants of this tree element is
+     *     valid; {@code false} otherwise
      */
     @Override
     public boolean isValidBranch() {
@@ -68,7 +72,7 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets a list of the ancestors of this node
+     * Gets a list of the ancestors of this node.
      *
      * @return list of all the ancestors for this node
      */
@@ -95,7 +99,7 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets a list of the descendants of this node
+     * Gets a list of the descendants of this node.
      *
      * @return list of all the descendants for this node
      */
@@ -128,11 +132,11 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Gets a DisjointSets containing the children of this node such that the sets contained within
-     * the DisjointSets are such that elements in the same set are branches of this tree node that
+     * Gets a {@code DisjointSets} containing the children of this node such that the sets contained within
+     * the {@code DisjointSets} are such that elements in the same set are branches of this tree node that
      * will eventually merge. This could mean that multiple merges take place before this happens.
      *
-     * @return DisjointSets of tree transitions containing unique non-merging branches
+     * @return {@code DisjointSets} of tree transitions containing unique non-merging branches
      */
     public DisjointSets<TreeTransition> findMergingBranches() {
         DisjointSets<TreeElement> branches = new DisjointSets<>();
@@ -179,13 +183,13 @@ public class TreeNode extends TreeElement {
 
     /**
      * Finds the point at which the set of tree elements passed in will merge. This must be a set
-     * gotten from findMergingBranches method DisjointSets
+     * gotten from {@link #findMergingBranches()} method {@code DisjointSets}.
      *
-     * @param branches tree elements to find the merging point
-     * @return tree transition of the merging point or null if no such point exists
+     * @param branches tree elements to find the merging point of
+     * @return tree transition of the merging point or {@code null} if no such point exists
      */
     @SuppressWarnings("unchecked")
-    public static TreeTransition findMergingPoint(Set<? extends TreeElement> branches) {
+    public static TreeTransition findMergingPoint(@NotNull Set<? extends TreeElement> branches) {
         DisjointSets<TreeElement> mergeSet = new DisjointSets<>();
         Set<TreeElement> branchesCopy = new HashSet<>(branches);
         TreeElement headBranch = branchesCopy.iterator().next();
@@ -247,102 +251,110 @@ public class TreeNode extends TreeElement {
     }
 
     /**
-     * Determines if the specified tree transition is a parent of this node
+     * Determines if the specified tree transition is a parent of this node.
      *
      * @param parent tree transition that could be a parent
-     * @return true if the specified tree transition is a parent of this node, false otherwise
+     * @return {@code true} if the specified tree transition is a parent of this node; {@code false} otherwise
      */
-    public boolean isParent(TreeTransition parent) {
+    public boolean isParent(@NotNull TreeTransition parent) {
         return this.parent == parent;
     }
 
     /**
-     * Adds a child to this tree node
+     * Adds a child to this tree node.
      *
      * @param child child to add
      */
-    public void addChild(TreeTransition child) {
+    public void addChild(@NotNull TreeTransition child) {
         children.add(child);
+        if (parent != null && ((child.getRule() instanceof CaseRule) || !child.getBoard().isModifiableCaseRule())) {
+            parent.propagateModifiableCaseRule(false);
+        }
     }
 
     /**
-     * Removes a child to this tree node
+     * Removes a child to this tree node.
      *
      * @param child child to remove
      */
-    public void removeChild(TreeTransition child) {
+    public void removeChild(@NotNull TreeTransition child) {
         children.remove(child);
+        if (parent != null && ((child.getRule() instanceof CaseRule) || !child.getBoard().isModifiableCaseRule())) {
+            parent.propagateModifiableCaseRule(true);
+        }
     }
 
     /**
-     * Determines if the specified tree node is a child of this node
+     * Determines if the specified tree node is a child of this node.
      *
      * @param child tree node that could be a child
-     * @return true if the specified tree node is a child of this node, false otherwise
+     * @return {@code true} if the specified tree node is a child of this node; {@code false} otherwise
      */
-    public boolean isChild(TreeNode child) {
-        return children.contains(child);
-    }
+    public boolean isChild(@NotNull TreeNode child) { return children.contains(child); }
 
     /**
-     * Gets the TreeNode's parent
+     * Gets the {@code TreeNode}'s parent.
      *
-     * @return the TreeNode's parent
+     * @return the {@code TreeNode}'s parent
      */
-    public TreeTransition getParent() {
-        return parent;
-    }
+    public TreeTransition getParent() { return parent; }
 
     /**
-     * Sets the TreeNode's parent
+     * Sets the {@code TreeNode}'s parent.
      *
-     * @param parent the TreeNode's parent
+     * @param parent the {@code TreeNode}'s parent
      */
-    public void setParent(TreeTransition parent) {
-        this.parent = parent;
-    }
+    public void setParent(TreeTransition parent) { this.parent = parent; }
 
     /**
-     * Gets the TreeNode's children
+     * Gets the {@code TreeNode}'s children.
      *
-     * @return the TreeNode's children
+     * @return the {@code TreeNode}'s children
      */
-    public List<TreeTransition> getChildren() {
-        return children;
-    }
+    public List<TreeTransition> getChildren() { return children; }
 
     /**
-     * Sets the TreeNode's children
+     * Sets the {@code TreeNode}'s children.
      *
-     * @param children the TreeNode's children
+     * @param children the {@code TreeNode}'s children
      */
     public void setChildren(List<TreeTransition> children) {
+        boolean hadCaseRule = false;
+        boolean hasCaseRule = false;
+        if (parent != null) {
+
+            for (TreeTransition child : this.children) {
+                if ((child.getRule() instanceof CaseRule) || !child.getBoard().isModifiableCaseRule()) {
+                    hadCaseRule = true;
+                    break;
+                }
+            }
+            for (TreeTransition child : children) {
+                if ((child.getRule() instanceof CaseRule) || !child.getBoard().isModifiableCaseRule()) {
+                    hasCaseRule = true;
+                    break;
+                }
+            }
+        }
+
         this.children = children;
+        if (hasCaseRule != hadCaseRule) { parent.propagateModifiableCaseRule(!hasCaseRule); }
     }
 
     /**
-     * Is this node the root of the tree
+     * Determines if this node the root of the tree.
      *
-     * @return true if this node is the root of the tree, false otherwise
+     * @return {@code true} if this node is the root of the tree; {@code false} otherwise
      */
-    public boolean isRoot() {
-        return isRoot;
-    }
+    public boolean isRoot() { return isRoot; }
 
     /**
-     * Sets the root of the tree
+     * Sets whether this node is the root of the tree.
      *
-     * @param isRoot true if this node is the root of the tree, false otherwise
+     * @param isRoot {@code true} if this node is the root of the tree; {@code false} otherwise
      */
-    public void setRoot(boolean isRoot) {
-        this.isRoot = isRoot;
-    }
+    public void setRoot(boolean isRoot) { this.isRoot = isRoot; }
 
-    /**
-     * Clears all children transitions from this tree node. After calling this method, the node will
-     * have no child transitions.
-     */
-    public void clearChildren() {
-        this.children.clear();
-    }
+    /** Clears all children transitions from this tree node. */
+    public void clearChildren() { this.children.clear(); }
 }

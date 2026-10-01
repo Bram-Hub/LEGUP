@@ -5,7 +5,7 @@ package edu.rpi.legup.model.rules;
  * rules into various types based on their functionality and application.
  */
 public enum RuleType {
-    BASIC,
+    DIRECT,
     CASE,
     CONTRADICTION,
     MERGE

@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.heyawake;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +71,7 @@ public class HeyawakeBoard extends GridBoard {
      * @return a new HeyawakeBoard that is a copy of this board
      */
     @Override
-    public HeyawakeBoard copy() {
+    public @NotNull HeyawakeBoard copy() {
         HeyawakeBoard copy = new HeyawakeBoard(dimension.width, dimension.height);
         for (List<HeyawakeCell> region : regions.values()) {
             List<HeyawakeCell> newCpy = new ArrayList<>();

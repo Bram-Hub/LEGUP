@@ -20,6 +20,7 @@ import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreePanel;
 import edu.rpi.legup.ui.proofeditorui.treeview.TreeViewSelection;
+import edu.rpi.legup.ui.zoompane.ZoomPaneUI;
 import edu.rpi.legup.user.Submission;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -72,7 +73,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             preferences,
             exit;
     private JMenu edit;
-    private JMenuItem undo, redo, fitBoardToScreen, fitTreeToScreen;
+    private JMenuItem undo, redo, fitBoardToScreen;
 
     private JMenu view;
 
@@ -195,7 +196,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         redo = new JMenuItem("Redo");
 
         fitBoardToScreen = new JMenuItem("Fit Board to Screen");
-        fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
 
         view = new JMenu("View");
 
@@ -467,9 +467,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         edit.add(fitBoardToScreen);
         fitBoardToScreen.addActionListener(
                 (ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
-
-        edit.add(fitTreeToScreen);
-        fitTreeToScreen.addActionListener((ActionEvent) -> this.fitTreeViewToScreen());
 
         mBar.add(proof);
 
@@ -1098,19 +1095,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         toolBar1.setVisible(false);
         setupToolBar2();
-        reloadGui();
-    }
-
-    /** Calls {@code repaintTree()} to refresh the tree view. */
-    public void reloadGui() {
-        repaintTree();
-    }
-
-    /**
-     * Updates the tree view displayed in the tree panel to reflect the current state of the tree.
-     */
-    public void repaintTree() {
-        treePanel.repaintTreeView(GameBoardFacade.getInstance().getTree());
     }
 
     /** Checks the proof for all files */
@@ -1360,10 +1344,5 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
     public void showStatus(@NotNull String status, boolean error, int timer) {
         // TODO: implement
-    }
-
-    /** Zooms the tree view to fit within the available screen space */
-    protected void fitTreeViewToScreen() {
-        this.treePanel.getTreeView().zoomFit();
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class SkyscrapersBoard extends GridBoard {
     private static final Logger LOGGER = LogManager.getLogger(SkyscrapersBoard.class.getName());
@@ -210,7 +211,7 @@ public class SkyscrapersBoard extends GridBoard {
      *     tile values, though they will not be saved.
      */
     @Override
-    public void setCell(int x, int y, Element e, MouseEvent m) {
+    public void setCell(int x, int y, Element e, @NotNull MouseEvent m) {
         SkyscrapersClue clue = this.getClue(x, y);
         if (e == null) return;
         if (clue != null) {
@@ -256,7 +257,7 @@ public class SkyscrapersBoard extends GridBoard {
     }
 
     @Override
-    public SkyscrapersBoard copy() {
+    public @NotNull SkyscrapersBoard copy() {
         SkyscrapersBoard copy = new SkyscrapersBoard(dimension.width);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

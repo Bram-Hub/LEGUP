@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.masyu;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class MasyuBoard extends GridBoard {
     }
 
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         if (puzzleElement instanceof MasyuLine) {
             lines.add((MasyuLine) puzzleElement);
         } else {
@@ -41,7 +43,7 @@ public class MasyuBoard extends GridBoard {
     }
 
     @Override
-    public MasyuBoard copy() {
+    public @NotNull MasyuBoard copy() {
         MasyuBoard copy = new MasyuBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

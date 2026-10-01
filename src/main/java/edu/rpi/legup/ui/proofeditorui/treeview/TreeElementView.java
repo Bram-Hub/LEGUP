@@ -2,6 +2,8 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 
 /**
@@ -11,7 +13,7 @@ import java.awt.*;
  */
 public abstract class TreeElementView implements Shape {
     protected TreeElement treeElement;
-    protected double span;
+    protected int span;
     protected int depth;
     protected boolean isSelected;
     protected boolean isHover;
@@ -20,12 +22,12 @@ public abstract class TreeElementView implements Shape {
     protected boolean isCollapsed;
 
     /**
-     * TreeElementView Constructor creates a tree puzzleElement view
+     * {@code TreeElementView} constructor creates a tree element view.
      *
-     * @param type tree puzzleElement type
-     * @param treeElement tree puzzleElement puzzleElement associated with this view
+     * @param type tree element type
+     * @param treeElement tree element associated with this view
      */
-    protected TreeElementView(TreeElementType type, TreeElement treeElement) {
+    protected TreeElementView(@NotNull TreeElementType type, @NotNull TreeElement treeElement) {
         this.type = type;
         this.treeElement = treeElement;
         this.isSelected = false;
@@ -34,145 +36,114 @@ public abstract class TreeElementView implements Shape {
     }
 
     /**
-     * Draws the tree puzzleElement view
+     * Draws the tree element view.
      *
-     * @param graphics2D graphics2D object used to draw the tree puzzleElement view
+     * @param graphics2D {@code Graphics2D} object used to draw the tree element view
      */
-    public abstract void draw(Graphics2D graphics2D);
+    public abstract void draw(@NotNull Graphics2D graphics2D);
 
     /**
-     * Gets the span for the subtree rooted at this view
+     * Gets the span for the subtree rooted at this view.
      *
-     * @return span bounded y span
+     * @return minor axis span of this element view
      */
-    public double getSpan() {
-        return span;
-    }
+    public int getSpan() { return span; }
 
     /**
      * Sets the span for the subtree rooted at this view.
      *
-     * @param span bounded y span
+     * @param span minor axis span of this element view
      */
-    public void setSpan(double span) {
-        this.span = span;
-    }
+    public void setSpan(int span) { this.span = span; }
 
     /**
-     * Gets the depth of this tree puzzleElement in the tree
+     * Gets the depth of this tree element in the tree.
      *
-     * @return depth of this tree puzzleElement
+     * @return depth of this tree element
      */
-    public int getDepth() {
-        return depth;
-    }
+    public int getDepth() { return depth; }
 
     /**
-     * Sets the depth of this tree puzzleElement in the tree
+     * Sets the depth of this tree element in the tree.
      *
-     * @param depth depth of this tree puzzleElement
+     * @param depth depth of this tree element
      */
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
+    public void setDepth(int depth) { this.depth = depth; }
 
     /**
-     * Gets the tree puzzleElement type for this view
+     * Gets the tree element type for this view.
      *
-     * @return tree puzzleElement type
+     * @return tree element type
      */
-    public TreeElementType getType() {
-        return type;
-    }
+    public TreeElementType getType() { return type; }
 
     /**
-     * Gets the tree puzzleElement associated with this view
+     * Gets the tree element associated with this view.
      *
-     * @return tree puzzleElement associated with this view
+     * @return tree element associated with this view
      */
-    public TreeElement getTreeElement() {
-        return treeElement;
-    }
+    public TreeElement getTreeElement() { return treeElement; }
 
     /**
-     * Sets the tree puzzleElement associated with this view
+     * Sets the tree element associated with this view.
      *
-     * @param treeElement tree puzzleElement associated with this view
+     * @param treeElement tree element associated with this view
      */
-    public void setTreeElement(TreeElement treeElement) {
-        this.treeElement = treeElement;
-    }
+    public void setTreeElement(@NotNull TreeElement treeElement) { this.treeElement = treeElement; }
 
     /**
-     * Gets the mouse selection
+     * Gets the mouse selection status.
      *
-     * @return mouse selection
+     * @return selection status
      */
-    public boolean isSelected() {
-        return isSelected;
-    }
+    public boolean isSelected() { return isSelected; }
 
     /**
-     * Sets the mouse selection
+     * Sets the mouse selection status.
      *
-     * @param isSelected mouse selection
+     * @param isSelected selection status
      */
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
+    public void setSelected(boolean isSelected) { this.isSelected = isSelected; }
 
     /**
-     * Gets the mouse hover
+     * Gets the mouse hover status.
      *
-     * @return mouse hover
+     * @return hover status
      */
-    public boolean isHover() {
-        return isHover;
-    }
+    public boolean isHover() { return isHover; }
 
     /**
-     * Sets the mouse hover
+     * Sets the mouse hover status.
      *
-     * @param isHovered mouse hover
+     * @param isHovered hover status
      */
-    public void setHover(boolean isHovered) {
-        this.isHover = isHovered;
-    }
+    public void setHover(boolean isHovered) { this.isHover = isHovered; }
 
     /**
-     * Gets the visibility of the tree puzzleElement. Tells the TreeView whether or not to draw the
-     * tree puzzleElement
+     * Gets the visibility of the tree element. Tells the TreeView whether to draw the tree element.
      *
-     * @return visibility of the tree puzzleElement
+     * @return visibility of the tree element
      */
-    public boolean isVisible() {
-        return isVisible;
-    }
+    public boolean isVisible() { return isVisible; }
 
     /**
-     * Sets the visibility of the tree puzzleElement
+     * Sets the visibility of the tree element.
      *
-     * @param isVisible visibility of the tree puzzleElement
+     * @param isVisible visibility of the tree element
      */
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
-    }
+    public void setVisible(boolean isVisible) { this.isVisible = isVisible; }
 
     /**
-     * Is this tree node view collapsed in the view
+     * Is this tree node view collapsed in the view.
      *
-     * @return true if the node is collapsed, false otherwise
+     * @return {@code true} if the node is collapsed; {@code false} otherwise
      */
-    public boolean isCollapsed() {
-        return isCollapsed;
-    }
+    public boolean isCollapsed() { return isCollapsed; }
 
     /**
-     * Sets the tree node view collapsed field
+     * Sets the tree node view collapsed field.
      *
-     * @param isCollapsed true if the node is collapsed, false otherwise
+     * @param isCollapsed {@code true} if the node is collapsed; {@code false} otherwise
      */
-    public void setCollapsed(boolean isCollapsed) {
-        this.isCollapsed = isCollapsed;
-    }
+    public void setCollapsed(boolean isCollapsed) { this.isCollapsed = isCollapsed; }
 }

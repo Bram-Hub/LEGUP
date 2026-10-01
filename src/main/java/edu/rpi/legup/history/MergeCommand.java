@@ -107,7 +107,7 @@ public class MergeCommand extends PuzzleCommand {
         for (TreeElementView view : selection.getSelectedViews()) {
             if (view.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) view;
-                if (!nodeView.getChildrenViews().isEmpty()) {
+                if (!nodeView.getChildViews().isEmpty()) {
                     return CommandError.NO_CHILDREN.toString();
                 }
                 nodeList.add(nodeView.getTreeElement());

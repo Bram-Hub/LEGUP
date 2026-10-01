@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +71,7 @@ public class BattleshipBoard extends GridBoard {
      *
      * @return the copy of the board
      */
-    public BattleshipBoard copy() {
+    public @NotNull BattleshipBoard copy() {
         BattleshipBoard copy = new BattleshipBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

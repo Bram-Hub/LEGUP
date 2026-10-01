@@ -28,7 +28,4 @@ public interface ITreeListener {
      * @param selection tree view selection that was changed
      */
     void onTreeSelectionChanged(TreeViewSelection selection);
-
-    /** Called when the model has finished updating the tree. */
-    void onUpdateTree();
 }

@@ -74,7 +74,7 @@ public class ValidateCaseRuleCommand extends PuzzleCommand {
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            finalTreeElement = nodeView.getChildViews().get(0).getTreeElement();
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             finalTreeElement = transitionView.getChildView().getTreeElement();

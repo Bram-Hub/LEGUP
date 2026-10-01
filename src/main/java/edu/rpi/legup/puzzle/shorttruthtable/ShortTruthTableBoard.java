@@ -2,7 +2,8 @@ package edu.rpi.legup.puzzle.shorttruthtable;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
-import java.awt.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ShortTruthTableBoard extends GridBoard {
     }
 
     @Override
-    public ShortTruthTableBoard copy() {
+    public @NotNull ShortTruthTableBoard copy() {
 
         // Copy the statements
         ShortTruthTableStatement[] statementsCopy =
@@ -92,7 +93,7 @@ public class ShortTruthTableBoard extends GridBoard {
     //    }
 
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
         int r = cell.getY();
         int c = cell.getX();

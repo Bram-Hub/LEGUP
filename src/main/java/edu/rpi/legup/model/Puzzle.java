@@ -152,7 +152,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                             Rule rule = (Rule) cons.newInstance();
 
                             switch (rule.getRuleType()) {
-                                case BASIC:
+                                case DIRECT:
                                     this.addDirectRule((DirectRule) rule);
                                     break;
                                 case CASE:

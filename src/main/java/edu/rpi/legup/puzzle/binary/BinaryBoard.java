@@ -2,6 +2,8 @@ package edu.rpi.legup.puzzle.binary;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -103,7 +105,7 @@ public class BinaryBoard extends GridBoard {
      * @return copy of current BinaryBoard
      */
     @Override
-    public BinaryBoard copy() {
+    public @NotNull BinaryBoard copy() {
         BinaryBoard copy = new BinaryBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {

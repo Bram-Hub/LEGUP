@@ -1,9 +1,14 @@
 package edu.rpi.legup.puzzle.treetent;
 
+import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +90,46 @@ public class TreeTentBoard extends GridBoard {
     }
 
     /**
+     * Sets the {@code TreeTentCell} at the location {@code (x,y)}. This method does not set the cell if the
+     * location specified is out of bounds.
+     *
+     * @param x {@inheritDoc}
+     * @param y {@inheritDoc}
+     * @param e {@inheritDoc}
+     * @param m {@inheritDoc}
+     */
+    public void setCell(int x, int y, @Nullable Element e, @NotNull MouseEvent m) {
+
+        if (((y == dimension.height && x >= 0 && x < dimension.width)
+                || (x == dimension.width && y >= 0 && y < dimension.height))) {
+
+            TreeTentClue clue = getClue(x, y);
+            if (y == dimension.height) {
+
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.height) { clue.setData(clue.getData() + 1); }
+                    else { clue.setData(0); }
+                }
+                else {
+                    if (clue.getData() > 0) { clue.setData(clue.getData() - 1); }
+                    else { clue.setData(dimension.height); }
+                }
+            }
+            else { // x == dimension.width
+                if (m.getButton() == MouseEvent.BUTTON1) {
+                    if (clue.getData() < dimension.width) { clue.setData(clue.getData() + 1); }
+                    else { clue.setData(0); }
+                }
+                else {
+                    if (clue.getData() > 0) { clue.setData(clue.getData() - 1); }
+                    else { clue.setData(dimension.width); }
+                }
+            }
+        }
+        else { super.setCell(x, y, e, m); }
+    }
+
+    /**
      * Returns the puzzle element corresponding to the given element. For elements with index -2 or
      * -1, the element itself is returned directly.
      *
@@ -92,10 +137,11 @@ public class TreeTentBoard extends GridBoard {
      * @return the corresponding puzzle element
      */
     @Override
-    public PuzzleElement getPuzzleElement(PuzzleElement element) {
+    public PuzzleElement getPuzzleElement(@Nullable PuzzleElement element) {
+        if (element == null) { return null; }
+
         return switch (element.getIndex()) {
-            case -2 -> element;
-            case -1 -> element;
+            case -2, -1 -> element;
             default -> super.getPuzzleElement(element);
         };
     }
@@ -123,7 +169,7 @@ public class TreeTentBoard extends GridBoard {
      * @param puzzleElement the puzzle element that has changed
      */
     @Override
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         int index = puzzleElement.getIndex();
         if (index == -1) {
             lines.add((TreeTentLine) puzzleElement);
@@ -158,7 +204,7 @@ public class TreeTentBoard extends GridBoard {
      * @param puzzleElement equivalent puzzle element with the data.
      */
     @Override
-    public void notifyAddition(PuzzleElement puzzleElement) {
+    public void notifyAddition(@NotNull PuzzleElement puzzleElement) {
         if (puzzleElement instanceof TreeTentLine) {
             lines.add((TreeTentLine) puzzleElement);
         }
@@ -171,7 +217,7 @@ public class TreeTentBoard extends GridBoard {
      * @param puzzleElement equivalent puzzle element with the data.
      */
     @Override
-    public void notifyDeletion(PuzzleElement puzzleElement) {
+    public void notifyDeletion(@NotNull PuzzleElement puzzleElement) {
         if (puzzleElement instanceof TreeTentLine) {
             for (TreeTentLine line : lines) {
                 if (line.compare((TreeTentLine) puzzleElement)) {
@@ -267,7 +313,7 @@ public class TreeTentBoard extends GridBoard {
      * @return true if the boards are equivalent, false otherwise
      */
     @Override
-    public boolean equalsBoard(Board board) {
+    public boolean equalsBoard(@NotNull Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board;
         for (TreeTentLine l1 : lines) {
             boolean hasLine = false;
@@ -289,7 +335,7 @@ public class TreeTentBoard extends GridBoard {
      * @return a TreeTentBoard object that is a deep copy of the current TreeTentBoard
      */
     @Override
-    public TreeTentBoard copy() {
+    public @NotNull TreeTentBoard copy() {
         TreeTentBoard copy = new TreeTentBoard(dimension.width, dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {
             for (int y = 0; y < this.dimension.height; y++) {
@@ -301,8 +347,8 @@ public class TreeTentBoard extends GridBoard {
             lineCpy.setModifiable(false);
             copy.getLines().add(lineCpy);
         }
-        for (PuzzleElement e : modifiedData) {
-            copy.getPuzzleElement(e).setModifiable(false);
+        for (Object e : modifiedData) {
+            copy.getPuzzleElement((PuzzleElement) e).setModifiable(false);
         }
         copy.rowClues = rowClues;
         copy.colClues = colClues;

@@ -10,10 +10,9 @@ import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.proofeditorui.treeview.*;
-import java.awt.*;
+
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.*;
 
 /**
  * The EditDataCommand class represents a command to edit the data of a puzzle element within a tree
@@ -112,21 +111,18 @@ public class EditDataCommand extends PuzzleCommand {
         PuzzleElement selectedPuzzleElement = elementView.getPuzzleElement();
         if (selectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) selectedView;
-            if (!nodeView.getChildrenViews().isEmpty()) {
+            if (!nodeView.getChildViews().isEmpty()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
             } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
                 return CommandError.UNMODIFIABLE_DATA.toString();
             }
         } else {
-            TreeTransitionView transitionView = (TreeTransitionView) selectedView;
-            if (!transitionView.getTreeElement().getBoard().isModifiable()) {
+            if (!board.isModifiable()) {
                 return CommandError.UNMODIFIABLE_BOARD.toString();
-            } else {
-                if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
-                    return CommandError.UNMODIFIABLE_DATA.toString();
-                } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiableCaseRule()) {
-                    return CommandError.UNMODIFIABLE_DATA_CASE_RULE.toString();
-                }
+            } else if (!board.isModifiableCaseRule()) {
+                return CommandError.UNMODIFIABLE_DATA_CASE_RULE.toString();
+            } else if (!board.getPuzzleElement(selectedPuzzleElement).isModifiable()) {
+                return CommandError.UNMODIFIABLE_DATA.toString();
             }
         }
         return null;

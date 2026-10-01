@@ -4,6 +4,7 @@ import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class NurikabeBoard extends GridBoard {
     private static final Logger LOGGER = LogManager.getLogger(NurikabeBoard.class.getName());
@@ -44,7 +45,7 @@ public class NurikabeBoard extends GridBoard {
     }
 
     @Override
-    public NurikabeBoard copy() {
+    public @NotNull NurikabeBoard copy() {
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace("NurikabeBoard copy()");
         }

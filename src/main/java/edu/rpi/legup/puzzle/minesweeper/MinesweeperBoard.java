@@ -2,6 +2,7 @@ package edu.rpi.legup.puzzle.minesweeper;
 
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
+import org.jetbrains.annotations.NotNull;
 
 public class MinesweeperBoard extends GridBoard {
 
@@ -24,7 +25,7 @@ public class MinesweeperBoard extends GridBoard {
      * @return a new copy of the board that is independent of this one
      */
     @Override
-    public MinesweeperBoard copy() {
+    public @NotNull MinesweeperBoard copy() {
         MinesweeperBoard newMinesweeperBoard =
                 new MinesweeperBoard(this.dimension.width, this.dimension.height);
         for (int x = 0; x < this.dimension.width; x++) {

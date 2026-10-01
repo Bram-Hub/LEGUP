@@ -3,7 +3,7 @@ package edu.rpi.legup.ui.proofeditorui.treeview;
 import java.awt.Dimension;
 import javax.swing.*;
 
-/** {@code TreeToolBarButton} is a JButton that represents a button in the tree toolbar. */
+/** {@code TreeToolBarButton} is a {@code JButton} that represents a button in the tree toolbar. */
 public class TreeToolBarButton extends JButton {
 
     private TreeToolBarName name;
@@ -12,8 +12,8 @@ public class TreeToolBarButton extends JButton {
     /**
      * Constructs a {@code TreeToolBarButton} with the specified icon and name.
      *
-     * @param imageIcon the {@link ImageIcon} to be displayed on the button
-     * @param name the {@link TreeToolBarName} associated with this button
+     * @param imageIcon the {@code ImageIcon} to be displayed on the button
+     * @param name the {@code TreeToolBarName} associated with this button
      */
     public TreeToolBarButton(ImageIcon imageIcon, TreeToolBarName name) {
         super(imageIcon);
@@ -24,11 +24,9 @@ public class TreeToolBarButton extends JButton {
     }
 
     /**
-     * Gets the {@link TreeToolBarName} associated with this button
+     * Gets the {@code TreeToolBarName} associated with this button.
      *
-     * @return the {@link TreeToolBarName} associated with this button
+     * @return the {@code TreeToolBarName} associated with this button
      */
-    public TreeToolBarName getToolBarName() {
-        return name;
-    }
+    public TreeToolBarName getToolBarName() { return name; }
 }

@@ -286,11 +286,6 @@ public class LegupUI extends JFrame implements WindowListener {
         return (PuzzleEditorPanel) panels[2];
     }
 
-    /** Repaints the tree view in the proof editor. */
-    public void repaintTree() {
-        getProofEditor().repaintTree();
-    }
-
     public void showStatus(@NotNull String status, boolean error) {
         showStatus(status, error, 1);
     }

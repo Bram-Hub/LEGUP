@@ -1,5 +1,8 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
+import edu.rpi.legup.ui.SmoothImageIcon;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -12,35 +15,35 @@ public class TreeToolbarPanel extends JPanel {
     private TreeToolBarButton addChild, delChild, merge, collapse;
 
     /**
-     * TreeToolbarPanel Constructor - creates the tree tool mBar panel
+     * {@code TreeToolbarPanel} constructor - creates the tree toolbar panel
      *
-     * @param treePanel treePanel input
+     * @param treePanel {@code TreePanel} parent
      */
-    public TreeToolbarPanel(TreePanel treePanel) {
+    public TreeToolbarPanel(@NotNull TreePanel treePanel) {
         this.treePanel = treePanel;
         this.setLayout(new GridLayout(4, 1, 0, 2));
 
         addChild =
                 new TreeToolBarButton(
-                        new ImageIcon(
+                        new SmoothImageIcon(
                                 ClassLoader.getSystemResource(
                                         "edu/rpi/legup/images/Legup/AddChild.png")),
                         TreeToolBarName.ADD_CHILD);
         delChild =
                 new TreeToolBarButton(
-                        new ImageIcon(
+                        new SmoothImageIcon(
                                 ClassLoader.getSystemResource(
                                         "edu/rpi/legup/images/Legup/DelChild.png")),
                         TreeToolBarName.DEL_CHILD);
         merge =
                 new TreeToolBarButton(
-                        new ImageIcon(
+                        new SmoothImageIcon(
                                 ClassLoader.getSystemResource(
                                         "edu/rpi/legup/images/Legup/Merge.png")),
                         TreeToolBarName.MERGE);
         collapse =
                 new TreeToolBarButton(
-                        new ImageIcon(
+                        new SmoothImageIcon(
                                 ClassLoader.getSystemResource(
                                         "edu/rpi/legup/images/Legup/Collapse.png")),
                         TreeToolBarName.COLLAPSE);

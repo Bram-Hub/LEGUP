@@ -51,7 +51,6 @@ public class DeleteTreeElementCommand extends PuzzleCommand {
         }
 
         for (TreeElementView selectedView : selectedViews) {
-            System.out.println("DELETED");
             TreeElement element = selectedView.getTreeElement();
             tree.removeTreeElement(element);
             puzzle.notifyTreeListeners(listener -> listener.onTreeElementRemoved(element));

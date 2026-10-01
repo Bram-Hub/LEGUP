@@ -1,6 +1,9 @@
 package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.Goal;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,17 +19,19 @@ public abstract class Board {
     protected Set<PuzzleElement> modifiedData;
     protected Goal goal;
     protected boolean isModifiable;
+    protected boolean isModifiableCaseRule;
 
-    /** Board Constructor creates an empty board. */
+    /** {@code Board} constructor creates an empty board. */
     public Board() {
         this.puzzleElements = new ArrayList<>();
         this.modifiedData = new HashSet<>();
         this.isModifiable = true;
+        this.isModifiableCaseRule = true;
         this.goal = null;
     }
 
     /**
-     * Board Constructor creates a board with null elements.
+     * {@code Board} constructor creates a board with null elements.
      *
      * @param size number of elements for the board
      */
@@ -38,12 +43,12 @@ public abstract class Board {
     }
 
     /**
-     * Gets a specific {@link PuzzleElement} from the board.
+     * Gets a specific {@code PuzzleElement} from the board.
      *
      * @param puzzleElement the puzzle element to retrieve
-     * @return the puzzle element at the corresponding index, or null if not found
+     * @return the puzzle element at the corresponding index, or {@code null} if not found
      */
-    public PuzzleElement getPuzzleElement(PuzzleElement puzzleElement) {
+    public PuzzleElement getPuzzleElement(@Nullable PuzzleElement puzzleElement) {
         if (puzzleElement == null) {
             return null;
         }
@@ -52,142 +57,152 @@ public abstract class Board {
     }
 
     /**
-     * Sets a specific {@link PuzzleElement} on the board
+     * Sets a specific {@code PuzzleElement} on the board.
      *
-     * @param index index of the puzzleElement
-     * @param puzzleElement the puzzleElement to set at the index
+     * @param index index of the puzzle element
+     * @param puzzleElement the puzzle element to set at the index
      */
-    public void setPuzzleElement(int index, PuzzleElement puzzleElement) {
+    public void setPuzzleElement(int index, @Nullable PuzzleElement puzzleElement) {
         if (index < puzzleElements.size()) {
             puzzleElements.set(index, puzzleElement);
         }
     }
 
     /**
-     * Gets the number of elements on the board
+     * Gets the number of elements on the board.
      *
      * @return number of elements on the board
      */
-    public int getElementCount() {
-        return puzzleElements.size();
-    }
+    public int getElementCount() { return puzzleElements.size(); }
 
     /**
-     * Gets the {@link PuzzleElement} on the board.
+     * Gets the {@code PuzzleElement}s on the board.
      *
      * @return puzzle elements on the board
      */
-    public List<PuzzleElement> getPuzzleElements() {
-        return puzzleElements;
-    }
+    public List<PuzzleElement> getPuzzleElements() { return puzzleElements; }
 
     /**
-     * Sets the {@link PuzzleElement} on the board.
+     * Sets the {@code PuzzleElement}s on the board.
      *
      * @param puzzleElements elements on the board
      */
-    public void setPuzzleElements(List<PuzzleElement> puzzleElements) {
+    public void setPuzzleElements(@NotNull List<PuzzleElement> puzzleElements) {
         this.puzzleElements = puzzleElements;
     }
 
     /**
      * Gets the modifiable attribute for the board.
      *
-     * @return true if the board is modifiable, false otherwise
+     * @return {@code true} if the board is modifiable; {@code false} otherwise
      */
-    public boolean isModifiable() {
-        return isModifiable;
-    }
+    public boolean isModifiable() { return isModifiable; }
 
     /**
      * Sets the modifiable attribute for the board.
      *
-     * @param isModifiable true if the board is modifiable, false otherwise
+     * @param isModifiable {@code true} if the board is modifiable; {@code false} otherwise
      */
-    public void setModifiable(boolean isModifiable) {
-        this.isModifiable = isModifiable;
+    public void setModifiable(boolean isModifiable) { this.isModifiable = isModifiable; }
+
+    /**
+     * Gets whether this board is modifiable as a result of a case rule.
+     *
+     * @return {@code true} if this board is modifiable; false otherwise
+     */
+    public boolean isModifiableCaseRule() { return isModifiableCaseRule; }
+
+    /**
+     * Sets whether this board is modifiable as a result of a case rule.
+     *
+     * @param isModifiableCaseRule {@code true} if this board is modifiable; {@code false} otherwise
+     */
+    public void setModifiableCaseRule(boolean isModifiableCaseRule) {
+        this.isModifiableCaseRule = isModifiableCaseRule;
     }
 
     /**
-     * Gets whether any of {@link PuzzleElement} of this board has been modified by the user.
+     * Gets whether any of {@code PuzzleElement}s of this board has been modified by the user.
      *
-     * @return true if the board has been modified, false otherwise
+     * @return {@code true} if the board has been modified; {@code false} otherwise
      */
-    public boolean isModified() {
-        return !modifiedData.isEmpty();
-    }
+    public boolean isModified() { return !modifiedData.isEmpty(); }
 
     /**
-     * Gets the set of modified {@link PuzzleElement} of the board.
+     * Gets the set of modified {@code PuzzleElement}s from the board.
      *
-     * @return set of modified puzzle element of the board
+     * @return set of modified puzzle element from the board
      */
-    public Set<PuzzleElement> getModifiedData() {
-        return modifiedData;
-    }
+    public Set<PuzzleElement> getModifiedData() { return modifiedData; }
 
     /**
-     * Adds a {@link PuzzleElement} that has been modified to the list.
+     * Adds a {@code PuzzleElement} that has been modified to the list.
      *
-     * @param puzzleElement puzzleElement that has been modified
+     * @param puzzleElement puzzle element that has been modified
      */
-    public void addModifiedData(PuzzleElement puzzleElement) {
+    public void addModifiedData(@NotNull PuzzleElement puzzleElement) {
         modifiedData.add(puzzleElement);
         puzzleElement.setModified(true);
     }
 
     /**
-     * Removes a {@link PuzzleElement} that is no longer modified.
+     * Removes a {@code PuzzleElement} that has no longer been modified from the list.
      *
-     * @param data puzzleElement that is no longer modified
+     * @param data puzzle element that has no longer been modified
      */
-    public void removeModifiedData(PuzzleElement data) {
+    public void removeModifiedData(@NotNull PuzzleElement data) {
         modifiedData.remove(data);
         data.setModified(false);
     }
 
     /**
-     * Called when a {@link PuzzleElement} data on this has changed and passes in the equivalent
+     * Called when a {@code PuzzleElement} on this board's data has changed and passes in the equivalent
      * puzzle element with the new data.
      *
-     * @param puzzleElement equivalent puzzle element with the new data.
+     * @param puzzleElement equivalent puzzle element with the new data
      */
-    @SuppressWarnings("unchecked")
-    public void notifyChange(PuzzleElement puzzleElement) {
+    public void notifyChange(@NotNull PuzzleElement puzzleElement) {
         puzzleElements.set(puzzleElement.getIndex(), puzzleElement);
     }
 
     /**
-     * Called when a {@link PuzzleElement} has been added and passes in the equivalent puzzle
+     * Called when a {@code PuzzleElement} has been added and passes in the equivalent puzzle
      * element with the data.
      *
-     * @param puzzleElement equivalent puzzle element with the data.
+     * @param puzzleElement equivalent puzzle element
      */
-    public void notifyAddition(PuzzleElement puzzleElement) {}
+    public void notifyAddition(@NotNull PuzzleElement puzzleElement) {}
 
     /**
-     * Called when a {@link PuzzleElement} has been deleted and passes in the equivalent puzzle
-     * element with the data.
+     * Called when a {@code PuzzleElement} has been deleted and passes in the equivalent puzzle element.
      *
-     * @param puzzleElement equivalent puzzle element with the data.
+     * @param puzzleElement equivalent puzzle element
      */
-    public void notifyDeletion(PuzzleElement puzzleElement) {}
+    public void notifyDeletion(@NotNull PuzzleElement puzzleElement) {}
 
-    @SuppressWarnings("unchecked")
-    public Board mergedBoard(Board lca, List<Board> boards) {
-        if (lca == null || boards.isEmpty()) {
-            return null;
-        }
+    /**
+     * Creates a {@code Board} that is the result of merging all the boards in {@code boards}. For each puzzle
+     * element, if the value is shared by all of the {@code boards}, that value is used; otherwise the value from
+     * {@code lca} is used.
+     *
+     * @param lca the lowest common ancestor of all of the {@code boards}
+     * @param boards the boards to merge
+     * @return the result of merging all of the {@code boards}
+     */
+    public Board mergedBoard(@NotNull Board lca, @NotNull List<Board> boards) {
 
         Board mergedBoard = lca.copy();
 
-        Board firstBoard = boards.get(0);
+        Board firstBoard = boards.getFirst();
         for (PuzzleElement lcaData : lca.getPuzzleElements()) {
             PuzzleElement mData = firstBoard.getPuzzleElement(lcaData);
 
             boolean isSame = true;
             for (Board board : boards) {
-                isSame &= mData.equalsData(board.getPuzzleElement(lcaData));
+                if (!mData.equalsData(board.getPuzzleElement(lcaData))) {
+                    isSame = false;
+                    break;
+                }
             }
 
             if (isSame && !lcaData.equalsData(mData)) {
@@ -201,13 +216,12 @@ public abstract class Board {
     }
 
     /**
-     * Determines if this board contains the equivalent puzzle elements as the one specified
+     * Determines if this board contains the equivalent puzzle elements as the one specified.
      *
      * @param board board to check equivalence
-     * @return true if the boards are equivalent, false otherwise
+     * @return {@code true} if the boards are equivalent; {@code false} otherwise
      */
-    @SuppressWarnings("unchecked")
-    public boolean equalsBoard(Board board) {
+    public boolean equalsBoard(@NotNull Board board) {
         for (PuzzleElement element : puzzleElements) {
             if (!element.equalsData(board.getPuzzleElement(element))) {
                 return false;

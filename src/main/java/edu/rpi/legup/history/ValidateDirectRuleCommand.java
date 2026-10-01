@@ -53,7 +53,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
 
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
-                transitionView = nodeView.getChildrenViews().get(0);
+                transitionView = nodeView.getChildViews().get(0);
             } else {
                 transitionView = (TreeTransitionView) selectedView;
             }
@@ -89,11 +89,11 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            if (nodeView.getChildrenViews().isEmpty()) {
+            if (nodeView.getChildViews().isEmpty()) {
                 LOGGER.error("NodeView has no children views");
                 return;
             }
-            finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            finalTreeElement = nodeView.getChildViews().get(0).getTreeElement();
         } else {
             TreeTransitionView transitionView = (TreeTransitionView) firstSelectedView;
             TreeNodeView childView = transitionView.getChildView();
@@ -130,7 +130,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
         for (TreeElementView view : selectedViews) {
             if (view.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) view;
-                if (nodeView.getChildrenViews().size() != 1) {
+                if (nodeView.getChildViews().size() != 1) {
                     return CommandError.ONE_CHILD.toString();
                 }
             } else {
@@ -154,7 +154,7 @@ public class ValidateDirectRuleCommand extends PuzzleCommand {
             TreeTransitionView transitionView;
             if (element.getType() == TreeElementType.NODE) {
                 TreeNodeView nodeView = (TreeNodeView) selectedView;
-                transitionView = nodeView.getChildrenViews().get(0);
+                transitionView = nodeView.getChildViews().get(0);
             } else {
                 transitionView = (TreeTransitionView) selectedView;
             }

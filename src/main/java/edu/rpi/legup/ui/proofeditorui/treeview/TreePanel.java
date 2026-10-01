@@ -1,5 +1,7 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
+import static edu.rpi.legup.ui.zoompane.ZoomViewport.ZoomPeer.NOTIFICATION;
+
 import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.controller.TreeController;
@@ -7,14 +9,11 @@ import edu.rpi.legup.history.AddTreeElementCommand;
 import edu.rpi.legup.history.DeleteTreeElementCommand;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.history.MergeCommand;
-import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.tree.Tree;
-import edu.rpi.legup.ui.DynamicView;
-import edu.rpi.legup.ui.DynamicViewType;
+import edu.rpi.legup.ui.zoompane.ZoomPane;
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -23,158 +22,144 @@ import javax.swing.border.TitledBorder;
  * and merging tree elements, and updating the status based on actions performed.
  */
 public class TreePanel extends JPanel {
-    public boolean modifiedSinceSave = false;
-    public boolean modifiedSinceUndoPush = false;
-    public int updateStatusTimer = 0;
 
-    private JPanel main;
-    private TreeView treeView;
-    private TreeToolbarPanel toolbar;
-    // private LegupUI legupUI;
+    private final ZoomPane treeViewPane;
+    private final TreeView treeView;
+    private final TreeToolbarPanel toolbar;
 
-    private JLabel status;
+    private final JLabel infoLabel;
+    private final JLabel errorLabel;
 
     /** Constructs a {@code TreePanel} and initializes the UI components. */
-    public TreePanel(/*LegupUI legupUI*/ ) {
-        // this.legupUI = legupUI;
-
-        main = new JPanel();
-
-        main.setLayout(new BorderLayout());
-
-        TreeController treeController = new TreeController();
-        treeView = new TreeView(treeController);
-        treeController.setViewer(treeView);
-
-        toolbar = new TreeToolbarPanel(this);
-
-        DynamicView dynamicTreeView = new DynamicView(treeView, DynamicViewType.PROOF_TREE);
-        main.add(dynamicTreeView, BorderLayout.CENTER);
-        dynamicTreeView.add(toolbar, BorderLayout.WEST);
-
-        status = new JLabel();
-        status.setPreferredSize(new Dimension(150, 15));
-        dynamicTreeView.getZoomWrapper().add(status, BorderLayout.CENTER);
-
-        TitledBorder title = BorderFactory.createTitledBorder("Proof Tree");
-        title.setTitleJustification(TitledBorder.CENTER);
-        main.setBorder(title);
+    public TreePanel() {
 
         setLayout(new BorderLayout());
-        add(main);
+        TitledBorder title = BorderFactory.createTitledBorder("Proof Tree");
+        title.setTitleJustification(TitledBorder.CENTER);
+        setBorder(title);
 
-        updateStatusTimer = 0;
+        treeView = new TreeView(new TreeController());
+
+        toolbar = new TreeToolbarPanel(this);
+        treeViewPane = new ZoomPane(treeView);
+
+        add(treeViewPane, BorderLayout.CENTER);
+        add(toolbar, BorderLayout.WEST);
+
+        errorLabel = new JLabel();
+        errorLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
+        errorLabel.setVisible(false);
+        treeViewPane.getZoomViewport().getPeer().add(errorLabel, NOTIFICATION);
+
+        infoLabel = new JLabel();
+        infoLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
+        infoLabel.setVisible(false);
+        treeViewPane.getZoomViewport().getPeer().add(infoLabel, NOTIFICATION);
+
+        updateUI();
     }
 
-    /**
-     * Repaints the tree view with the provided {@link Tree} object
-     *
-     * @param tree the {@link Tree} object to update the view with
-     */
-    public void repaintTreeView(Tree tree) {
-        treeView.updateTreeView(tree);
-    }
+    @Override
+    public void updateUI() {
+        super.updateUI();
 
-    /**
-     * Updates the status of the panel based on changes to the {@link Board}
-     *
-     * @param board the {@link Board} object representing the current board state
-     */
-    public void boardDataChanged(Board board) {
-        modifiedSinceSave = true;
-        modifiedSinceUndoPush = true;
-        updateStatus();
-        // colorTransitions();
-    }
-
-    /**
-     * Updates the status display based on the status timer. If the timer is greater than 0, the
-     * status will not be updated. Otherwise, it clears the status text.
-     */
-    public void updateStatus() {
-        updateStatusTimer = ((updateStatusTimer - 1) > 0) ? (updateStatusTimer - 1) : 0;
-        if (updateStatusTimer > 0) {
-            return;
+        if (treeViewPane != null) {
+            treeViewPane.putClientProperty("ZoomPane.viewPadding", null);
+            Insets treeViewPadding = UIManager.getInsets("Tree.viewPadding");
+            if (treeViewPadding != null) {
+                treeViewPane.putClientProperty("ZoomPane.viewPadding", treeViewPadding);
+            }
         }
-        status.putClientProperty(FlatClientProperties.STYLE_CLASS, null);
-        status.setText("");
     }
 
     /**
-     * Updates the status display with the given status string
+     * Updates the info display with a status message.
      *
-     * @param statusString the status string to display
+     * @param status the status message to display
      */
-    public void updateStatus(String statusString) {
-        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "info");
-        status.setText(statusString);
+    public void updateStatus(String status) {
+        if (status.isEmpty()) { infoLabel.setVisible(false); }
+        else {
+            infoLabel.setText(status);
+            infoLabel.setVisible(true);
+        }
     }
 
     /**
-     * Updates the status display as an error with an error message
+     * Updates the error display with an error message.
      *
      * @param error the error message to display
      */
-    public void updateError(String error) {
-        status.putClientProperty(FlatClientProperties.STYLE_CLASS, "error");
-        status.setText(error);
+    public void updateError(@NotNull String error) {
+        if (error.isEmpty()) { errorLabel.setVisible(false); }
+        else {
+            errorLabel.setText(error);
+            errorLabel.setVisible(true);
+        }
     }
 
     /**
-     * Gets the {@link TreeView} instance associated with this panel
+     * Gets the {@code TreeView} instance associated with this panel.
      *
-     * @return the {@link TreeView} instance
+     * @return the {@code TreeView} instance
      */
-    public TreeView getTreeView() {
-        return treeView;
-    }
+    public TreeView getTreeView() { return treeView; }
 
     /**
      * Adds a new tree element by executing an {@link AddTreeElementCommand}. If the command cannot
-     * be executed, it updates the status display with an error and error message.
+     * be executed, it updates the error message.
      */
     public void add() {
         TreeViewSelection selection = treeView.getSelection();
 
+        String error = "";
         AddTreeElementCommand add = new AddTreeElementCommand(selection);
+
         if (add.canExecute()) {
             add.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(add);
-        } else {
-            updateError(add.getError());
         }
+        else { error = add.getError(); }
+
+        updateError(error);
     }
 
     /**
      * Deletes the selected tree element by executing a {@link DeleteTreeElementCommand}. If the
-     * command cannot be executed, it updates the status display with an error and an error message.
+     * command cannot be executed, it updates the error message.
      */
     public void delete() {
         TreeViewSelection selection = treeView.getSelection();
 
+        String error = "";
         DeleteTreeElementCommand del = new DeleteTreeElementCommand(selection);
+
         if (del.canExecute()) {
             del.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(del);
-        } else {
-            updateError(del.getError());
         }
+        else { error = del.getError(); }
+
+        updateError(error);
     }
 
     /**
      * Merges selected tree elements by executing a {@link MergeCommand}. If the command cannot be
-     * executed, it updates the status display with an error and an error message.
+     * executed, it updates the error message.
      */
     public void merge() {
         TreeViewSelection selection = treeView.getSelection();
 
+        String error = "";
         ICommand merge = new MergeCommand(selection);
+
         if (merge.canExecute()) {
             merge.execute();
             GameBoardFacade.getInstance().getHistory().pushChange(merge);
-        } else {
-            updateError(merge.getError());
         }
+        else { error = merge.getError(); }
+
+        updateError(error);
     }
 
     /**

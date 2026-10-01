@@ -90,8 +90,8 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         final TreeElement finalTreeElement;
         if (firstSelectedView.getType() == TreeElementType.NODE) {
             TreeNodeView nodeView = (TreeNodeView) firstSelectedView;
-            if (!nodeView.getChildrenViews().isEmpty()) {
-                finalTreeElement = nodeView.getChildrenViews().get(0).getTreeElement();
+            if (!nodeView.getChildViews().isEmpty()) {
+                finalTreeElement = nodeView.getChildViews().get(0).getTreeElement();
             } else {
                 finalTreeElement = null;
             }

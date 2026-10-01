@@ -1,11 +1,15 @@
 package edu.rpi.legup.ui;
 
-import javax.swing.ImageIcon;
+import com.formdev.flatlaf.FlatLaf;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.net.URL;
 
 /**
@@ -13,17 +17,25 @@ import java.net.URL;
  * {@link RenderingHints#VALUE_INTERPOLATION_BILINEAR} rendering hint on, counteracting
  * the pixel snapping caused by scaling or HiDPI displays.
  */
-public class SmoothImageIcon extends ImageIcon {
+public class SmoothImageIcon extends ImageIcon implements FlatLaf.DisabledIconProvider {
 
-    public SmoothImageIcon(URL url) { super(url); }
+    public SmoothImageIcon(@NotNull URL url) { super(url); }
 
-    public SmoothImageIcon(BufferedImage image) { super(image); }
+    public SmoothImageIcon(@NotNull Image image) { super(image); }
 
-    public synchronized void paintIcon(Component c, Graphics graphics, int x, int y) {
+    @Override
+    public synchronized void paintIcon(@Nullable Component c, @NotNull Graphics graphics, int x, int y) {
 
         Graphics2D g = (Graphics2D) graphics.create();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         super.paintIcon(c, g, x, y);
         g.dispose();
+    }
+
+    @Override
+    public Icon getDisabledIcon() {
+        ImageIcon disabledIcon = (ImageIcon) UIManager.getLookAndFeel().getDisabledIcon(
+                null, new ImageIcon(getImage()));
+        return new SmoothImageIcon(disabledIcon.getImage());
     }
 }

@@ -5,11 +5,14 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.model.rules.RuleType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a transition between two nodes in a tree structure within a game. A transition is
+ * Represents a transition between two nodes in a tree structure within a proof. A transition is
  * responsible for propagating changes through the tree and managing and verifying the associated
  * rules and puzzle elements.
  */
@@ -23,11 +26,11 @@ public class TreeTransition extends TreeElement {
     private boolean isVerified;
 
     /**
-     * TreeTransition Constructor create a transition from one node to another
+     * {@code TreeTransition} constructor creates a transition from one node to another.
      *
      * @param board board state of the transition
      */
-    public TreeTransition(Board board) {
+    public TreeTransition(@NotNull Board board) {
         super(TreeElementType.TRANSITION);
         this.parents = new ArrayList<>();
         this.childNode = null;
@@ -39,23 +42,23 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * TreeTransition Constructor - create a transition from one node to another
+     * {@code TreeTransition} constructor creates a transition from one node to another.
      *
      * @param parent parent tree node associated with the transition
      * @param board board state of the transition
      */
-    public TreeTransition(TreeNode parent, Board board) {
+    public TreeTransition(@NotNull TreeNode parent, @NotNull Board board) {
         this(board);
         this.parents.add(parent);
     }
 
     /**
-     * Recursively propagates the change of puzzleElement down the tree
+     * Recursively propagates the change of a puzzle element down the tree.
      *
-     * @param element puzzleElement of the change made
+     * @param element puzzle element of the change made
      */
     @SuppressWarnings("unchecked")
-    public void propagateChange(PuzzleElement element) {
+    public void propagateChange(@NotNull PuzzleElement element) {
         if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
@@ -96,12 +99,12 @@ public class TreeTransition extends TreeElement {
             // Overwrite previous modifications to this element
             board.removeModifiedData(board.getPuzzleElement(element));
 
-            // apply changes to tranistion
+            // apply changes to transition
             board.notifyChange(element);
 
             // mark first transition as modified
             if (!board.getPuzzleElement(element)
-                    .equalsData(parents.get(0).getBoard().getPuzzleElement(element))) {
+                    .equalsData(parents.getFirst().getBoard().getPuzzleElement(element))) {
                 board.addModifiedData(element);
             }
 
@@ -111,7 +114,7 @@ public class TreeTransition extends TreeElement {
                 // find starting board
                 TreeNode head = childNode;
                 while (head.getParent() != null) {
-                    head = head.getParent().getParents().get(0);
+                    head = head.getParent().getParents().getFirst();
                 }
                 Board headBoard = head.getBoard();
 
@@ -136,12 +139,12 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Recursively propagates the addition of puzzleElement down the tree
+     * Recursively propagates the addition of a puzzle element down the tree.
      *
-     * @param element puzzleElement of the addition made
+     * @param element puzzle element of the addition made
      */
     @SuppressWarnings("unchecked")
-    public void propagateAddition(PuzzleElement element) {
+    public void propagateAddition(@NotNull PuzzleElement element) {
         if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
@@ -189,12 +192,12 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Recursively propagates the change of puzzleElement down the tree
+     * Recursively propagates the change of puzzle element down the tree.
      *
-     * @param element puzzleElement of the change made
+     * @param element puzzle element of the change made
      */
     @SuppressWarnings("unchecked")
-    public void propagateDeletion(PuzzleElement element) {
+    public void propagateDeletion(@NotNull PuzzleElement element) {
         if (isJustified() && rule.getRuleType() == RuleType.MERGE) {
             TreeNode lca = Tree.getLowestCommonAncestor(parents);
             Board lcaBoard = lca.getBoard();
@@ -243,9 +246,9 @@ public class TreeTransition extends TreeElement {
 
     /**
      * Determines if this tree node leads to a contradiction. Every path from this tree node must
-     * lead to a contradiction including all of its children
+     * lead to a contradiction including all of its children.
      *
-     * @return true if this tree node leads to a contradiction, false otherwise
+     * @return {@code true} if this tree node leads to a contradiction; {@code false} otherwise
      */
     @Override
     public boolean isContradictoryBranch() {
@@ -261,12 +264,12 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Recursively determines if the sub tree rooted at this tree puzzleElement is valid by checking
-     * whether this tree puzzleElement and all descendants of this tree puzzleElement is justified
-     * and justified correctly
+     * Recursively determines if the subtree rooted at this tree puzzle element is valid by checking
+     * whether this tree puzzle element and all descendants of this tree puzzle element are justified
+     * and justified correctly.
      *
-     * @return true if this tree puzzleElement and all descendants of this tree puzzleElement is
-     *     valid, false otherwise
+     * @return {@code true} if this tree puzzle element and all descendants of this tree puzzle element
+     *     are valid; {@code false} otherwise
      */
     @Override
     public boolean isValidBranch() {
@@ -274,110 +277,111 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Gets the parent tree nodes of this transition
+     * Gets the parent tree nodes of this transition.
      *
      * @return parent tree nodes of this tree transition
      */
-    public ArrayList<TreeNode> getParents() {
-        return parents;
-    }
+    public ArrayList<TreeNode> getParents() { return parents; }
 
     /**
-     * Sets the parent tree nodes of this transition
+     * Sets the parent tree nodes of this transition.
      *
      * @param parents parents tree nodes of this tree transition
      */
-    public void setParents(ArrayList<TreeNode> parents) {
-        this.parents = parents;
-    }
+    public void setParents(@NotNull ArrayList<TreeNode> parents) { this.parents = parents; }
 
     /**
-     * Adds a parent tree node to this tree transition
+     * Adds a parent tree node to this tree transition.
      *
      * @param parent parent tree node to add
      */
-    public void addParent(TreeNode parent) {
-        parents.add(parent);
-    }
+    public void addParent(@NotNull TreeNode parent) { parents.add(parent); }
 
     /**
-     * Removes a parent tree node to this tree transition
+     * Removes a parent tree node from this tree transition.
      *
      * @param parent parent tree node to remove
      */
-    public void removeParent(TreeNode parent) {
-        parents.remove(parent);
-    }
+    public void removeParent(@NotNull TreeNode parent) { parents.remove(parent); }
 
     /**
-     * Determines if the specified tree node is a parent of this transition
+     * Determines if the specified tree node is a parent of this transition.
      *
      * @param parent tree node that could be a parent
-     * @return true if the specified tree node is a parent of this transition, false otherwise
+     * @return {@code true} if the specified tree node is a parent of this transition; {@code false} otherwise
      */
-    public boolean isParent(TreeNode parent) {
-        return parents.contains(parent);
-    }
+    public boolean isParent(@NotNull TreeNode parent) { return parents.contains(parent); }
 
     /**
-     * Gets the childNode tree node of this transition
+     * Gets the child tree node of this transition.
      *
-     * @return childNode tree node
+     * @return child tree node
      */
-    public TreeNode getChildNode() {
-        return childNode;
-    }
+    public TreeNode getChildNode() { return childNode; }
 
     /**
-     * Sets the childNode tree node of this transition
+     * Sets the child tree node of this transition.
      *
-     * @param childNode childNode tree node
+     * @param childNode new child tree node
      */
-    public void setChildNode(TreeNode childNode) {
-        this.childNode = childNode;
-    }
+    public void setChildNode(@Nullable TreeNode childNode) { this.childNode = childNode; }
 
     /**
-     * Removes the child to this tree transition
-     *
-     * @param child child to remove
-     */
-    public void removeChild(TreeNode child) {
-        parents.remove(child);
-    }
-
-    /**
-     * Add the child to this tree transition
-     *
-     * @param child child to add
-     */
-    public void addChild(TreeNode child) {
-        parents.add(child);
-    }
-
-    /**
-     * Gets the rule associated with this transition
+     * Gets the rule associated with this transition.
      *
      * @return rule of this transition
      */
-    public Rule getRule() {
-        return rule;
-    }
+    public Rule getRule() { return rule; }
 
     /**
-     * Sets the rule associated with this transition
+     * Sets the rule associated with this transition.
      *
-     * @param rule rule of this transition
+     * @param rule rule for this transition
      */
-    public void setRule(Rule rule) {
+    public void setRule(@Nullable Rule rule) {
+        boolean wasCaseRule = this.rule instanceof CaseRule;
+        boolean isCaseRule = rule instanceof CaseRule;
+        if (wasCaseRule != isCaseRule) {
+            for (TreeNode parentNode : parents) { parentNode.getParent().propagateModifiableCaseRule(wasCaseRule); }
+        }
+
         this.rule = rule;
         isVerified = false;
+        for (TreeNode parentNode : parents) { parentNode.getChildren().forEach(TreeTransition::reverify); }
     }
 
     /**
-     * Gets he selected element associated with this transition
+     * Recursively propagates the transition's modifiability due to case rules up the tree. If
+     * {@code isModifiableCaseRule} is {@code true}, this operation will propagate until a transition with
+     * a case rule or a parent whose {@code isModifiableCaseRule} is {@code false} is encountered.
      *
-     * @return If this is a case rule, the selected element for that rule, null otherwise
+     * @param isModifiableCaseRule modifiability to propagate
+     */
+    public void propagateModifiableCaseRule(boolean isModifiableCaseRule) {
+
+        boolean valid = !isModifiableCaseRule || !(rule instanceof CaseRule);
+        if (!isModifiableCaseRule || valid && childNode != null) {
+            for (TreeTransition childTransition : childNode.getChildren()) {
+                if (!childTransition.getBoard().isModifiableCaseRule()) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        if (valid) {
+            board.setModifiableCaseRule(isModifiableCaseRule);
+            for (TreeNode parentNode : parents) {
+                if (parentNode != null && parentNode.getParent() != null) {
+                    parentNode.getParent().propagateModifiableCaseRule(isModifiableCaseRule);
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets the selected element associated with this transition.
+     *
+     * @return If this is a case rule, the selected element for that rule; {@code null} otherwise
      */
     public PuzzleElement getSelection() {
         if (this.rule instanceof CaseRule) {
@@ -387,31 +391,31 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Sets the selected element associated with this transition
+     * Sets the selected element associated with this transition.
      *
      * @param selection selected element for this transition
      */
-    public void setSelection(PuzzleElement selection) {
-        this.selection = selection;
-    }
+    public void setSelection(@Nullable PuzzleElement selection) { this.selection = selection; }
 
     /**
-     * Gets whether this transition is correctly justified
+     * Gets whether this transition is correctly justified.
      *
-     * @return true if this transition is correctly justified, false otherwise
+     * @return {@code true} if this transition is correctly justified; {@code false} otherwise
      */
     public boolean isCorrect() {
-        if (isJustified() && !isVerified) {
+        if (!isJustified()) { return false; }
+
+        if (!isVerified) {
             isCorrect = rule.checkRule(this) == null;
             isVerified = true;
         }
-        return isJustified() && isCorrect;
+        return isCorrect;
     }
 
     /**
-     * Sets whether this transition is correctly justified
+     * Sets whether this transition is correctly justified.
      *
-     * @param isCorrect true if this transition is correctly justified, false otherwise
+     * @param isCorrect {@code true} if this transition is correctly justified; {@code false} otherwise
      */
     public void setCorrect(boolean isCorrect) {
         this.isCorrect = isCorrect;
@@ -419,9 +423,9 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Forces check of rule on this transition regardless if it has been cached already
+     * Forces check of rule on this transition regardless if it has been cached already.
      *
-     * @return true if this transition is correctly justified, false otherwise
+     * @return {@code true} if this transition is correctly justified; {@code false} otherwise
      */
     public boolean reverify() {
         isVerified = false;
@@ -429,15 +433,9 @@ public class TreeTransition extends TreeElement {
     }
 
     /**
-     * Gets whether this transition is justified
+     * Gets whether this transition is justified.
      *
-     * @return true if this transition is justified, false otherwise
+     * @return {@code true} if this transition is justified; {@code false} otherwise
      */
-    public boolean isJustified() {
-        return rule != null;
-    }
-
-    /*public int modifiedData_size(){
-        return board.getModifiedData().size();
-    }*/
+    public boolean isJustified() { return rule != null; }
 }

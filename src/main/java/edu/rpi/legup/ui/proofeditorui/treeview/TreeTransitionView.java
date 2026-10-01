@@ -1,14 +1,15 @@
 package edu.rpi.legup.ui.proofeditorui.treeview;
 
-import static java.lang.Math.*;
-
 import edu.rpi.legup.model.tree.TreeElementType;
 import edu.rpi.legup.model.tree.TreeTransition;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.UIManager;
 
 /**
  * {@code TreeTransitionView} is a visual representation of a tree transition in the tree view. It
@@ -16,396 +17,478 @@ import javax.swing.UIManager;
  * visual states such as selection, hover, and correctness.
  */
 public class TreeTransitionView extends TreeElementView {
-    static final int RADIUS = 25;
-    static final int DIAMETER = 2 * RADIUS;
-    static final int GAP = 5;
 
+    /** The child node view of this transition. */
     private TreeNodeView childView;
+
+    /** The list of parent node views of this transition. */
     private ArrayList<TreeNodeView> parentViews;
+
+    /**
+     * The node view responsible for reserving space for a transition from multiple parent node views.
+     * This should remain {@code null} for a transition from one parent node view.
+     * This node view should not have an arrow drawn from it.
+     */
+    private TreeNodeView layoutParentView;
+
+    /** Arrowhead shape to draw. */
     private Polygon arrowhead;
 
-    private List<Point> lineStartPoints;
-    private Point lineEndPoint;
+    /** List of start points to draw arrow tails from. */
+    private final List<Point> tailStartPoints;
 
-    private Point endPoint;
+    /** List of paths to draw tails along. */
+    private final List<Path2D> tailPaths;
+
+    /** End point to draw the tail of the arrows to. */
+    private final Point tailEndPoint;
+
+    /** End point to draw arrows to. */
+    private final Point endPoint;
 
     /**
-     * TreeTransitionView Constructor creates a transition arrow for display
+     * {@code TreeTransitionView} constructor creates a transition arrow for display.
      *
      * @param transition tree transition associated with this view
      */
-    public TreeTransitionView(TreeTransition transition) {
+    public TreeTransitionView(@NotNull TreeTransition transition) {
         super(TreeElementType.TRANSITION, transition);
         this.parentViews = new ArrayList<>();
-        this.isCollapsed = false;
         this.endPoint = new Point();
-        this.lineStartPoints = new ArrayList<>();
-        this.lineEndPoint = new Point();
+        this.tailStartPoints = new ArrayList<>();
+        this.tailPaths = new ArrayList<>();
+        this.tailEndPoint = new Point();
+        updateArrowHead();
     }
 
     /**
-     * TreeTransitionView Constructor creates a transition arrow for display
+     * {@code TreeTransitionView} constructor creates a transition arrow for display with a single parent
+     * node view.
      *
      * @param transition tree transition associated with this view
-     * @param parentView TreeNodeView of the parent associated with this transition
+     * @param parentView {@code TreeNodeView} of the single parent view associated with this transition
      */
-    public TreeTransitionView(TreeTransition transition, TreeNodeView parentView) {
+    public TreeTransitionView(@NotNull TreeTransition transition, @NotNull TreeNodeView parentView) {
         this(transition);
         this.parentViews.add(parentView);
-        this.lineStartPoints.add(new Point());
+        this.tailStartPoints.add(new Point());
+        this.tailPaths.add(null);
     }
 
     /**
-     * Draws the TreeTransitionView
+     * {@code TreeTransitionView} constructor creates a transition arrow for display with multiple parent
+     * node views and an additional parent for reserving space for the transition's subtree. It is recommended
+     * to use the deepest common ancestor of the elements of {@code parentViews} for the {@code layoutParentView}.
      *
-     * @param graphics2D graphics2D used for drawing
+     * @param transition tree transition associated with this view
+     * @param parentViews {@code TreeNodeView}s of the multiple parent views associated with this transition
+     * @param layoutParentView {@code TreeNodeView} responsible for reserving space for the transition's subtree
      */
-    public void draw(Graphics2D graphics2D) {
+    public TreeTransitionView(@NotNull TreeTransition transition, @NotNull List<TreeNodeView> parentViews,
+                              @NotNull TreeNodeView layoutParentView) {
+        this(transition);
+        this.parentViews.addAll(parentViews);
+        for (TreeNodeView ignored : parentViews) {
+            tailStartPoints.add(new Point());
+            tailPaths.add(null);
+        }
+        this.layoutParentView = layoutParentView;
+    }
+
+    /**
+     * Draws the {@code TreeTransitionView}.
+     *
+     * @param graphics2D {@code Graphics2D} used for drawing
+     */
+    public void draw(@NotNull Graphics2D graphics2D) {
+        updateArrowHead();
+        for (int i = 0; i < tailPaths.size(); ++i) { updateTailPath(i); }
+
         Graphics2D g = (Graphics2D) graphics2D.create();
-        arrowhead = createTransitionTriangle(RADIUS);
+
+        if (isSelected || isHover) {
+
+            g.setColor(UIManager.getColor(isSelected ? "Tree.selectedOutline" : "Tree.hoverOutline"));
+            g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth") * 2
+                    + UIManager.getInt("Tree.outlineWidth") * 2
+                    + UIManager.getInt("Tree.transitionTailWeight"),
+                    BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            for (Path2D tailPath : tailPaths) { g.draw(tailPath); }
+
+            g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth") * 2
+                    + UIManager.getInt("Tree.outlineWidth") * 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g.draw(arrowhead);
+        }
 
         g.setColor(UIManager.getColor("Tree.outline"));
-        g.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth")));
+        g.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth") * 2
+                + UIManager.getInt("Tree.transitionTailWeight"), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        for (Path2D tailPath : tailPaths) { g.draw(tailPath); }
 
-        for (Point lineStartPoint : lineStartPoints) {
-            CubicCurve2D c = new CubicCurve2D.Double();
-            double ctrlx1 = lineEndPoint.x - 25;
-            double ctrly1 = lineStartPoint.y;
-            double ctrlx2 = lineEndPoint.x - 25;
-            double ctrly2 = lineEndPoint.y;
+        g.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth") * 2,
+                BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g.draw(arrowhead);
 
-            c.setCurve(
-                    lineStartPoint.x,
-                    lineStartPoint.y,
-                    ctrlx1,
-                    ctrly1,
-                    ctrlx2,
-                    ctrly2,
-                    lineEndPoint.x,
-                    lineEndPoint.y);
-            g.draw(c);
-        }
+        g.setColor(UIManager.getColor(
+                isHover && !isSelected ? "Tree.hover" : (
+                        !getTreeElement().isJustified() ? "Tree.arrowDefault" : (
+                                getTreeElement().isCorrect() ? "Tree.valid" :
+                                        "Tree.invalid"
+        ))));
+        g.setStroke(new BasicStroke(UIManager.getInt("Tree.transitionTailWeight"),
+                BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-        if (isSelected) {
-            if (getTreeElement().isJustified()) {
-                g.setColor(
-                        UIManager.getColor(
-                                getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
-            } else {
-                g.setColor(UIManager.getColor("Tree.arrowDefault"));
-            }
+        for (Path2D tailPath : tailPaths) { g.draw(tailPath); }
+        g.fill(arrowhead);
 
-            g.fillPolygon(arrowhead);
-
-            g.setColor(UIManager.getColor("Tree.outline"));
-            g.drawPolygon(arrowhead);
-
-            Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
-            selection_triangle.translate(7, 0);
-
-            g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
-            g.setColor(UIManager.getColor("Tree.selectedOutline"));
-            g.drawPolygon(selection_triangle);
-        } else {
-            if (isHover) {
-                g.setColor(UIManager.getColor("Tree.hover"));
-                g.fillPolygon(arrowhead);
-
-                g.setColor(UIManager.getColor("Tree.outline"));
-                g.drawPolygon(arrowhead);
-
-                Polygon selection_triangle = createTransitionTriangle(RADIUS + 10);
-                selection_triangle.translate(7, 0);
-
-                g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
-                g.setColor(UIManager.getColor("Tree.hoverOutline"));
-                g.drawPolygon(selection_triangle);
-            } else {
-                if (getTreeElement().isJustified()) {
-                    g.setColor(
-                            UIManager.getColor(
-                                    getTreeElement().isCorrect() ? "Tree.valid" : "Tree.invalid"));
-                } else {
-                    g.setColor(UIManager.getColor("Tree.arrowDefault"));
-                }
-                g.fillPolygon(arrowhead);
-
-                g.setColor(UIManager.getColor("Tree.outline"));
-                g.drawPolygon(arrowhead);
-            }
-        }
         g.dispose();
     }
 
-    /** Constructs the arrowhead shape from the start and end points */
-    private Polygon createTransitionTriangle(int radius) {
-        double thetaArrow = Math.toRadians(30);
+    /** Update arrow head if {@code null} or desired dimensions have changed. */
+    private void updateArrowHead() {
+        int base = UIManager.getInt("Tree.transitionHeadBase");
+        int height = UIManager.getInt("Tree.transitionHeadHeight");
 
-        int point1X = endPoint.x;
-        int point1Y = endPoint.y;
+        if (arrowhead != null) {
+            Rectangle board = arrowhead.getBounds();
+            if (board.width == height && board.height == base) { return; }
+        }
 
-        int point2X = point1X - radius;
-        int point2Y = point1Y + (int) Math.round(radius / (2 * cos(thetaArrow)));
-
-        int point3X = point1X - radius;
-        int point3Y = point1Y - (int) Math.round(radius / (2 * cos(thetaArrow)));
-
-        lineEndPoint.x = point2X;
-        lineEndPoint.y = (point3Y - point2Y) / 2 + point2Y;
-
-        Polygon tri = new Polygon();
-        tri.addPoint(point1X, point1Y);
-        tri.addPoint(point2X, point2Y);
-        tri.addPoint(point3X, point3Y);
-
-        return tri;
+        arrowhead = new Polygon();
+        arrowhead.addPoint(endPoint.x, endPoint.y);
+        arrowhead.addPoint(endPoint.x - height, endPoint.y + base / 2);
+        arrowhead.addPoint(endPoint.x - height, endPoint.y - base / 2);
     }
 
     /**
-     * Gets the TreeElement associated with this view
+     * Update arrow tail at {@code index} if desired end points have changed.
      *
-     * @return the TreeElement associated with this view
+     * @param index index of tail path to update
      */
-    public TreeTransition getTreeElement() {
-        return (TreeTransition) treeElement;
+    private void updateTailPath(int index) {
+        if (tailPaths.get(index) != null) { return; }
+
+        Path2D.Double tailPath = new Path2D.Double();
+        Point tailStartPoint = tailStartPoints.get(index);
+        tailPath.moveTo(tailStartPoint.x, tailStartPoint.y);
+
+        if (tailStartPoint.y != tailEndPoint.y) {
+            // If there is enough space, use two arcs of radius 'arc' to get from starting y to end y
+            int dir = (int) Math.signum(tailEndPoint.y - tailStartPoint.y);
+
+            int halfCurveSpace = UIManager.getInt("Tree.transitionTailGap") / 2;
+            int arc = Math.min(UIManager.getInt("Tree.transitionArc"), halfCurveSpace);
+
+            if (dir * (tailEndPoint.y - tailStartPoint.y) >= arc * 2) {
+
+                tailPath.append(new Arc2D.Double(
+                        tailEndPoint.x - halfCurveSpace - arc * 2,
+                        tailStartPoint.y - (dir < 0 ? arc * 2 : 0),
+                        arc * 2,
+                        arc * 2,
+                        dir * 90,
+                        dir * -90,
+                        Arc2D.OPEN
+                ), true);
+                tailPath.append(new Arc2D.Double(
+                        tailEndPoint.x - halfCurveSpace,
+                        tailEndPoint.y - (dir > 0 ? arc * 2 : 0),
+                        arc * 2,
+                        arc * 2,
+                        180,
+                        dir * 90,
+                        Arc2D.OPEN
+                ), true);
+            }
+            else {
+                // If there is not enough space, use two arcs of whatever radius smoothly connects points
+                // Visual aid at https://www.desmos.com/geometry/lvpyacqoeq
+                int x1 = tailEndPoint.x - halfCurveSpace - arc;
+                int y1 = tailStartPoint.y;
+                int x2 = tailEndPoint.x - halfCurveSpace + arc;
+                int y2 = tailEndPoint.y;
+                double x3 = (x1 + x2) / 2.0;
+                double y3 = (y1 + y2) / 2.0;
+                double radius = Math.abs(((2 * x1 * x3) + (y1 * y1) - (x1 * x1) - (x3 * x3) - (y3 * y3))
+                        / (2 * (y1 - y3)) - y1);
+                double extent = 90 - Math.toDegrees(Math.asin((radius - Math.abs(y1 - y3)) / radius));
+
+                tailPath.append(new Arc2D.Double(
+                        x1 - radius,
+                        y1 - (dir < 0 ? radius * 2 : 0),
+                        radius * 2,
+                        radius * 2,
+                        dir * 90,
+                        dir * -extent,
+                        Arc2D.OPEN
+                ), true);
+                tailPath.append(new Arc2D.Double(
+                        x3 + arc - radius,
+                        y2 - (dir > 0 ? radius * 2 : 0) ,
+                        radius * 2,
+                        radius * 2,
+                        dir * (-90 - extent),
+                        dir * extent,
+                        Arc2D.OPEN
+                ), false);
+            }
+        }
+
+        tailPath.lineTo(tailEndPoint.x, tailEndPoint.y);
+        tailPaths.set(index, tailPath);
     }
 
     /**
-     * Gets the TreeNodeView child view
+     * Gets the {@code TreeElement} associated with this view.
      *
-     * @return TreeNodeView child view
+     * @return the {@code TreeElement} associated with this view
      */
-    public TreeNodeView getChildView() {
-        return childView;
-    }
+    public TreeTransition getTreeElement() { return (TreeTransition) treeElement; }
 
     /**
-     * Sets the TreeNodeView child view
+     * Gets the {@code TreeNodeView} child view.
      *
-     * @param childView TreeNodeView child view
+     * @return {@code TreeNodeView} child view
      */
-    public void setChildView(TreeNodeView childView) {
-        this.childView = childView;
-    }
+    public TreeNodeView getChildView() { return childView; }
 
     /**
-     * Gets the list of parent views associated with this tree transition view
+     * Sets the {@code TreeNodeView} child view.
+     *
+     * @param childView {@code TreeNodeView} child view
+     */
+    public void setChildView(@Nullable TreeNodeView childView) { this.childView = childView; }
+
+    /**
+     * Gets the list of parent views associated with this tree transition view.
      *
      * @return list of parent views for this tree transition view
      */
-    public ArrayList<TreeNodeView> getParentViews() {
-        return parentViews;
-    }
+    public ArrayList<TreeNodeView> getParentViews() { return parentViews; }
 
     /**
-     * Sets the list of parent views associated with this tree transition view
+     * Sets the list of parent views associated with this tree transition view.
      *
      * @param parentViews list of parent views for this tree transition view
      */
-    public void setParentViews(ArrayList<TreeNodeView> parentViews) {
+    public void setParentViews(@NotNull ArrayList<TreeNodeView> parentViews) {
         this.parentViews = parentViews;
-        this.lineStartPoints.clear();
-        for (TreeNodeView parentView : this.parentViews) {
-            this.lineStartPoints.add(new Point());
+        tailStartPoints.clear();
+        tailPaths.clear();
+        for (TreeNodeView ignored : parentViews) {
+            tailStartPoints.add(new Point());
+            tailPaths.add(null);
         }
     }
 
     /**
-     * Adds a TreeNodeView to the list of parent views
+     * Adds a {@code TreeNodeView} to the list of parent views.
      *
-     * @param nodeView TreeNodeView to add to the list of parent views
+     * @param nodeView {@code TreeNodeView} to add to the list of parent views
      */
-    public void addParentView(TreeNodeView nodeView) {
+    public void addParentView(@NotNull TreeNodeView nodeView) {
         parentViews.add(nodeView);
-        lineStartPoints.add(new Point());
+        tailStartPoints.add(new Point());
+        tailPaths.add(null);
     }
 
     /**
-     * Removes a TreeNodeView from the list of parent views
+     * Removes a {@code TreeNodeView} from the list of parent views.
      *
-     * @param nodeView TreeNodeView to remove from the list of parent views
+     * @param nodeView {@code TreeNodeView} to remove from the list of parent views
      */
-    public void removeParentView(TreeNodeView nodeView) {
+    public void removeParentView(@NotNull TreeNodeView nodeView) {
         int index = parentViews.indexOf(nodeView);
         parentViews.remove(nodeView);
         if (index != -1) {
-            lineStartPoints.remove(index);
+            tailStartPoints.remove(index);
+            tailPaths.remove(index);
         }
     }
 
     /**
-     * Gets the x-coordinate of the end point of the transition arrow
+     * Gets the {@code layoutParentView} that reserves space for this transition's subtree.
+     *
+     * @return the current {@code layoutParentView}
+     */
+    public TreeNodeView getLayoutParentView() { return layoutParentView; }
+
+    /**
+     * Sets the {@code layoutParentView} that reserves space for this transition's subtree.
+     *
+     * @param nodeView the new {@code layoutParentView}
+     */
+    public void setLayoutParentView(@Nullable TreeNodeView nodeView) { layoutParentView = nodeView; }
+
+    /**
+     * Gets the x-coordinate of the end point of the transition arrow.
      *
      * @return the x-coordinate of the end point
      */
-    public int getEndX() {
-        return endPoint.x;
-    }
+    public int getEndX() { return endPoint.x; }
 
     /**
-     * Sets the x-coordinate of the end point of the transition arrow
+     * Sets the x-coordinate of the end point of the transition arrow.
      *
      * @param x the new x-coordinate of the end point
      */
     public void setEndX(int x) {
-        this.endPoint.x = x;
+        arrowhead.translate(x - endPoint.x, 0);
+        endPoint.x = x;
+        tailEndPoint.x = x - UIManager.getInt("Tree.transitionHeadHeight")
+                - UIManager.getInt("Tree.outlineWidth") / 2;
+        tailPaths.replaceAll(ignored -> null);
     }
 
     /**
-     * Gets the y-coordinate of the end point of the transition arrow
+     * Gets the y-coordinate of the end point of the transition arrow.
      *
      * @return the y-coordinate of the end point
      */
-    public int getEndY() {
-        return endPoint.y;
-    }
+    public int getEndY() { return endPoint.y; }
 
     /**
-     * Sets the y-coordinate of the end point of the transition arrow
+     * Sets the y-coordinate of the end point of the transition arrow.
      *
      * @param y the new y-coordinate of the end point
      */
     public void setEndY(int y) {
-        this.endPoint.y = y;
+        arrowhead.translate(0, y - endPoint.y);
+        endPoint.y = y;
+        tailEndPoint.y = y;
+        tailPaths.replaceAll(ignored -> null);
     }
 
     /**
-     * Gets the start point at the specified index from the list of start points
+     * Gets the start point at the specified index from the list of start points.
      *
      * @param index the index of the start point to retrieve
-     * @return the start point at the specified index, or null if the index is out of range
+     * @return the start point at the specified index, or {@code null} if the index is out of range
      */
-    public Point getLineStartPoint(int index) {
-        return index < lineStartPoints.size() ? lineStartPoints.get(index) : null;
+    public Point getTailStartPoint(int index) {
+        return 0 <= index && index < tailStartPoints.size() ? tailStartPoints.get(index) : null;
     }
 
     /**
-     * Returns the bounding rectangle of this TreeTransitionView
+     * Sets the start point at the specified index from the list of start points.
      *
-     * @return a Rectangle representing the bounding box of this TreeTransitionView
+     * @param index the index of the start point to set
+     * @param startPoint the new start point
+     */
+    public void setTailStartPoint(int index, @NotNull Point startPoint) {
+        tailStartPoints.set(index, startPoint);
+        tailPaths.set(index, null);
+    }
+
+    /**
+     * Returns the bounding rectangle of this {@code TreeTransitionView}.
+     *
+     * @return a {@code Rectangle} representing the bounding box of this {@code TreeTransitionView}
      */
     @Override
-    public Rectangle getBounds() {
-        return arrowhead.getBounds();
-    }
+    public Rectangle getBounds() { return arrowhead.getBounds(); }
 
     /**
-     * Returns the bounding rectangle of this TreeTransitionView as a Rectangle2D
+     * Returns the bounding rectangle of this {@code TreeTransitionView} as a {@code Rectangle2D}.
      *
-     * @return a Rectangle2D representing the bounding box of this TreeTransitionView
+     * @return a {@code Rectangle2D} representing the bounding box of this {@code TreeTransitionView}
      */
     @Override
-    public Rectangle2D getBounds2D() {
-        return arrowhead.getBounds2D();
-    }
+    public Rectangle2D getBounds2D() { return arrowhead.getBounds2D(); }
 
     /**
-     * Determines if the specified point (x, y) is within the bounds of this TreeTransitionView
+     * Determines if the specified point (x, y) is within the bounds of this {@code TreeTransitionView}.
      *
      * @param x the x-coordinate of the point to check
      * @param y the y-coordinate of the point to check
-     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code
+     * @return {@code true} if the point is within the bounds of this {@code TreeTransitionView}; {@code
      *     false} otherwise
      */
     @Override
-    public boolean contains(double x, double y) {
-        return arrowhead.contains(x, y);
-    }
+    public boolean contains(double x, double y) { return arrowhead.contains(x, y); }
 
     /**
-     * Determines if the specified Point2D object is within the bounds of this TreeTransitionView
+     * Determines if the specified {@code Point2D} object is within the bounds of this {@code TreeTransitionView}.
      *
-     * @param p the Point2D object representing the point to check
-     * @return {@code true} if the point is within the bounds of this TreeTransitionView; {@code
+     * @param p the {@code Point2D} object representing the point to check
+     * @return {@code true} if the point is within the bounds of this {@code TreeTransitionView}; {@code
      *     false} otherwise
      */
     @Override
-    public boolean contains(Point2D p) {
-        return arrowhead != null && arrowhead.contains(p);
-    }
+    public boolean contains(@NotNull Point2D p) { return arrowhead != null && arrowhead.contains(p); }
 
     /**
      * Determines if the specified rectangle defined by (x, y, width, height) intersects with the
-     * bounds of this TreeTransitionView.
+     * bounds of this {@code TreeTransitionView}.
      *
      * @param x The x-coordinate of the rectangle to check
      * @param y The y-coordinate of the rectangle to check
      * @param w The width of the rectangle to check
      * @param h The height of the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView;
+     * @return {@code true} if the rectangle intersects with the bounds of this {@code TreeTransitionView};
      *     {@code false} otherwise
      */
     @Override
-    public boolean intersects(double x, double y, double w, double h) {
-        return arrowhead.intersects(x, y, w, h);
-    }
+    public boolean intersects(double x, double y, double w, double h) { return arrowhead.intersects(x, y, w, h); }
 
     /**
-     * Determines if the specified Rectangle2D object intersects with the bounds of this
-     * TreeTransitionView.
+     * Determines if the specified {@code Rectangle2D} object intersects with the bounds of this
+     * {@code TreeTransitionView}.
      *
-     * @param r the Rectangle2D object representing the rectangle to check
-     * @return {@code true} if the rectangle intersects with the bounds of this TreeTransitionView;
+     * @param r the {@code Rectangle2D} object representing the rectangle to check
+     * @return {@code true} if the rectangle intersects with the bounds of this {@code TreeTransitionView};
      *     {@code false} otherwise
      */
     @Override
-    public boolean intersects(Rectangle2D r) {
-        return arrowhead.intersects(r);
-    }
+    public boolean intersects(@NotNull Rectangle2D r) { return arrowhead.intersects(r); }
 
     /**
      * Determines if the specified rectangle defined by (x, y, width, height) is entirely contained
-     * within the bounds of this TreeTransitionView
+     * within the bounds of this {@code TreeTransitionView}.
      *
      * @param x the x-coordinate of the rectangle to check
      * @param y the y-coordinate of the rectangle to check
      * @param w the width of the rectangle to check
      * @param h the height of the rectangle to check
      * @return {@code true} if the rectangle is entirely contained within the bounds of this
-     *     TreeTransitionView; {@code false} otherwise
+     *     {@code TreeTransitionView}; {@code false} otherwise
      */
     @Override
-    public boolean contains(double x, double y, double w, double h) {
-        return arrowhead.contains(x, y, w, h);
-    }
+    public boolean contains(double x, double y, double w, double h) { return arrowhead.contains(x, y, w, h); }
 
     /**
-     * Determines if the specified Rectangle2D object is entirely contained within the bounds of
-     * this TreeTransitionView.
+     * Determines if the specified {@code Rectangle2D} object is entirely contained within the bounds of
+     * this {@code TreeTransitionView}.
      *
-     * @param r the Rectangle2D object representing the rectangle to check
+     * @param r the {@code Rectangle2D} object representing the rectangle to check
      * @return {@code true} if the rectangle is entirely contained within the bounds of this
-     *     TreeTransitionView; {@code false} otherwise
+     *     {@code TreeTransitionView}; {@code false} otherwise
      */
     @Override
-    public boolean contains(Rectangle2D r) {
-        return arrowhead.contains(r);
-    }
+    public boolean contains(@NotNull Rectangle2D r) { return arrowhead.contains(r); }
 
     /**
-     * Returns an iterator over the path geometry of this TreeTransitionView. The iterator provides
+     * Returns an iterator over the path geometry of this {@code TreeTransitionView}. The iterator provides
      * access to the path's segments and their coordinates, which can be used for rendering or hit
      * testing.
      *
-     * @param at the AffineTransform to apply to the path geometry
-     * @return a PathIterator that iterates over the path geometry of this TreeTransitionView
+     * @param at the {@code AffineTransform} to apply to the path geometry
+     * @return a {@code PathIterator} that iterates over the path geometry of this {@code TreeTransitionView}
      */
     @Override
-    public PathIterator getPathIterator(AffineTransform at) {
-        return arrowhead.getPathIterator(at);
-    }
+    public PathIterator getPathIterator(@NotNull AffineTransform at) { return arrowhead.getPathIterator(at); }
 
     /**
-     * Returns an iterator over the path geometry of this TreeTransitionView with the specified
+     * Returns an iterator over the path geometry of this {@code TreeTransitionView} with the specified
      * flatness. The iterator provides access to the path's segments and their coordinates, which
      * can be used for rendering or hit testing.
      *
-     * @param at the AffineTransform to apply to the path geometry
+     * @param at the {@code AffineTransform} to apply to the path geometry
      * @param flatness the maximum distance that the line segments can deviate from the true path
-     * @return a PathIterator that iterates over the path geometry of this TreeTransitionView
+     * @return a {@code PathIterator} that iterates over the path geometry of this {@code TreeTransitionView}
      */
     @Override
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
+    public PathIterator getPathIterator(@NotNull AffineTransform at, double flatness) {
         return arrowhead.getPathIterator(at, flatness);
     }
 }
