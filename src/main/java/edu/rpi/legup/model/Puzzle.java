@@ -371,6 +371,9 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
+        // If the puzzle has no solution, this is a logical contradiction from which every
+        // claim can be derived
+        if (getOpenLeaves().isEmpty()) {return true;}
 
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
