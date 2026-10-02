@@ -1,13 +1,14 @@
 package edu.rpi.legup.puzzle.sudoku;
 
-import edu.rpi.legup.model.gameboard.CaseBoard;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.puzzle.sudoku.rules.PossibleCellsForNumberRegionCaseRule;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PossibleNumberCaseBoard extends CaseBoard {
+/** PossibleNumberCaseBoard is seemingly not used */
+public abstract class PossibleNumberCaseBoard extends Board {
 
     private SudokuCell cell;
     private Set<Integer> pickableRegions;
@@ -17,7 +18,7 @@ public class PossibleNumberCaseBoard extends CaseBoard {
     /** is the constructor for finding the possible numbers. */
     public PossibleNumberCaseBoard(
             SudokuBoard baseBoard, PossibleCellsForNumberRegionCaseRule caseRule, SudokuCell cell) {
-        super(baseBoard, caseRule);
+        baseBoard.setCaseRule( caseRule );
         this.cell = cell;
         this.pickableRegions = new HashSet<>();
         this.pickableRows = new HashSet<>();

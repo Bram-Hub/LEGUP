@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.lightup;
 
 import edu.rpi.legup.controller.BoardController;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.ui.boardview.DataSelectionView;
@@ -53,10 +52,7 @@ public class LightUpView extends GridBoardView {
     @Override
     public void onTreeElementChanged(@NotNull TreeElement treeElement) {
         super.onTreeElementChanged(treeElement);
-        LightUpBoard lightUpBoard =
-                board instanceof CaseBoard
-                        ? (LightUpBoard) ((CaseBoard) board).getBaseBoard()
-                        : (LightUpBoard) board;
+        LightUpBoard lightUpBoard = (LightUpBoard) board;
         lightUpBoard.fillWithLight();
         repaint();
     }

@@ -5,7 +5,6 @@ import static edu.rpi.legup.app.GameBoardFacade.getInstance;
 import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.*;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -23,7 +22,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
     private ElementView elementView;
     private TreeViewSelection selection;
     private CaseRule caseRule;
-    private CaseBoard caseBoard;
+    private Board board;
     private MouseEvent mouseEvent;
 
     private List<TreeTransition> caseTrans;
@@ -37,23 +36,23 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
      * @param elementView currently selected puzzle puzzleElement view that is being edited
      * @param selection currently selected tree puzzleElement views that is being edited
      * @param caseRule currently selected caseRule puzzleElement view that is being edited
-     * @param caseBoard currently selected caseBoard puzzleElement view that is being edited
+     * @param board currently selected board puzzleElement view that is being edited
      * @param mouseEvent currently selected mouseEvent puzzleElement view that is being edited
      */
     public AutoCaseRuleCommand(
             ElementView elementView,
             TreeViewSelection selection,
             CaseRule caseRule,
-            CaseBoard caseBoard,
+            Board board,
             MouseEvent mouseEvent) {
         this.elementView = elementView;
         this.selection = selection.copy();
         this.caseRule = caseRule;
-        this.caseBoard = caseBoard;
+        this.board = board;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
         this.cases =
-                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+                caseRule.getCasesFrom(board, elementView.getPuzzleElement());
         this.numberOfCaseRules = cases.size();
     }
 
@@ -72,7 +71,7 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
         if (caseTrans.isEmpty()) {
             List<Board> cases =
-                    caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+                    caseRule.getCasesFrom(board, elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
                 // board.setModifiable(false);
@@ -122,17 +121,17 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return CommandError.NO_CHILDREN.toString();
         }
 
-        if (!caseBoard.isPickable(elementView.getPuzzleElement(), mouseEvent)) {
+        if (!board.isPickable(elementView.getPuzzleElement(), mouseEvent)) {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if (caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
+        if (caseRule.getCasesFrom(board, elementView.getPuzzleElement()).size()
                 == 0) {
             return "The selection must produce at least one case";
         }
 
         int numberOfCaseRules =
-                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement())
+                caseRule.getCasesFrom(board, elementView.getPuzzleElement())
                         .size();
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {

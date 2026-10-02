@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.starbattle.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -21,16 +20,17 @@ public class StarOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         StarBattleBoard starBattleBoard = (StarBattleBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(starBattleBoard, this);
+        starBattleBoard.setCaseRule(this);
+
         starBattleBoard.setModifiable(false);
         for (PuzzleElement element : starBattleBoard.getPuzzleElements()) {
             if (((StarBattleCell) element).getType() == StarBattleCellType.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                starBattleBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return starBattleBoard;
     }
 
     /**

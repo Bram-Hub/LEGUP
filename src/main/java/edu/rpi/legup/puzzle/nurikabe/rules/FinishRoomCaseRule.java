@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -39,9 +38,10 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
+        nurikabeBoard.setCaseRule(this);
+
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
         nurikabeBoard.setModifiable(false);
 
@@ -67,11 +67,11 @@ public class FinishRoomCaseRule extends CaseRule {
                 // if size of region is 1 less than the number block and the number block is only
                 // number block in the region
                 if (disRow.size() < ((NurikabeCell) element).getData() && only) {
-                    caseBoard.addPickableElement(element); // add that room as a pickable element
+                    nurikabeBoard.addCasePickableElement(element); // add that room as a pickable element
                 }
             }
         }
-        return caseBoard;
+        return nurikabeBoard;
     }
 
     /**

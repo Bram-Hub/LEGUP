@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.minesweeper.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -19,19 +18,20 @@ public class SatisfyNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         MinesweeperBoard minesweeperBoard = (MinesweeperBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(minesweeperBoard, this);
         minesweeperBoard.setModifiable(false);
+        minesweeperBoard.setCaseRule(this);
+
         for (PuzzleElement data : minesweeperBoard.getPuzzleElements()) {
             MinesweeperCell cell = (MinesweeperCell) data;
             if (cell.getTileNumber() > 0
                     && cell.getTileNumber() <= 8
                     && MinesweeperUtilities.hasEmptyAdjacent(minesweeperBoard, cell)) {
-                caseBoard.addPickableElement(data);
+                minesweeperBoard.addCasePickableElement(data);
             }
         }
-        return caseBoard;
+        return minesweeperBoard;
     }
 
     @Override

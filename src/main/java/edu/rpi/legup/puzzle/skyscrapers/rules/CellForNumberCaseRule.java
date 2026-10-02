@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -22,17 +21,18 @@ public class CellForNumberCaseRule extends CaseRule {
     private Integer selectedNumber;
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
         currentBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(currentBoard, this);
+        currentBoard.setCaseRule(this);
+
         for (SkyscrapersClue data : currentBoard.getWestClues()) {
             // System.out.println(data.getType());
-            caseBoard.addPickableElement(data);
+            currentBoard.addCasePickableElement(data);
         }
         for (SkyscrapersClue data : currentBoard.getNorthClues()) {
             // System.out.println(data.getType());
-            caseBoard.addPickableElement(data);
+            currentBoard.addCasePickableElement(data);
         }
 
         // selects integer before checking Command.canExecute for use in Command.getErrorString
@@ -59,7 +59,7 @@ public class CellForNumberCaseRule extends CaseRule {
         }
         selectedNumber = (Integer) selectedValue;
 
-        return caseBoard;
+        return currentBoard;
     }
 
     public ArrayList<Board> getCasesFor(Board board, PuzzleElement puzzleElement, Integer number) {
