@@ -701,22 +701,34 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         String url;
         switch (puz) {
             case "LightUp":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Light%20up-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Light%20up-Rules";
                 break;
-            case "Nurikabe":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Nurikabe-Rules";
+            case "Fillapix":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Fill‐A‐Pix-Rules";
                 break;
             case "TreeTent":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Tree-Tent-Rules";
-                break;
-            case "Skyscrapers":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Skyscrapers-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Tree-Tent-Rules";
                 break;
             case "ShortTruthTable":
-                url = "https://github.com/Bram-Hub/Legup/wiki/Short-Truth-Table-Rules";
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Short-Truth-Table-Rules";
+                break;
+            case "Binary":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Binary-Rules";
+                break;
+            case "Minesweeper":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Minesweeper-Rules";
+                break;
+            case "Skyscrapers":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Skyscrapers-Rules";
+                break;
+            case "Nurikabe":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Nurikabe-Rules";
+                break;
+            case "Sudoku":
+                url = "https://github.com/Bram-Hub/LEGUP/wiki/Sudoku-Tutorial";
                 break;
             default:
-                url = "https://github.com/Bram-Hub/Legup/wiki/LEGUP-Tutorial";
+                url =  "https://github.com/Bram-Hub/LEGUP/wiki/";
         }
         try {
             Desktop.getDesktop().browse(java.net.URI.create(url));
@@ -879,7 +891,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * actions when clicked:
      *
      * <ul>
-     *   <li>'Directions' button triggers the `directionsToolButton` method.
+     *   <li>'Directions' button triggers the `helpTutorial` method.
      *   <li>'Undo' button triggers the undo action in the puzzle's history.
      *   <li>'Redo' button triggers the redo action in the puzzle's history.
      *   <li>'Check' button triggers the `checkProof` method.
@@ -899,7 +911,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                                 this.TOOLBAR_ICON_SCALE,
                                 this.TOOLBAR_ICON_SCALE));
         directions.setFocusPainted(false);
-        directions.addActionListener((ActionEvent) -> directionsToolButton());
+        directions.addActionListener((ActionEvent) -> helpTutorial());
 
         getToolBar2Buttons()[0] = directions;
         toolBar2.add(getToolBar2Buttons()[0]);
@@ -1013,51 +1025,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             String message = "\nThe game board is not solved.";
             JOptionPane.showMessageDialog(
                     null, message, "Invalid proof.", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Retrieves the puzzle name from the `GameBoardFacade` and opens a corresponding rules page in
-     * the default web browser.
-     *
-     * @throws IOException if an error occurs while trying to open the web page
-     */
-    private void directionsToolButton() {
-        String puzzleName = GameBoardFacade.getInstance().getPuzzleModule().getName();
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzleName);
-        }
-        try {
-            if (puzzleName.equals("Fillapix")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Fill-a-pix-rules"));
-            } else if (puzzleName.equals("LightUp")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Light-up-rules"));
-            } else if (puzzleName.equals("TreeTent")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Tree-tent-rules"));
-            } else if (puzzleName.equals("ShortTruthTables")) {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/Short-truth-table-rules"));
-            } else {
-                Desktop.getDesktop()
-                        .browse(
-                                URI.create(
-                                        "https://github.com/Bram-Hub/LEGUP/wiki/"
-                                                + puzzleName
-                                                + "-rules"));
-            }
-        } catch (IOException e) {
-            LOGGER.error("Can't open web page");
         }
     }
 
