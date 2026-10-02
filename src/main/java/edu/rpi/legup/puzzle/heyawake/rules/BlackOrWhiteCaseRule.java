@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.heyawake.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -40,7 +39,7 @@ public class BlackOrWhiteCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         return null;
     }
 

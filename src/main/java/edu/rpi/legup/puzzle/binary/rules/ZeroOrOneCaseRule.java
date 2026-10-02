@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.binary.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -21,23 +20,24 @@ public class ZeroOrOneCaseRule extends CaseRule {
     }
 
     /**
-     * Generates a {@link CaseBoard} that includes all blank cells from the given board that this
+     * Generates a {@link Board} that includes all blank cells from the given board that this
      * case rule can be applied to
      *
      * @param board The board to find locations where this case rule can be applied
-     * @return A CaseBoard containing pickable elements where the case rule can be applied
+     * @return A Board containing pickable elements where the case rule can be applied
      */
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(binaryBoard, this);
+        binaryBoard.setCaseRule(this);
+
         binaryBoard.setModifiable(false);
         for (PuzzleElement element : binaryBoard.getPuzzleElements()) {
             if (((BinaryCell) element).getType() == BinaryType.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                binaryBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return binaryBoard;
     }
 
     /**

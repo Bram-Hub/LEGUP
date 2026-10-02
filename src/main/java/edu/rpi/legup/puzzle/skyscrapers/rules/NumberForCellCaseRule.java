@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.skyscrapers.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -25,16 +24,17 @@ public class NumberForCellCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
-        SkyscrapersBoard lightUpBoard = (SkyscrapersBoard) board.copy();
-        lightUpBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
-        for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
+    public Board getApplicableLocationsBoard(Board board) {
+        SkyscrapersBoard skyscrapersboard = (SkyscrapersBoard) board.copy();
+        skyscrapersboard.setModifiable(false);
+        skyscrapersboard.setCaseRule(this);
+
+        for (PuzzleElement data : skyscrapersboard.getPuzzleElements()) {
             if (((SkyscrapersCell) data).getType() == SkyscrapersType.UNKNOWN) {
-                caseBoard.addPickableElement(data);
+                skyscrapersboard.addCasePickableElement(data);
             }
         }
-        return caseBoard;
+        return skyscrapersboard;
     }
 
     /**

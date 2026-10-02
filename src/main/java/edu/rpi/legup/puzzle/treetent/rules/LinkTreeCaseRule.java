@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.treetent.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -25,16 +24,17 @@ public class LinkTreeCaseRule extends CaseRule {
     }
 
     /**
-     * Creates a CaseBoard representing all valid case selections for this rule.
+     * Creates a Board representing all valid case selections for this rule.
      *
      * @param board the current board state
-     * @return a CaseBoard containing all pickable elements for case generation
+     * @return a Board containing all pickable elements for case generation
      */
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
+        treeTentBoard.setCaseRule(this);
+
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.TREE
                     && !getCasesFrom(treeTentBoard, element).isEmpty()) {
@@ -51,11 +51,11 @@ public class LinkTreeCaseRule extends CaseRule {
                     }
                 }
                 if (canAdd) {
-                    caseBoard.addPickableElement(element);
+                    treeTentBoard.addCasePickableElement(element);
                 }
             }
         }
-        return caseBoard;
+        return treeTentBoard;
     }
 
     /**

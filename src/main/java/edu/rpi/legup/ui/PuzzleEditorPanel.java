@@ -13,7 +13,6 @@ import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -797,7 +796,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         }
 
                         @Override
-                        public void onCaseBoardAdded(CaseBoard caseBoard) {
+                        public void onCaseBoardAdded(Board caseBoard) {
                             // not relevant for goal text updates
                         }
 

@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.treetent.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -21,16 +20,17 @@ public class TentOrGrassCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         TreeTentBoard treeTentBoard = (TreeTentBoard) board.copy();
         treeTentBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(treeTentBoard, this);
+        treeTentBoard.setCaseRule(this);
+
         for (PuzzleElement element : treeTentBoard.getPuzzleElements()) {
             if (((TreeTentCell) element).getType() == TreeTentType.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                treeTentBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return treeTentBoard;
     }
 
     /**

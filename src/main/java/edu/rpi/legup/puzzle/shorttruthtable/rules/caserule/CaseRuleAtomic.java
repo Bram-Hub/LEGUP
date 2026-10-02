@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
@@ -21,16 +20,17 @@ public class CaseRuleAtomic extends CaseRule_Generic {
 
     // Adds all elements that can be selected for this case rule
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
         sttBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(sttBoard, this);
+        sttBoard.setCaseRule(this);
+
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
             if (((ShortTruthTableCell) element).getType() == ShortTruthTableCellType.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                sttBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return sttBoard;
     }
 
     /**

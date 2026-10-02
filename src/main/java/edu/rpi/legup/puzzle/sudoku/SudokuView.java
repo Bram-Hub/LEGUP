@@ -102,7 +102,7 @@ public class SudokuView extends GridBoardView {
         drawGrid(graphics2D);
 
         PossibleNumberCaseBoard caseBoard = (PossibleNumberCaseBoard) board;
-        SudokuBoard sudokuBoard = (SudokuBoard) caseBoard.getBaseBoard();
+        SudokuBoard sudokuBoard = (SudokuBoard) board;
 
         Graphics2D g = (Graphics2D) graphics2D.create();
         g.setColor(UIManager.getColor("Sudoku.borderColor"));

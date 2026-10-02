@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.thermometer.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -33,16 +32,17 @@ public class MercuryOrBlockedCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         ThermometerBoard thermometerBoard = (ThermometerBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(thermometerBoard, this);
         thermometerBoard.setModifiable(false);
+        thermometerBoard.setCaseRule(this);
+
         for (PuzzleElement element : thermometerBoard.getPuzzleElements()) {
             if (((ThermometerCell) element).getFill() == ThermometerFill.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                thermometerBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return thermometerBoard;
     }
 
     /**

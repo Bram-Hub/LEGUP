@@ -3,7 +3,6 @@ package edu.rpi.legup.model.rules;
 import static edu.rpi.legup.model.rules.RuleType.CASE;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -43,7 +42,7 @@ public abstract class CaseRule extends Rule {
      * @param board board to find locations where this case rule can be applied
      * @return a case board
      */
-    public abstract CaseBoard getApplicableLocationsBoard(Board board);
+    public abstract Board getApplicableLocationsBoard(Board board);
 
     /**
      * Gets the possible cases for this {@link Board} at a specific {@link PuzzleElement} based on
@@ -117,11 +116,11 @@ public abstract class CaseRule extends Rule {
         List<Board> childBoards = new ArrayList<>();
         childTransitions.forEach(t -> childBoards.add(t.getBoard()));
 
-        CaseBoard possibleCasesBoard = getApplicableLocationsBoard(parent.getBoard());
+        Board possibleCasesBoard = getApplicableLocationsBoard(parent.getBoard());
 
         // Locate a cell where a case rule can be applied
         Set<PuzzleElement<?>> applicableLocations = new HashSet<>();
-        for (PuzzleElement<?> element : possibleCasesBoard.getBaseBoard().getPuzzleElements()) {
+        for (PuzzleElement<?> element : possibleCasesBoard.getPuzzleElements()) {
             if (possibleCasesBoard.isPickable(element, null)) {
                 applicableLocations.add(element);
             }

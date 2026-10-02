@@ -6,7 +6,7 @@ import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.history.*;
 import edu.rpi.legup.model.Puzzle;
-import edu.rpi.legup.model.gameboard.CaseBoard;
+import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.*;
 import edu.rpi.legup.model.tree.TreeElement;
 import edu.rpi.legup.model.tree.TreeElementType;
@@ -70,19 +70,19 @@ public class RuleController implements ActionListener {
                             updateErrorString =
                                     "Cases cannot be generated from a node with children.";
                         } else {
-                            try { // added try catch for scenarios where rules are cancelled by user
-                                // ie.
+                            try { // added try catch for scenarios where rules are canceled by user
+                                // i.e.
                                 // Skyscraper cellForNumber
-                                CaseBoard caseBoard =
+                                Board caseBoard =
                                         caseRule.getApplicableLocationsBoard(element.getBoard());
-                                if (caseBoard != null && caseBoard.getCount() > 0) {
+                                if (caseBoard != null && caseBoard.getCasePickableCount() > 0) {
                                     puzzle.notifyBoardListeners(
                                             listener -> listener.onCaseBoardAdded(caseBoard));
                                 } else {
                                     updateErrorString =
                                             "This board cannot be applied with this case rule.";
                                 }
-                            } // catch rule was cancelled exception
+                            } // catch rule was canceled exception
                             catch (Exception e) {
                                 updateErrorString = e.getMessage();
                             }
