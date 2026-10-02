@@ -48,7 +48,7 @@ public class ProveCellMustBeTest {
                 "goalConditions/ProveCellMustBe/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/OvercompleteLine", puzzle));
+                "goalConditions/ProveCellMustBe/SolvedLine", puzzle));
 
         Assert.assertTrue(
                 TestUtilities.verifyBoard(

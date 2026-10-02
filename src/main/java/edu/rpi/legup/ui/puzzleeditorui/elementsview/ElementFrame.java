@@ -7,15 +7,7 @@ import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.ui.JitterlessScrollPane;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
