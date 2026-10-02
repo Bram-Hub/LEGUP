@@ -41,7 +41,7 @@ public class TrueOrFalseCaseRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(0, 0);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         // Make sure that the rule checks out
         Assert.assertNull(RULE.checkRule(transition));

@@ -42,7 +42,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
     // Adds all elements that can be selected for this caserule
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         // copy the board and add all elements that can be selected
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
         sttBoard.setModifiable(false);
@@ -84,7 +84,7 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
 
         if (puzzleElement == null) {
             return new ArrayList<Board>();

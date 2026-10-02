@@ -3,6 +3,7 @@ package edu.rpi.legup.ui;
 import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import org.jetbrains.annotations.NotNull;
 
 /** FlowLayout subclass that fully supports wrapping of components. */
 public class WrapLayout extends FlowLayout {
@@ -51,7 +52,7 @@ public class WrapLayout extends FlowLayout {
      * @return the preferred dimensions to lay out the subcomponents of the specified container
      */
     @Override
-    public Dimension preferredLayoutSize(Container target) {
+    public @NotNull Dimension preferredLayoutSize(@NotNull Container target) {
         return layoutSize(target, true);
     }
 
@@ -63,7 +64,7 @@ public class WrapLayout extends FlowLayout {
      * @return the minimum dimensions to lay out the subcomponents of the specified container
      */
     @Override
-    public Dimension minimumLayoutSize(Container target) {
+    public @NotNull Dimension minimumLayoutSize(@NotNull Container target) {
         Dimension minimum = layoutSize(target, false);
         minimum.width -= (getHgap() + 1);
         return minimum;
@@ -76,7 +77,7 @@ public class WrapLayout extends FlowLayout {
      * @param preferred should preferred dimension be calculated
      * @return the dimension to layout the target container
      */
-    private Dimension layoutSize(Container target, boolean preferred) {
+    private @NotNull Dimension layoutSize(@NotNull Container target, boolean preferred) {
         synchronized (target.getTreeLock()) {
             //  Each row must fit with the width allocated to the containter.
             //  When the container width = 0, the preferred width of the container
@@ -155,7 +156,7 @@ public class WrapLayout extends FlowLayout {
      * @param rowWidth the width of the row to add
      * @param rowHeight the height of the row to add
      */
-    private void addRow(Dimension dim, int rowWidth, int rowHeight) {
+    private void addRow(@NotNull Dimension dim, int rowWidth, int rowHeight) {
         dim.width = Math.max(dim.width, rowWidth);
 
         if (dim.height > 0) {

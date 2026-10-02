@@ -13,6 +13,10 @@ import java.util.List;
 
 public class SurroundTentWithGrassDirectRule extends DirectRule {
 
+    /**
+     * Constructs the SurroundTentWithGrassDirectRule with its ID, name, description, and associated
+     * image.
+     */
     public SurroundTentWithGrassDirectRule() {
         super(
                 "TREE-BASC-0005",
@@ -54,6 +58,13 @@ public class SurroundTentWithGrassDirectRule extends DirectRule {
         }
     }
 
+    /**
+     * Determines whether a cell is forced to be grass based on adjacent or diagonal tents.
+     *
+     * @param board the TreeTentBoard being evaluated
+     * @param cell the cell being checked
+     * @return true if the cell must be grass, false otherwise
+     */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         List<TreeTentCell> tents = board.getAdjacent(cell, TreeTentType.TENT);
         tents.addAll(board.getDiagonals(cell, TreeTentType.TENT));

@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.sudoku;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -123,8 +122,7 @@ public class SudokuImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     SudokuCell cell =
                             (SudokuCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), sudokuBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), sudokuBoard);
                     // Store the goal value as goalData and mark the board cell as goal
                     SudokuCell boardCell = (SudokuCell) sudokuBoard.getCell(cell.getLocation());
                     if (boardCell != null) {

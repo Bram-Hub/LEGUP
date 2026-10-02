@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.skyscrapers;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -54,7 +53,6 @@ public class SkyscrapersCellFactory extends ElementFactory {
                     "Skyscrapers Factory: could not find attribute(s)");
         }
     }
-
 
     /**
      * Creates a xml document puzzleElement from a cell for exporting

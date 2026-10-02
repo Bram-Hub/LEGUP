@@ -6,12 +6,16 @@ import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * DirectRule is an abstract class representing a direct rule for transitions in a puzzle. It
  * provides methods for checking whether transitions and specific puzzle elements follow the rule.
  */
 public abstract class DirectRule extends Rule {
+    private static final Logger LOGGER = LogManager.getLogger(DirectRule.class.getName());
+
     /**
      * DirectRule Constructor creates a new basic rule.
      *
@@ -34,9 +38,12 @@ public abstract class DirectRule extends Rule {
      */
     public String checkRule(TreeTransition transition) {
         Board finalBoard = transition.getBoard();
-        // System.out.println(finalBoard.getModifiedData().size());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(finalBoard.getModifiedData().size());
+        }
         if (transition.getParents().size() != 1
-                || transition.getParents().get(0).getChildren().size() != 1) {
+                || transition.getParents().getFirst().getChildren().size() != 1) {
+            transition.getParents().getFirst().getChildren().forEach(t -> t.setCorrect(false));
             return "State must have only 1 parent and 1 child";
         } else if (finalBoard.getModifiedData().isEmpty()) {
             // null transition
@@ -48,7 +55,7 @@ public abstract class DirectRule extends Rule {
 
     /**
      * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
+     * rule. This method is the one that should be overridden in child classes.
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -58,7 +65,7 @@ public abstract class DirectRule extends Rule {
         String checkStr = null;
 
         // Go directly to specific direct rule's judgement if no cell's are edited
-        if (finalBoard.getModifiedData().size() == 0) {
+        if (finalBoard.getModifiedData().isEmpty()) {
             checkStr = checkRuleRawAt(transition, null);
         }
         for (PuzzleElement puzzleElement : finalBoard.getModifiedData()) {
@@ -87,7 +94,7 @@ public abstract class DirectRule extends Rule {
             checkStr = "PuzzleElement must be modified";
         } else {
             if (transition.getParents().size() != 1
-                    || transition.getParents().get(0).getChildren().size() != 1) {
+                    || transition.getParents().getFirst().getChildren().size() != 1) {
                 checkStr = "State must have only 1 parent and 1 child";
             } else {
                 checkStr = checkRuleRawAt(transition, puzzleElement);

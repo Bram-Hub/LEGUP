@@ -21,19 +21,8 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
         super(
                 "SUDO-CASE-0002",
                 "Possible Cells for Number - Region",
-                "An empty cell has a limited set of possible numbers that can fill it.",
+                "A certain number can be placed in a limited number of cells in a given region.",
                 "edu/rpi/legup/images/sudoku/rules/possible_cells_number_region.png");
-    }
-
-    /**
-     * Checks whether the transition logically follows from the parent node using this rule
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        return null;
     }
 
     /**
@@ -51,7 +40,7 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         SudokuBoard sudokuBoard = (SudokuBoard) board.copy();
         lagBoard = (SudokuBoard) sudokuBoard.copy();
         CaseBoard caseBoard = new CaseBoard(sudokuBoard, this);
@@ -70,7 +59,7 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return getCases(board, puzzleElement, 1, GroupType.REGION);
     }
 

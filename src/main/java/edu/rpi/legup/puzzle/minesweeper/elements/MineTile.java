@@ -5,7 +5,7 @@ import edu.rpi.legup.model.elements.PlaceableElement;
 public class MineTile extends PlaceableElement {
     public MineTile() {
         super(
-                "MINE-UNPL-0001",
+                "MINE-UNPL-0002",
                 "Mine",
                 "A mine",
                 "edu/rpi/legup/images/minesweeper/tiles/Mine.png");

@@ -113,14 +113,14 @@ public class NurikabeImporter extends PuzzleImporter {
                     if (nurikabeBoard.getCell(x, y) == null) {
                         NurikabeCell cell =
                                 new NurikabeCell(NurikabeType.UNKNOWN.toValue(), new Point(x, y));
-                        cell.setIndex(y * height + x);
+                        cell.setIndex(y * width + x);
                         cell.setModifiable(true);
                         nurikabeBoard.setCell(x, y, cell);
                     }
                 }
             }
             puzzle.setCurrentBoard(nurikabeBoard);
-            
+
             if (boardElement.getElementsByTagName("goal").getLength() != 0) {
                 Element goalElement = (Element) boardElement.getElementsByTagName("goal").item(0);
                 Goal goal = puzzle.getFactory().importGoal(goalElement, nurikabeBoard);
@@ -129,10 +129,10 @@ public class NurikabeImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     NurikabeCell cell =
                             (NurikabeCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), nurikabeBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), nurikabeBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    NurikabeCell boardCell = (NurikabeCell) nurikabeBoard.getCell(cell.getLocation());
+                    NurikabeCell boardCell =
+                            (NurikabeCell) nurikabeBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

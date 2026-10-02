@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+    <path fill="black" d="M 32 55.5 v -7.5 a 3 3 0 0 1 3 -3 h 7.5 v -3 a 4 4 0 0 1 4 -4 h 0.5 a 4 4 0 0 1 4 4 v 3 h 7.5 a 3 3 0 0 1 3 3 v 26.5 h -10.5 v -3 a 4 4 0 0 0 -4 -4 h -0.5 a 4 4 0 0 0 -4 4 v 3 h -7.5 a 3 3 0 0 1 -3 -3 v -7.5 h 3 a 4 4 0 0 0 4 -4 v -0.5 a 4 4 0 0 0 -4 -4 z"/>
+    <path fill="none" stroke="black" stroke-width="7" d="M 23.5 11.5 A 4 4 0 0 0 19.5 15.5 V 80.5 A 4 4 0 0 0 23.5 84.5 H 72.5 A 4 4 0 0 0 76.5 80.5 V 34 L 54 11.5 Z"/>
+    <path fill="black" d="M 52.5 11.5 V 35.5 H 76.5 Z"/>
+    <circle fill="#64DD17" stroke="black" stroke-width="4" cx="70" cy="70" r="19"/>
+    <line stroke="black" stroke-width="4" stroke-linecap="round" x1="62" y1="70" x2="78" y2="70"/>
+    <line stroke="black" stroke-width="4" stroke-linecap="round" x1="70" y1="62" x2="70" y2="78"/>
+</svg>

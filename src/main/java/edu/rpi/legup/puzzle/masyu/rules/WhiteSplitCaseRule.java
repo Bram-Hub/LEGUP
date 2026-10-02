@@ -5,24 +5,12 @@ import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
-import java.util.List;
+import java.util.ArrayList;
 
 public class WhiteSplitCaseRule extends CaseRule {
 
     public WhiteSplitCaseRule() {
         super("MASY-CASE-0003", "White Split", "", "edu/rpi/legup/images/masyu/CaseWhiteSplit.png");
-    }
-
-    /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should overridden in child classes.
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        return null;
     }
 
     /**
@@ -48,7 +36,7 @@ public class WhiteSplitCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         return null;
     }
 
@@ -61,7 +49,7 @@ public class WhiteSplitCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public List<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return null;
     }
 }

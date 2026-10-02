@@ -1,22 +1,10 @@
 package edu.rpi.legup.puzzle.shorttruthtable;
 
-import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class ShortTruthTableElementView extends GridElementView {
-
-    // Font
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
-
-    // Square Colors
-    private static final Color TRUE_COLOR = new Color(0, 130, 0); // green
-    private static final Color TRUE_COLOR_COLORBLIND = new Color(0, 0, 255);
-    private static final Color FALSE_COLOR = new Color(200, 0, 0); // red
-
-    private static final Color FALSE_COLOR_COLORBLIND = new Color(255, 0, 0);
-    private static final Color UNKNOWN_COLOR = Color.WHITE;
 
     public ShortTruthTableElementView(ShortTruthTableCell cell) {
         super(cell);
@@ -33,47 +21,54 @@ public class ShortTruthTableElementView extends GridElementView {
     }
 
     @Override
-    public void drawElement(Graphics2D graphics2D) {
-
-        // get information about the cell
-        ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
-        ShortTruthTableCellType type = cell.getData();
-
-        // do not draw the cell if it is not in play
-        if (type == ShortTruthTableCellType.NOT_IN_PLAY) return;
-
-        // fill in background color of the cell
-        graphics2D.setStroke(new BasicStroke(1));
-        LegupPreferences prefs = LegupPreferences.getInstance();
-        switch (type) {
-            case TRUE:
-                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
-                    graphics2D.setColor(TRUE_COLOR_COLORBLIND);
-                    break;
-                }
-                graphics2D.setColor(TRUE_COLOR);
-                break;
-            case FALSE:
-                if (prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
-                    graphics2D.setColor(FALSE_COLOR_COLORBLIND);
-                    break;
-                }
-                graphics2D.setColor(FALSE_COLOR);
-                break;
-            default:
-                graphics2D.setColor(UNKNOWN_COLOR);
-                break;
+    public void draw(Graphics2D graphics2D) {
+        if (((ShortTruthTableCell) puzzleElement).getData()
+                != ShortTruthTableCellType.NOT_IN_PLAY) {
+            drawElement(graphics2D);
+            if (puzzleElement.isGiven()) {
+                drawGiven(graphics2D);
+            }
+            if (puzzleElement.isModified()) {
+                drawModified(graphics2D);
+            }
+            if (isShowCasePicker() && isCaseRulePickable()) {
+                drawCase(graphics2D);
+            }
+            if (isHover()) {
+                drawHover(graphics2D);
+            }
         }
-        graphics2D.fillRect(location.x, location.y, size.width, size.height);
+    }
+
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        ShortTruthTableCell cell = (ShortTruthTableCell) puzzleElement;
+
+        // Stop drawing if cell is not in play (functions like getImage call drawElement directly)
+        if (cell.getData() == ShortTruthTableCellType.NOT_IN_PLAY) {
+            return;
+        }
+
+        // Fill in background color of the cell
+        g.setColor(
+                UIManager.getColor(
+                        switch (cell.getData()) {
+                            case TRUE -> "ShortTruthTable.true";
+                            case FALSE -> "ShortTruthTable.false";
+                            default -> "ShortTruthTable.unknown";
+                        }));
+        g.fillRect(location.x, location.y, size.width, size.height);
 
         // Draw the symbol on the cell
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+        g.setColor(UIManager.getColor("ShortTruthTable.text"));
+        g.setFont(UIManager.getFont("ShortTruthTable.font"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value = String.valueOf(cell.getSymbol());
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(
-                ShortTruthTableOperation.getLogicSymbol(cell.getSymbol()), xText, yText);
+        g.drawString(ShortTruthTableOperation.getLogicSymbol(cell.getSymbol()), xText, yText);
+
+        g.dispose();
     }
 }

@@ -17,11 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 public class FinishRoomCaseRule extends CaseRule {
-    private int legitCases =
-            0; // placeholder for amount of cases originally generated in case user tries to delete
-    private Set<Integer> uniqueCases; // stores the unique case hashes
 
-    // cases
+    private Set<Integer> uniqueCases; // stores the unique case hashes
 
     public FinishRoomCaseRule() {
         super(
@@ -35,52 +32,14 @@ public class FinishRoomCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should have overridden in child classes.
+     * Creates a transition {@link Board} that has this rule applied to it using the {@link Board}'s
+     * current state to determine where this rule can be applied.
      *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
+     * @param board board to find locations where this case rule can be applied
+     * @return a case board
      */
     @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        NurikabeBoard destBoardState = (NurikabeBoard) transition.getBoard();
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() > MAX_CASES) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 9 or less children.";
-        }
-        if (childTransitions.size() < MIN_CASES) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 or more children.";
-        }
-        if (childTransitions.size() != legitCases) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": Cases can not be removed from the branch.";
-        } // stops user from deleting 1 or more generated cases and still having path show as green
-        Set<Point> locations = new HashSet<>();
-        for (TreeTransition t1 : childTransitions) {
-            locations.add(
-                    ((NurikabeCell) t1.getBoard().getModifiedData().iterator().next())
-                            .getLocation()); // loop see if matches
-            if (t1.getBoard().getModifiedData().size() != 1) {
-                return super.getInvalidUseOfRuleMessage()
-                        + ": This case rule must have 1 modified cell for each case.";
-            }
-            for (Point loc : locations) {
-                for (Point loc2 : locations) {
-                    if (!(loc.equals(loc2)) && (loc.x == loc2.x) && (loc.y == loc2.y)) {
-                        return super.getInvalidUseOfRuleMessage()
-                                + ": This case rule must alter a different cell for each case.";
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
         DisjointSets<NurikabeCell> regions = NurikabeUtilities.getNurikabeRegions(nurikabeBoard);
@@ -123,7 +82,7 @@ public class FinishRoomCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>(); // makes array list of cases
         if (puzzleElement == null) {
             return cases;
@@ -140,15 +99,7 @@ public class FinishRoomCaseRule extends CaseRule {
         Point origPoint = new Point(numberCell.getLocation().x, numberCell.getLocation().y);
         int filledRoomSize = numberCell.getData(); // size of room we want afterward
 
-        Point left = new Point(-1, 0);
-        Point right = new Point(1, 0);
-        Point bot = new Point(0, -1);
-        Point top = new Point(0, 1);
-        Set<Point> directions = new HashSet<>();
-        directions.add(left);
-        directions.add(right);
-        directions.add(top);
-        directions.add(bot);
+        Point[] directions = {new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)};
 
         Set<Point> checkedPoints =
                 new HashSet<>(); // add all into checked points and continue at start of loop if
@@ -157,12 +108,18 @@ public class FinishRoomCaseRule extends CaseRule {
                 NurikabeUtilities.getNurikabeRegions(nuriBoard); // gathers regions
         Set<NurikabeCell> numberCellRegion = regions.getSet(numberCell); // set of white spaces
 
-        for (NurikabeCell d : numberCellRegion) { // loops through white spaces
+        for (NurikabeCell d : numberCellRegion) {
             generateCases(
-                    nuriBoard, d, filledRoomSize, directions, checkedPoints, cases, origPoint);
+                    nuriBoard,
+                    d,
+                    filledRoomSize,
+                    directions,
+                    checkedPoints,
+                    cases,
+                    origPoint,
+                    new ArrayList<>());
         }
 
-        legitCases = cases.size();
         return cases;
     }
 
@@ -177,15 +134,22 @@ public class FinishRoomCaseRule extends CaseRule {
      * @param checkedPoints the set of points already evaluated to avoid redundancy
      * @param cases the list of valid board cases generated
      * @param origPoint the original point of the number cell initiating the room filling
+     * @param modifiedPoints the list of points modified in the current recursive path
      */
     private void generateCases(
             NurikabeBoard nuriBoard,
             NurikabeCell currentCell,
             int filledRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Set<Point> checkedPoints,
             ArrayList<Board> cases,
-            Point origPoint) {
+            Point origPoint,
+            List<Point> modifiedPoints) {
+        // Early cutoff
+        if (cases.size() > this.MAX_CASES) {
+            return;
+        }
+
         for (Point direction : directions) {
             Point newPoint =
                     new Point(
@@ -196,33 +160,40 @@ public class FinishRoomCaseRule extends CaseRule {
                     || newPoint.y < 0
                     || newPoint.x >= nuriBoard.getWidth()
                     || newPoint.y >= nuriBoard.getHeight()) {
-                continue; // out of bounds
+                continue;
+            }
+
+            if (checkedPoints.contains(newPoint)) {
+                continue;
             }
 
             NurikabeCell newCell = nuriBoard.getCell(newPoint.x, newPoint.y);
-            if (checkedPoints.contains(newPoint)) {
-                continue; // already checked
-            }
-
             if (newCell.getType() == NurikabeType.UNKNOWN) {
-                newCell.setData(
-                        NurikabeType.WHITE.toValue()); // changes adjacent cell color to white
-                newCell.setModifiable(false);
+                // Mark current cell as white
+                newCell.setData(NurikabeType.WHITE.toValue());
                 checkedPoints.add(newPoint);
 
+                // Track the modification
+                List<Point> newModList = new ArrayList<>(modifiedPoints);
+                newModList.add(newPoint);
+
+                // Recompute regions
                 DisjointSets<NurikabeCell> regions =
-                        NurikabeUtilities.getNurikabeRegions(nuriBoard); // update regions variable
-                Set<NurikabeCell> newRoomSet =
-                        regions.getSet(
-                                newCell); // gets set of cells in room with new white cell added
+                        NurikabeUtilities.getNurikabeRegions(nuriBoard);
+                Set<NurikabeCell> newRoomSet = regions.getSet(newCell);
 
                 if (!touchesDifferentRoom(
                         nuriBoard, newCell, filledRoomSize, directions, origPoint)) {
-                    if (newRoomSet.size()
-                            == filledRoomSize) { // if adding white fills the room to exact size of
-                        // number block and doesn't connect with another room
-                        Board caseBoard = nuriBoard.copy();
-                        // check if case for board already exists
+                    if (newRoomSet.size() == filledRoomSize) {
+                        // Create a new board with all modified cells marked
+                        NurikabeBoard caseBoard = (NurikabeBoard) nuriBoard.copy();
+
+                        for (Point p : newModList) {
+                            NurikabeCell c = caseBoard.getCell(p.x, p.y);
+                            c.setData(NurikabeType.WHITE.toValue());
+                            caseBoard.addModifiedData(c);
+                        }
+
                         boolean unique = true;
                         for (Board board : cases) {
                             if (caseBoard.equalsBoard(board)) {
@@ -231,22 +202,26 @@ public class FinishRoomCaseRule extends CaseRule {
                             }
                         }
                         if (unique) {
-                            caseBoard.addModifiedData(newCell);
                             cases.add(caseBoard);
                         }
+
                     } else if (newRoomSet.size() < filledRoomSize) {
-                        generateCases(
-                                nuriBoard,
-                                newCell,
-                                filledRoomSize,
-                                directions,
-                                checkedPoints,
-                                cases,
-                                origPoint);
+                        for (NurikabeCell cellInRoom : newRoomSet) {
+                            generateCases(
+                                    nuriBoard,
+                                    cellInRoom,
+                                    filledRoomSize,
+                                    directions,
+                                    checkedPoints,
+                                    cases,
+                                    origPoint,
+                                    newModList);
+                        }
                     }
                 }
+
+                // Reset the board
                 newCell.setData(NurikabeType.UNKNOWN.toValue());
-                newCell.setModifiable(true);
                 checkedPoints.remove(newPoint);
             }
         }
@@ -267,7 +242,7 @@ public class FinishRoomCaseRule extends CaseRule {
             NurikabeBoard board,
             NurikabeCell cell,
             int origRoomSize,
-            Set<Point> directions,
+            Point[] directions,
             Point origPoint) {
         for (Point direction : directions) {
             Point adjacentPoint =

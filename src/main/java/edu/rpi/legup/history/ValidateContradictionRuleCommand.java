@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.*;
 
 /**
  * The ValidateContradictionRuleCommand class represents a command for validating and applying a
@@ -121,6 +122,40 @@ public class ValidateContradictionRuleCommand extends PuzzleCommand {
         List<TreeElementView> selectedViews = selection.getSelectedViews();
         if (selectedViews.isEmpty()) {
             return CommandError.NO_SELECTED_VIEWS.toString();
+        }
+
+        // Add confirmation if multiple nodes that have changes will be removed
+        // A contradiction is typically applied to a given state, which is represented
+        // by a TreeNode. All further transitions and nodes do not matter if there
+        // is a contradiction at this node, and so this function disconnects the tree,
+        // potentially causing the user to lose progress.
+        boolean removingChildren = false;
+        for (TreeElementView view : selectedViews) {
+            TreeElement treeElement = view.getTreeElement();
+            TreeNode treeNode;
+            if (treeElement instanceof TreeNode) {
+                treeNode = (TreeNode) treeElement;
+            } else {
+                TreeTransition treeTransition = (TreeTransition) treeElement;
+                treeNode = treeTransition.getParents().getFirst();
+            }
+            // If any selected view has children, prompt for confirmation
+            if (!treeNode.getChildren().isEmpty()) {
+                removingChildren = true;
+                break;
+            }
+        }
+
+        if (removingChildren) {
+            int confirmReset =
+                    JOptionPane.showConfirmDialog(
+                            null,
+                            "Applying a Contradiction Rule here may cause a large section of the tree to be removed. Continue?",
+                            "Confirm Contradiction Rule",
+                            JOptionPane.YES_NO_OPTION);
+            if (confirmReset == JOptionPane.NO_OPTION) {
+                return CommandError.EMPTY.toString();
+            }
         }
 
         for (TreeElementView view : selectedViews) {

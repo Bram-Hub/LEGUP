@@ -78,7 +78,7 @@ public class MirrorDirectRule extends DirectRule {
         CaseRule completeClue = new SatisfyClueCaseRule();
         List<Board> caseBoards;
         for (FillapixCell adjNum : adjNums) {
-            caseBoards = completeClue.getCases(parentBoard, adjNum);
+            caseBoards = completeClue.getCasesFrom(parentBoard, adjNum);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!FillapixUtilities.checkBoardForContradiction((FillapixBoard) b)) {

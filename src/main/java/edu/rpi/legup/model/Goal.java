@@ -1,18 +1,17 @@
 package edu.rpi.legup.model;
 
 import edu.rpi.legup.model.gameboard.GridCell;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * A <b>Goal</b> is an object that stores the type of goal and a list of GridCells,
- * which holds the type of cell and the cell's location. Goal's should only be constructed
- * twice; once upon loading the puzzle, and once upon saving the puzzle.
- * <p>
- * If the GoalType is DEFAULT, cellList must be null.
+ * A <b>Goal</b> is an object that stores the type of goal and a list of GridCells, which holds the
+ * type of cell and the cell's location. Goal's should only be constructed twice; once upon loading
+ * the puzzle, and once upon saving the puzzle.
+ *
+ * <p>If the GoalType is DEFAULT, cellList must be null.
  */
 public class Goal {
     private ArrayList<GridCell> cellList;
@@ -48,18 +47,26 @@ public class Goal {
      *
      * @return GridCell cells
      */
-    public ArrayList<GridCell> getCells() { return cellList; }
+    public ArrayList<GridCell> getCells() {
+        return cellList;
+    }
 
-    public void addCell(GridCell cell) { cellList.add(cell); }
+    public void addCell(GridCell cell) {
+        cellList.add(cell);
+    }
 
-    public void setCellList(ArrayList<GridCell> cellList) { this.cellList = cellList; }
+    public void setCellList(ArrayList<GridCell> cellList) {
+        this.cellList = cellList;
+    }
 
     /**
      * Get the goal type.
      *
      * @return GoalType.
      */
-    public GoalType getType() { return goalType; }
+    public GoalType getType() {
+        return goalType;
+    }
 
     /**
      * Creates tool tip text for a cell being hovered over.
@@ -75,19 +82,23 @@ public class Goal {
             }
         }
 
-        if (goalCell == null) { throw new IllegalArgumentException("Cell is not a goal condition."); }
+        if (goalCell == null) {
+            throw new IllegalArgumentException("Cell is not a goal condition.");
+        }
         String text = "Prove cell ";
-        return switch(goalType) {
-            case GoalType.PROVE_CELL_MUST_BE -> text + "is forced to be "
-                    + goalCell.describeState(false) + ".";
-            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> text + "is not forced to be "
-                    + goalCell.describeState(false) + ".";
-            case GoalType.PROVE_SINGLE_CELL_VALUE -> text + "is forced to have only one possible value.";
-            case GoalType.PROVE_MULTIPLE_CELL_VALUE -> text + "is forced to have multiple possible values.";
-            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> text + "can be "
-                    + goalCell.describeState(false) + ".";
-            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> text + "cannot be "
-                    + goalCell.describeState(false) + ".";
+        return switch (goalType) {
+            case GoalType.PROVE_CELL_MUST_BE ->
+                    text + "is forced to be " + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_CELL_MIGHT_NOT_BE ->
+                    text + "is not forced to be " + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_SINGLE_CELL_VALUE ->
+                    text + "is forced to have only one possible value.";
+            case GoalType.PROVE_MULTIPLE_CELL_VALUE ->
+                    text + "is forced to have multiple possible values.";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE ->
+                    text + "can be " + goalCell.describeState(false) + ".";
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE ->
+                    text + "cannot be " + goalCell.describeState(false) + ".";
             default -> null;
         };
     }
@@ -99,7 +110,9 @@ public class Goal {
      */
     public String getGoalText() {
 
-        if (goalType == GoalType.DEFAULT) return "Find all solutions to the puzzle or prove none exist.";
+        if (goalType == GoalType.DEFAULT) {
+            return "Find all solutions to the puzzle or prove none exist.";
+        }
 
         String text = "Prove ";
         return switch(goalType) {
@@ -141,10 +154,11 @@ public class Goal {
         for (int i = 0; i < cells.size(); ++i) {
             if (i == 1 && cells.size() == 2) {
                 text += " and ";
-            }
-            else if (i != 0) {
+            } else if (i != 0) {
                 text += ", ";
-                if (i == cells.size() - 1) { text += "and "; }
+                if (i == cells.size() - 1) {
+                    text += "and ";
+                }
             }
             Point loc = cells.get(i).getLocation();
             text += "(" + (int) loc.getX() + ", " + (int) loc.getY() + ")";
@@ -177,7 +191,7 @@ public class Goal {
      *
      * @param singleCondition Relationship between one cell and its value.
      * @param pluralCondition Relationship between multiple cells and their values. If null,
-     *                        singleCondition will be used instead.
+     *     singleCondition will be used instead.
      * @return String Description text.
      */
     private String getValueSeparatedGoalText(String singleCondition, String pluralCondition) {
@@ -196,7 +210,9 @@ public class Goal {
         String text = "";
         boolean delimiter = false;
         for (Map.Entry<String, ArrayList<GridCell>> state : cellsByState.entrySet()) {
-            if (delimiter) { text += " and "; }
+            if (delimiter) {
+                text += " and ";
+            }
             delimiter = true;
             text += (state.getValue().size() > 1 ? "cells " : "cell ");
             text += concatCellLocs(state.getValue());

@@ -6,6 +6,7 @@ import edu.rpi.legup.model.tree.TreeNode;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
+import javax.swing.UIManager;
 
 /**
  * Represents a view of a tree node in the tree structure. This class extends {@link
@@ -16,25 +17,6 @@ import java.util.ArrayList;
 public class TreeNodeView extends TreeElementView {
     static final int RADIUS = 25;
     static final int DIAMETER = 2 * RADIUS;
-
-    private static final Stroke MAIN_STROKE = new BasicStroke(3);
-    private static final Stroke SELECTION_STROKE = new BasicStroke(2);
-
-    private static final Color NODE_COLOR_ROOT = new Color(100, 100, 100);
-    private static final Color NODE_MINOR_COLOR_ROOT = new Color(75, 75, 75);
-
-    private static final Color NODE_COLOR_DEFAULT = new Color(0xFFEB3B);
-    private static final Color NODE_MINOR_COLOR_DEFAULT = new Color(216, 197, 52);
-
-    private static final Color NODE_COLOR_CONTRADICTION = new Color(178, 10, 16);
-    private static final Color NODE_MINOR_COLOR_CONTRADICTION = new Color(119, 13, 16);
-
-    private static final Color OUTLINE_COLOR = new Color(0x212121);
-    private static final Color SELECTION_COLOR = new Color(0x1E88E5);
-    private static final Color OUTLINE_SELECTION_COLOR = new Color(0x1976D2);
-
-    private static final Color HOVER_COLOR = new Color(0x90CAF9);
-    private static final Color OUTLINE_HOVER_COLOR = new Color(0xBDBDBD);
 
     private Point location;
 
@@ -67,72 +49,67 @@ public class TreeNodeView extends TreeElementView {
      */
     public void draw(Graphics2D graphics2D) {
         if (isVisible() && treeElement != null) {
+            Graphics2D g = (Graphics2D) graphics2D.create();
             if (getTreeElement().getParent() != null
                     && getTreeElement().getParent().isJustified()
                     && getTreeElement().getParent().getRule().getRuleType()
                             == RuleType.CONTRADICTION) {
                 isContradictoryState = true;
-                graphics2D.setColor(NODE_COLOR_CONTRADICTION);
-                graphics2D.drawLine(
+                g.setColor(UIManager.getColor("Tree.contradiction"));
+                g.drawLine(
                         location.x - RADIUS,
                         location.y - RADIUS,
                         location.x + RADIUS,
                         location.y + RADIUS);
-                graphics2D.drawLine(
+                g.drawLine(
                         location.x + RADIUS,
                         location.y - RADIUS,
                         location.x - RADIUS,
                         location.y + RADIUS);
             } else {
                 isContradictoryState = false;
-                graphics2D.setStroke(MAIN_STROKE);
+                g.setStroke(new BasicStroke(UIManager.getInt("Tree.outlineWidth")));
                 boolean isContraBranch = getTreeElement().isContradictoryBranch();
 
                 if (isSelected) {
-                    graphics2D.setColor(SELECTION_COLOR);
-                    graphics2D.fillOval(
-                            location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                    g.setColor(UIManager.getColor("Tree.selected"));
+                    g.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                    graphics2D.setColor(OUTLINE_COLOR);
-                    graphics2D.drawOval(
-                            location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                    g.setColor(UIManager.getColor("Tree.outline"));
+                    g.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                    graphics2D.setStroke(SELECTION_STROKE);
-                    graphics2D.setColor(OUTLINE_SELECTION_COLOR);
-                    graphics2D.drawOval(
+                    g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+                    g.setColor(UIManager.getColor("Tree.selectedOutline"));
+                    g.drawOval(
+                            location.x - RADIUS - 4,
+                            location.y - RADIUS - 4,
+                            DIAMETER + 8,
+                            DIAMETER + 8);
+                } else if (isHover) {
+                    g.setColor(UIManager.getColor("Tree.hover"));
+                    g.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+
+                    g.setColor(UIManager.getColor("Tree.outline"));
+                    g.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+
+                    g.setStroke(new BasicStroke(UIManager.getInt("Tree.selectedWidth")));
+                    g.setColor(UIManager.getColor("Tree.hoverOutline"));
+                    g.drawOval(
                             location.x - RADIUS - 4,
                             location.y - RADIUS - 4,
                             DIAMETER + 8,
                             DIAMETER + 8);
                 } else {
-                    if (isHover) {
-                        graphics2D.setColor(HOVER_COLOR);
-                        graphics2D.fillOval(
-                                location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
+                    g.setColor(
+                            UIManager.getColor(
+                                    isContraBranch ? "Tree.contradiction" : "Tree.default"));
+                    g.fillOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
 
-                        graphics2D.setColor(OUTLINE_COLOR);
-                        graphics2D.drawOval(
-                                location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
-                        graphics2D.setStroke(SELECTION_STROKE);
-                        graphics2D.setColor(OUTLINE_HOVER_COLOR);
-                        graphics2D.drawOval(
-                                location.x - RADIUS - 4,
-                                location.y - RADIUS - 4,
-                                DIAMETER + 8,
-                                DIAMETER + 8);
-                    } else {
-                        graphics2D.setColor(
-                                isContraBranch ? NODE_COLOR_CONTRADICTION : NODE_COLOR_DEFAULT);
-                        graphics2D.fillOval(
-                                location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-
-                        graphics2D.setColor(OUTLINE_COLOR);
-                        graphics2D.drawOval(
-                                location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
-                    }
+                    g.setColor(UIManager.getColor("Tree.outline"));
+                    g.drawOval(location.x - RADIUS, location.y - RADIUS, DIAMETER, DIAMETER);
                 }
             }
+            g.dispose();
         }
     }
 

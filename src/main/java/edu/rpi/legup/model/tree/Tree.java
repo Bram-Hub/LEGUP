@@ -208,7 +208,6 @@ public class Tree {
         return null;
     }
 
-
     /**
      * Determines if the tree contains all contradictory branches (puzzle has no solution)
      *
@@ -216,13 +215,16 @@ public class Tree {
      */
     public boolean isContradictory() {
         for (TreeElement leaf : getLeafTreeElements()) {
-            if (leaf.getType() != TreeElementType.NODE) {return false;}
+            if (leaf.getType() != TreeElementType.NODE) {
+                return false;
+            }
             TreeNode node = (TreeNode) leaf;
-            if (node.isRoot() || !node.getParent().isContradictoryBranch()) {return false;}
+            if (node.isRoot() || !node.getParent().isContradictoryBranch()) {
+                return false;
+            }
         }
         return true;
     }
-
 
     /**
      * Gets the root node of this tree
@@ -243,9 +245,10 @@ public class Tree {
     }
 
     public boolean isClosed() {
-        for (TreeElement leaf : getLeafTreeElements())
-        {
-            if (leaf.getType() != TreeElementType.NODE) {return false;}
+        for (TreeElement leaf : getLeafTreeElements()) {
+            if (leaf.getType() != TreeElementType.NODE) {
+                return false;
+            }
         }
         return true;
     }

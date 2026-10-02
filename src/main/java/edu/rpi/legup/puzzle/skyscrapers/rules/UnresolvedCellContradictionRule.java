@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.skyscrapers.rules;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.ContradictionRule;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class UnresolvedCellContradictionRule extends ContradictionRule {
@@ -29,7 +28,7 @@ public class UnresolvedCellContradictionRule extends ContradictionRule {
     public String checkContradictionAt(Board board, PuzzleElement puzzleElement) {
 
         NumberForCellCaseRule caseRule = new NumberForCellCaseRule();
-        ArrayList<Board> cases = caseRule.getCases(board, puzzleElement);
+        ArrayList<Board> cases = caseRule.getCasesFrom(board, puzzleElement);
 
         if (cases.size() == 0) {
             return null;

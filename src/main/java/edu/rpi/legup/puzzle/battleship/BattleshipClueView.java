@@ -2,11 +2,9 @@ package edu.rpi.legup.puzzle.battleship;
 
 import edu.rpi.legup.ui.boardview.ElementView;
 import java.awt.*;
+import javax.swing.UIManager;
 
 public class BattleshipClueView extends ElementView {
-
-    private static final Font FONT = new Font("TimesRoman", Font.BOLD, 16);
-    private static final Color FONT_COLOR = Color.BLACK;
 
     public BattleshipClueView(BattleshipClue clue) {
         super(clue);
@@ -23,15 +21,21 @@ public class BattleshipClueView extends ElementView {
     }
 
     @Override
+    public void draw(Graphics2D graphics2D) {
+        drawElement(graphics2D);
+    }
+
     /**
      * Draws the clue from the PuzzleElement associated with this view on the given frame
      *
      * @param graphics2D the frame the clue is to be drawn on
      */
-    public void draw(Graphics2D graphics2D) {
-        graphics2D.setColor(FONT_COLOR);
-        graphics2D.setFont(FONT);
-        FontMetrics metrics = graphics2D.getFontMetrics(FONT);
+    @Override
+    public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("Battleship.clue"));
+        g.setFont(UIManager.getFont("Battleship.clueFont"));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
         String value;
 
         BattleshipClue clue = getPuzzleElement();
@@ -39,10 +43,7 @@ public class BattleshipClueView extends ElementView {
             case CLUE_NORTH:
                 value = String.valueOf(clue.getData() + 1);
                 break;
-            case CLUE_EAST:
-                value = String.valueOf(clue.getData());
-                break;
-            case CLUE_SOUTH:
+            case CLUE_EAST, CLUE_SOUTH:
                 value = String.valueOf(clue.getData());
                 break;
             case CLUE_WEST:
@@ -54,6 +55,7 @@ public class BattleshipClueView extends ElementView {
 
         int xText = location.x + (size.width - metrics.stringWidth(value)) / 2;
         int yText = location.y + ((size.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        graphics2D.drawString(value, xText, yText);
+        g.drawString(value, xText, yText);
+        g.dispose();
     }
 }

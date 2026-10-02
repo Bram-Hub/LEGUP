@@ -1,15 +1,21 @@
 package edu.rpi.legup.model.elements;
 
-import java.awt.*;
+import edu.rpi.legup.ui.SmoothImageIcon;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * The Element class serves as an abstract base class for various elements used in the system. It
+ * The Element class serves as an abstract base class for various elements used in the system; It
  * handles basic properties such as ID, name, description, and image associated with the element.
  */
 @RegisterElement
 public abstract class Element {
+    private static final Logger LOGGER = LogManager.getLogger(Element.class.getName());
+
     protected String elementID;
     protected String elementName;
     protected String description;
@@ -34,7 +40,7 @@ public abstract class Element {
         this.elementName = elementName;
         this.description = description;
         this.imageName = imageName;
-        this.INVALID_USE_MESSAGE = "Invalid use of the rule " + this.elementName;
+        this.INVALID_USE_MESSAGE = "Invalid use of the element " + this.elementName;
         loadImage();
     }
 
@@ -44,22 +50,24 @@ public abstract class Element {
      */
     private void loadImage() {
         if (imageName != null) {
-            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
+            this.image = new SmoothImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
             // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
             int height =
                     (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
-                System.out.println("height is 0 error");
-                System.out.println("height: " + this.image.getIconHeight());
-                System.out.println("width:  " + this.image.getIconWidth());
+                LOGGER.error("height is 0 error");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("height: {}", this.image.getIconHeight());
+                    LOGGER.debug("width:  {}", this.image.getIconWidth());
+                }
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bimage.createGraphics();
             g.drawImage(image, 0, 0, 100, height, null);
-            this.image = new ImageIcon(bimage);
+            this.image = new SmoothImageIcon(bimage);
         }
     }
 
@@ -118,7 +126,7 @@ public abstract class Element {
     }
 
     /**
-     * Gets the message for invalid use of the rule
+     * Gets the message for invalid use of the element
      *
      * @return The invalid use message
      */

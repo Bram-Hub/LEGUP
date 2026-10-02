@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.starbattle;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -11,6 +10,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class StarBattleCellFactory extends ElementFactory {
+
+    /**
+     * Imports a StarBattleCell from an XML node and adds it to the given board.
+     *
+     * @param node the XML node representing the cell
+     * @param board the board to which the cell will belong
+     * @return the newly created StarBattleCell
+     * @throws InvalidFileFormatException if the node is invalid or improperly formatted
+     */
     @Override
     public StarBattleCell importCell(Node node, Board board) throws InvalidFileFormatException {
         try {
@@ -52,7 +60,13 @@ public class StarBattleCellFactory extends ElementFactory {
         }
     }
 
-
+    /**
+     * Exports a StarBattleCell into an XML element representation.
+     *
+     * @param document the XML document used to create elements
+     * @param puzzleElement the PuzzleElement to export
+     * @return an XML Element representing the cell
+     */
     public org.w3c.dom.Element exportCell(Document document, PuzzleElement puzzleElement) {
         org.w3c.dom.Element cellElement = document.createElement("cell");
 

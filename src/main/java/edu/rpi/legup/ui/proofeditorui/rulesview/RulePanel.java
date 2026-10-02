@@ -1,5 +1,6 @@
 package edu.rpi.legup.ui.proofeditorui.rulesview;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
 import edu.rpi.legup.ui.WrapLayout;
@@ -8,12 +9,18 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract base class for panels displaying rules. Each subclass will represent a specific type of
  * rule panel (e.g., DirectRulePanel, CaseRulePanel).
+ *
+ * <p>Subclasses: CaseRulePanel, DirectRulePanel, ContradictionRulePanel
  */
 public abstract class RulePanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(RulePanel.class.getName());
+
     protected ImageIcon icon;
     protected String name;
     protected String toolTip;
@@ -62,13 +69,14 @@ public abstract class RulePanel extends JPanel {
             ruleButtons[i].setPreferredSize(
                     new Dimension(150, 150)); // adjust the size of each RuleButton
 
-            if (rule.getRuleName().length() > 18) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 11));
+            if (rule.getRuleName().length() <= 18) {
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "rule");
+            } else {
+                ruleButtons[i].putClientProperty(FlatClientProperties.STYLE_CLASS, "smallRule");
             }
-            if (rule.getRuleName().length() > 20) {
-                ruleButtons[i].setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(ruleButtons[i].getFont().getName());
             }
-            System.out.println(ruleButtons[i].getFont().getName());
 
             ruleButtons[i].setHorizontalTextPosition(JButton.CENTER);
             ruleButtons[i].setVerticalTextPosition(JButton.BOTTOM);
@@ -350,7 +358,7 @@ public abstract class RulePanel extends JPanel {
     /**
      * Sets the icon for this panel
      *
-     * @return the ImageIcon associated with this panel
+     * @param icon The ImageIcon to set for this panel
      */
     public void setIcon(ImageIcon icon) {
         this.icon = icon;

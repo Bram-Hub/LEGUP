@@ -1,8 +1,9 @@
 package edu.rpi.legup.model;
 
-import edu.rpi.legup.model.gameboard.PuzzleElement;
+import edu.rpi.legup.app.VersionInfo;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
+import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeNode;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.save.ExportFileException;
@@ -101,9 +102,8 @@ public abstract class PuzzleExporter {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document newDocument = docBuilder.newDocument();
 
-            // hardcoded version number
             org.w3c.dom.Element legupElement = newDocument.createElement("Legup");
-            legupElement.setAttribute("version", "6.1.0");
+            legupElement.setAttribute("version", VersionInfo.getVersion());
             newDocument.appendChild(legupElement);
 
             org.w3c.dom.Element puzzleElement = newDocument.createElement("puzzle");
@@ -125,6 +125,8 @@ public abstract class PuzzleExporter {
             LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/New_York"));
             String time = dateTime.format(DATE_FORMAT);
             statusElement.setAttribute("lastSaved", time);
+            // hash is based on the time. Theoretically, if two students complete
+            // the puzzle at the exact same time, then they will have the same hash.
             int hashedState = obfHash(puzzle.isPuzzleComplete(), time);
             statusElement.setAttribute("isSolved", hashedState + "");
             legupElement.appendChild(statusElement);
@@ -140,6 +142,9 @@ public abstract class PuzzleExporter {
             transformer.transform(source, result);
         } catch (ParserConfigurationException | TransformerException e) {
             throw new ExportFileException("Puzzle Exporter: parser configuration exception");
+        } catch (Exception e) {
+            throw e;
+            // throw new ExportFileException(e.getMessage());
         }
     }
 
@@ -159,8 +164,7 @@ public abstract class PuzzleExporter {
      * @param boardElement board XML element
      * @param board grid board to read goal-marked cells from
      */
-    protected void appendGoalElement(
-            Document newDocument, Element boardElement, GridBoard board) {
+    protected void appendGoalElement(Document newDocument, Element boardElement, GridBoard board) {
         GoalType goalType =
                 puzzle.getGoal() == null ? GoalType.DEFAULT : puzzle.getGoal().getType();
 

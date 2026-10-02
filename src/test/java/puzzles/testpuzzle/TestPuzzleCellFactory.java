@@ -2,12 +2,11 @@ package puzzles.testpuzzle;
 
 import edu.rpi.legup.model.gameboard.*;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-
-import java.awt.*;
 
 public class TestPuzzleCellFactory extends ElementFactory {
 

@@ -4,8 +4,6 @@ import static edu.rpi.legup.puzzle.skyscrapers.SkyscrapersType.convertToSkyType;
 
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.gameboard.GridCell;
-import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCellType;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -68,11 +66,13 @@ public class SkyscrapersCell extends GridCell<Integer> {
     }
 
     @Override
-    public boolean isKnown() {return !(data == 0);}
+    public boolean isKnown() {
+        return !(data == 0);
+    }
 
     @Override
     public String describeState(boolean isPlural) {
-        return switch(data) {
+        return switch (data) {
             case 1 -> "one";
             case 2 -> "two";
             case 3 -> "three";

@@ -40,7 +40,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(0, 0));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(0, 0));
 
         Assert.assertEquals(board.getWidth(), cases.size());
 
@@ -76,7 +76,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(0, 0));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(0, 0));
 
         Assert.assertEquals(board.getWidth(), cases.size());
 
@@ -113,7 +113,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(2, 3));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(2, 3));
 
         Assert.assertEquals(1, cases.size());
 
@@ -141,7 +141,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(true);
         board.setViewFlag(false);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(2, 3));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(2, 3));
 
         Assert.assertEquals(0, cases.size());
     }
@@ -160,7 +160,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(1, 4));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(1, 4));
 
         Assert.assertEquals(4, cases.size());
 
@@ -197,7 +197,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(2, 3));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(2, 3));
 
         Assert.assertEquals(1, cases.size());
 
@@ -225,7 +225,7 @@ public class NumberForCellCaseRuleTest {
         board.setDupeFlag(false);
         board.setViewFlag(true);
 
-        ArrayList<Board> cases = RULE.getCases(board, board.getCell(2, 3));
+        ArrayList<Board> cases = RULE.getCasesFrom(board, board.getCell(2, 3));
 
         Assert.assertEquals(0, cases.size());
     }

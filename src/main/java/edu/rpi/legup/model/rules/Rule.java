@@ -3,10 +3,13 @@ package edu.rpi.legup.model.rules;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.ui.SmoothImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract base class for defining rules. This class encapsulates the common functionality and
@@ -15,6 +18,8 @@ import javax.swing.ImageIcon;
  */
 @RegisterRule
 public abstract class Rule {
+    private static final Logger LOGGER = LogManager.getLogger(Rule.class.getName());
+
     protected String ruleID;
     protected String ruleName;
     protected String description;
@@ -51,7 +56,7 @@ public abstract class Rule {
 
     /**
      * Checks whether the transition logically follows from the parent node using this rule. This
-     * method is the one that should overridden in child classes
+     * method is the one that should be overridden in child classes
      *
      * @param transition transition to check
      * @return null if the child node logically follow from the parent node, otherwise error message
@@ -71,7 +76,7 @@ public abstract class Rule {
 
     /**
      * Checks whether the child node logically follows from the parent node at the specific
-     * puzzleElement index using this rule This method is the one that should overridden in child
+     * puzzleElement index using this rule This method is the one that should be overridden in child
      * classes
      *
      * @param transition transition to check
@@ -87,26 +92,27 @@ public abstract class Rule {
         if (imageName != null) {
             String name = imageName;
             LegupPreferences prefs = LegupPreferences.getInstance();
-            if (name.contains("shorttruthtable")
-                    && prefs.getUserPref(LegupPreferences.COLOR_BLIND).equals("true")) {
+            if (name.contains("shorttruthtable") && LegupPreferences.colorBlind()) {
                 name = name.replace("ruleimages", "ruleimages_cb");
             }
-            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
+            this.image = new SmoothImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
             // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
             int height =
                     (int) (100 * ((double) this.image.getIconHeight() / this.image.getIconWidth()));
             if (height == 0) {
-                System.out.println("height is 0 error");
-                System.out.println("height: " + this.image.getIconHeight());
-                System.out.println("width:  " + this.image.getIconWidth());
+                LOGGER.error("height is 0 error");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("height: {}", this.image.getIconHeight());
+                    LOGGER.debug("width:  {}", this.image.getIconWidth());
+                }
                 return;
             }
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bimage.createGraphics();
             g.drawImage(image, 0, 0, 100, height, null);
-            this.image = new ImageIcon(bimage);
+            this.image = new SmoothImageIcon(bimage);
         }
     }
 

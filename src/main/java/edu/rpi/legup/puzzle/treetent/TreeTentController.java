@@ -22,12 +22,20 @@ public class TreeTentController extends ElementController {
     private ElementView lastCellPressed;
     private ElementView dragStart;
 
+    /**
+     * Constructs a TreeTentController and initializes tracking variables for mouse interactions.
+     */
     public TreeTentController() {
         super();
         this.dragStart = null;
         this.lastCellPressed = null;
     }
 
+    /**
+     * Handles mouse press events. Records the starting element for potential drag operations.
+     *
+     * @param e the MouseEvent triggered by the user
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON2) {
@@ -39,6 +47,12 @@ public class TreeTentController extends ElementController {
         }
     }
 
+    /**
+     * Handles mouse release events. Executes commands depending on whether the user performed a
+     * click or drag interaction, and whether the board is a CaseBoard.
+     *
+     * @param e the MouseEvent triggered by the user
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (GameBoardFacade.getInstance().getLegupUI().getTreePanel() != null
@@ -112,6 +126,13 @@ public class TreeTentController extends ElementController {
         }
     }
 
+    /**
+     * Changes the state of a TreeTentCell based on mouse input. Left and right clicks cycle through
+     * possible cell states in different orders.
+     *
+     * @param e the MouseEvent triggering the change
+     * @param element the PuzzleElement to be modified
+     */
     @Override
     public void changeCell(MouseEvent e, PuzzleElement element) {
         TreeTentCell cell = (TreeTentCell) element;

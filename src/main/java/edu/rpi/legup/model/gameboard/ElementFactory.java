@@ -3,6 +3,7 @@ package edu.rpi.legup.model.gameboard;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -22,11 +23,10 @@ public abstract class ElementFactory {
      * @throws InvalidFileFormatException thrown if the xml node is invalid for the specific puzzle
      *     element
      */
-    public abstract PuzzleElement importCell(Node node, Board board)
+    public abstract @NotNull PuzzleElement importCell(@NotNull Node node, @NotNull Board board)
             throws InvalidFileFormatException;
 
     /**
-     *
      * @param node node that represents the Goal object
      * @param board board to add the goal to
      * @return newly created Goal from the xml document Node
@@ -41,17 +41,20 @@ public abstract class ElementFactory {
 
             NamedNodeMap attributeList = node.getAttributes();
             String goalTypeString = attributeList.getNamedItem("type").getNodeValue();
-            GoalType goalType = goalTypeString == null ? GoalType.DEFAULT : GoalType.valueOf(goalTypeString.toUpperCase());
+            GoalType goalType =
+                    goalTypeString == null
+                            ? GoalType.DEFAULT
+                            : GoalType.valueOf(goalTypeString.toUpperCase());
 
             return new Goal(goalType);
 
         } catch (NumberFormatException e) {
-            throw new InvalidFileFormatException(
-                    "Factory: unknown value where integer expected");
+            throw new InvalidFileFormatException("Factory: unknown value where integer expected");
         } catch (NullPointerException e) {
             throw new InvalidFileFormatException("Factory: could not find attribute(s)");
         }
     }
+
     /**
      * Creates a xml document {@link PuzzleElement} from a cell for exporting.
      *
@@ -59,5 +62,6 @@ public abstract class ElementFactory {
      * @param puzzleElement PuzzleElement cell
      * @return xml PuzzleElement
      */
-    public abstract Element exportCell(Document document, PuzzleElement puzzleElement);
+    public abstract @NotNull Element exportCell(
+            @NotNull Document document, @NotNull PuzzleElement puzzleElement);
 }

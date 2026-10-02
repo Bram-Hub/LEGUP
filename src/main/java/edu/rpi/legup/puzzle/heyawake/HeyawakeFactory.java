@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.heyawake;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -45,7 +44,7 @@ public class HeyawakeFactory extends ElementFactory {
             }
 
             HeyawakeCell cell = new HeyawakeCell(value, new Point(x, y), regionIndex);
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             heyawakeBoard.getRegions();
             return cell;
         } catch (NumberFormatException e) {
@@ -55,7 +54,6 @@ public class HeyawakeFactory extends ElementFactory {
             throw new InvalidFileFormatException("Heyawake Factory: could not find attribute(s)");
         }
     }
-
 
     /**
      * Creates a xml document puzzleElement from a cell for exporting

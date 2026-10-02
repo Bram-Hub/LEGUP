@@ -43,7 +43,7 @@ public class BlackOrWhiteCaseRuleTest {
 
         NurikabeBoard board = (NurikabeBoard) transition.getBoard();
         NurikabeCell cell = board.getCell(0, 0);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         Assert.assertEquals(2, cases.size());
 

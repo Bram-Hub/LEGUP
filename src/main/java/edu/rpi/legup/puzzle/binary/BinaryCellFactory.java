@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.binary;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -43,7 +42,7 @@ public class BinaryCellFactory extends ElementFactory {
             }
 
             BinaryCell cell = new BinaryCell(value, new Point(x, y));
-            cell.setIndex(y * height + x);
+            cell.setIndex(y * width + x);
             return cell;
         } catch (NumberFormatException e) {
             throw new InvalidFileFormatException(
@@ -52,7 +51,6 @@ public class BinaryCellFactory extends ElementFactory {
             throw new InvalidFileFormatException("binary Factory: could not find attribute(s)");
         }
     }
-
 
     /**
      * Creates a xml document puzzleElement from a cell for exporting

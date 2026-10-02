@@ -40,6 +40,7 @@ public class MasyuController extends ElementController {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
         BoardView boardView = getInstance().getLegupUI().getBoardView();
         MasyuElementView elementView = (MasyuElementView) boardView.getElement(e.getPoint());
         Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();

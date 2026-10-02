@@ -92,7 +92,9 @@ public class NurikabeCell extends GridCell<Integer> {
     }
 
     @Override
-    public boolean isKnown() {return data != -2;}
+    public boolean isKnown() {
+        return data != -2;
+    }
 
     @Override
     public String describeState(boolean isPlural) {

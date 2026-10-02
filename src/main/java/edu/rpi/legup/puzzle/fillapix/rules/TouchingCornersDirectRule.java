@@ -84,7 +84,7 @@ public class TouchingCornersDirectRule extends DirectRule {
         CaseRule completeClue = new SatisfyClueCaseRule();
         List<Board> caseBoards;
         for (FillapixCell adjCell : adjCells) {
-            caseBoards = completeClue.getCases(parentBoard, adjCell);
+            caseBoards = completeClue.getCasesFrom(parentBoard, adjCell);
             boolean found = true;
             for (Board b : caseBoards) {
                 if (!FillapixUtilities.checkBoardForContradiction((FillapixBoard) b)) {

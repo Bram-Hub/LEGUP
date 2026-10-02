@@ -3,6 +3,7 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.ui.boardview.GridElementView;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import javax.swing.UIManager;
 
 public class TreeTentElementView extends GridElementView {
     public TreeTentElementView(TreeTentCell cell) {
@@ -16,58 +17,42 @@ public class TreeTentElementView extends GridElementView {
      */
     @Override
     public void drawElement(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
         TreeTentCell cell = (TreeTentCell) puzzleElement;
         TreeTentType type = cell.getType();
-        graphics2D.setStroke(new BasicStroke(0));
         if (type == TreeTentType.UNKNOWN) {
-            graphics2D.setStroke(new BasicStroke(1));
-            graphics2D.setColor(Color.LIGHT_GRAY);
-            graphics2D.fill(
-                    new Rectangle2D.Double(
-                            location.x + 0.5f, location.y + 0.5f, size.width - 1, size.height - 1));
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.draw(
-                    new Rectangle2D.Double(
-                            location.x + 0.5f, location.y + 0.5f, size.width - 1, size.height - 1));
-        } else {
-            if (type == TreeTentType.TREE) {
-                graphics2D.drawImage(
-                        TreeTentView.TREE,
-                        location.x,
-                        location.y,
-                        size.width,
-                        size.height,
-                        null,
-                        null);
-                graphics2D.setColor(Color.BLACK);
-                graphics2D.drawRect(location.x, location.y, size.width, size.height);
-            } else {
-                if (type == TreeTentType.GRASS) {
-                    graphics2D.drawImage(
-                            TreeTentView.GRASS,
-                            location.x,
-                            location.y,
-                            size.width,
-                            size.height,
-                            null,
-                            null);
-                    graphics2D.setColor(Color.BLACK);
-                    graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                } else {
-                    if (type == TreeTentType.TENT) {
-                        graphics2D.drawImage(
-                                TreeTentView.TENT,
-                                location.x,
-                                location.y,
-                                size.width,
-                                size.height,
-                                null,
-                                null);
-                        graphics2D.setColor(Color.BLACK);
-                        graphics2D.drawRect(location.x, location.y, size.width, size.height);
-                    }
-                }
-            }
+            g.setColor(UIManager.getColor("TreeTent.unknown"));
+            g.fill(new Rectangle2D.Double(location.x, location.y, size.width, size.height));
+        } else if (type == TreeTentType.TREE) {
+            g.drawImage(
+                    TreeTentView.TREE, location.x, location.y, size.width, size.height, null, null);
+        } else if (type == TreeTentType.GRASS) {
+            g.drawImage(
+                    TreeTentView.GRASS,
+                    location.x,
+                    location.y,
+                    size.width,
+                    size.height,
+                    null,
+                    null);
+        } else if (type == TreeTentType.TENT) {
+            g.drawImage(
+                    TreeTentView.TENT, location.x, location.y, size.width, size.height, null, null);
         }
+        g.dispose();
+    }
+
+    @Override
+    public void drawBorder(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setColor(UIManager.getColor("TreeTent.borderColor"));
+        g.setStroke(
+                new BasicStroke(
+                        UIManager.getInt(
+                                ((TreeTentCell) puzzleElement).getType() == TreeTentType.UNKNOWN
+                                        ? "TreeTent.unknownBorderWidth"
+                                        : "TreeTent.knownBorderWidth")));
+        g.drawRect(location.x, location.y, size.width, size.height);
+        g.dispose();
     }
 }

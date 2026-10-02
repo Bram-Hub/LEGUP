@@ -13,7 +13,7 @@ public class NoCellForNumberColumnContradictionRule extends ContradictionRule {
     public NoCellForNumberColumnContradictionRule() {
         super(
                 "SUDO-CONT-0003",
-                "No Cell for Number (Column)",
+                "No Cell for Number - Column",
                 "Process of elimination yields no valid numbers for an empty cell in a column.",
                 "edu/rpi/legup/images/sudoku/rules/NoCellForNumberColumn.png");
     }

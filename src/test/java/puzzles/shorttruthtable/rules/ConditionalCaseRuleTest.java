@@ -38,7 +38,7 @@ public class ConditionalCaseRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(conditionalX, conditionalY);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         // Make sure that the rule checks out
         Assert.assertNull(RULE.checkRule(transition));
@@ -120,7 +120,7 @@ public class ConditionalCaseRuleTest {
 
         ShortTruthTableBoard board = (ShortTruthTableBoard) transition.getBoard();
         ShortTruthTableCell cell = board.getCell(conditionalX, conditionalY);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         // Make sure that the rule checks out
         Assert.assertNull(RULE.checkRule(transition));

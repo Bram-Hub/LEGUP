@@ -28,6 +28,9 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
 
     private List<TreeTransition> caseTrans;
 
+    private List<Board> cases;
+    int numberOfCaseRules;
+
     /**
      * AutoCaseRuleCommand Constructor creates a command for validating a case rule
      *
@@ -49,6 +52,9 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         this.caseBoard = caseBoard;
         this.mouseEvent = mouseEvent;
         this.caseTrans = new ArrayList<>();
+        this.cases =
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+        this.numberOfCaseRules = cases.size();
     }
 
     /**
@@ -63,9 +69,10 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
         final TreeViewSelection newSelection = new TreeViewSelection();
 
         TreeNode node = (TreeNode) selection.getFirstSelection().getTreeElement();
+
         if (caseTrans.isEmpty()) {
             List<Board> cases =
-                    caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
+                    caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement());
             for (Board board : cases) {
                 final TreeTransition transition = (TreeTransition) tree.addTreeElement(node);
                 // board.setModifiable(false);
@@ -119,13 +126,14 @@ public class AutoCaseRuleCommand extends PuzzleCommand {
             return "The selected data element is not pickable with this case rule.";
         }
 
-        if (caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
+        if (caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size()
                 == 0) {
             return "The selection must produce at least one case";
         }
 
         int numberOfCaseRules =
-                caseRule.getCases(caseBoard.getBaseBoard(), elementView.getPuzzleElement()).size();
+                caseRule.getCasesFrom(caseBoard.getBaseBoard(), elementView.getPuzzleElement())
+                        .size();
         System.out.println("Number of cases:" + numberOfCaseRules);
         if (numberOfCaseRules > caseRule.MAX_CASES) {
             return "The selection can produce a max of " + caseRule.MAX_CASES + " cases";

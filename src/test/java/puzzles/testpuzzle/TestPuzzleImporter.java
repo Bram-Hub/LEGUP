@@ -6,15 +6,16 @@ import edu.rpi.legup.model.PuzzleImporter;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
+import java.awt.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.awt.*;
-
 public class TestPuzzleImporter extends PuzzleImporter {
 
-    public TestPuzzleImporter(TestPuzzle puzzle) {super(puzzle);}
+    public TestPuzzleImporter(TestPuzzle puzzle) {
+        super(puzzle);
+    }
 
     @Override
     public boolean acceptsRowsAndColumnsInput() {
@@ -32,15 +33,13 @@ public class TestPuzzleImporter extends PuzzleImporter {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
-                GridCell cell =
-                        new GridCell(0, new Point(x, y));
+                GridCell cell = new GridCell(0, new Point(x, y));
                 cell.setIndex(y * columns + x);
                 cell.setModifiable(true);
                 gridBoard.setCell(x, y, cell);
             }
         }
         puzzle.setCurrentBoard(gridBoard);
-
     }
 
     @Override
@@ -70,7 +69,8 @@ public class TestPuzzleImporter extends PuzzleImporter {
             }
 
             if (gridBoard == null) {
-                throw new InvalidFileFormatException("TestPuzzleImporter: invalid board dimensions");
+                throw new InvalidFileFormatException(
+                        "TestPuzzleImporter: invalid board dimensions");
             }
 
             if (boardElement.getElementsByTagName("goal").getLength() != 0) {
@@ -80,9 +80,7 @@ public class TestPuzzleImporter extends PuzzleImporter {
                 NodeList cellList = goalElement.getElementsByTagName("cell");
                 for (int i = 0; i < cellList.getLength(); i++) {
                     GridCell cell =
-                            (GridCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), gridBoard);
+                            (GridCell) puzzle.getFactory().importCell(cellList.item(i), gridBoard);
                     goal.addCell(cell);
                 }
                 puzzle.setGoal(goal);
@@ -100,8 +98,7 @@ public class TestPuzzleImporter extends PuzzleImporter {
             for (int i = 0; i < elementDataList.getLength(); i++) {
                 GridCell cell =
                         (GridCell)
-                                puzzle.getFactory()
-                                        .importCell(elementDataList.item(i), gridBoard);
+                                puzzle.getFactory().importCell(elementDataList.item(i), gridBoard);
                 Point loc = cell.getLocation();
                 if ((int) cell.getData() != 0) {
                     cell.setModifiable(false);
@@ -113,8 +110,7 @@ public class TestPuzzleImporter extends PuzzleImporter {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (gridBoard.getCell(x, y) == null) {
-                        GridCell cell =
-                                new GridCell(0, new Point(x, y));
+                        GridCell cell = new GridCell(0, new Point(x, y));
                         cell.setIndex(y * height + x);
                         cell.setModifiable(true);
                         gridBoard.setCell(x, y, cell);
@@ -130,9 +126,7 @@ public class TestPuzzleImporter extends PuzzleImporter {
                 NodeList cellList = goalElement.getElementsByTagName("cell");
                 for (int i = 0; i < cellList.getLength(); i++) {
                     GridCell cell =
-                            (GridCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), gridBoard);
+                            (GridCell) puzzle.getFactory().importCell(cellList.item(i), gridBoard);
                     goal.addCell(cell);
                     gridBoard.getCell(cell.getLocation()).setGoal(true);
                 }
@@ -146,12 +140,11 @@ public class TestPuzzleImporter extends PuzzleImporter {
             throw new InvalidFileFormatException(
                     "TestPuzzleImporter: unknown value where integer expected");
         }
-
-
     }
 
     @Override
-    public void initializeBoard(String[] statements) throws UnsupportedOperationException, IllegalArgumentException {
+    public void initializeBoard(String[] statements)
+            throws UnsupportedOperationException, IllegalArgumentException {
         throw new UnsupportedOperationException("TestPuzzleImporter cannot accept text input");
     }
 }

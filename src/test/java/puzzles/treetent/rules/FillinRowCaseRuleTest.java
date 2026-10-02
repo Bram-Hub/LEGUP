@@ -44,7 +44,7 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Row */
         TreeTentClue testing_row = board.getClue(3, 1);
-        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_row);
 
         // assert that one case was found
         Assert.assertEquals(1, cases.size());
@@ -71,7 +71,7 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Column */
         TreeTentClue testing_col = board.getClue(1, 3);
-        cases = RULE.getCases(board, testing_col);
+        cases = RULE.getCasesFrom(board, testing_col);
 
         // assert one case was created
         Assert.assertEquals(1, cases.size());
@@ -117,7 +117,7 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Row */
         TreeTentClue testing_row = board.getClue(3, 1);
-        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_row);
 
         // assert correct number of cases created
         Assert.assertEquals(3, cases.size());
@@ -155,7 +155,7 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Column */
         TreeTentClue testing_col = board.getClue(1, 3);
-        cases = RULE.getCases(board, testing_col);
+        cases = RULE.getCasesFrom(board, testing_col);
 
         // assert correct number of cases created
         Assert.assertEquals(3, cases.size());
@@ -211,7 +211,7 @@ public class FillinRowCaseRuleTest {
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         /* Test the Row */
         TreeTentClue testing_row = board.getClue(3, 1);
-        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_row);
 
         // assert correct number of cases created
         Assert.assertEquals(1, cases.size());
@@ -246,7 +246,7 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Column */
         TreeTentClue testing_col = board.getClue(1, 3);
-        cases = RULE.getCases(board, testing_col);
+        cases = RULE.getCasesFrom(board, testing_col);
 
         // assert correct number of cases created
         Assert.assertEquals(1, cases.size());
@@ -297,14 +297,14 @@ public class FillinRowCaseRuleTest {
 
         /* Test the Row */
         TreeTentClue testing_row = board.getClue(3, 1);
-        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_row);
 
         // assert there were no cases found, as filling in all tiles causes the tents to touch
         Assert.assertNull(cases);
 
         /* Test the Column */
         TreeTentClue testing_col = board.getClue(1, 3);
-        cases = RULE.getCases(board, testing_row);
+        cases = RULE.getCasesFrom(board, testing_row);
 
         Assert.assertNull(cases);
     }
@@ -329,7 +329,7 @@ public class FillinRowCaseRuleTest {
 
         // Test the Row
         TreeTentClue testing_row = board.getClue(5, 2);
-        ArrayList<Board> cases = RULE.getCases(board, testing_row);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_row);
 
         // assert correct number of cases created
         Assert.assertEquals(6, cases.size());
@@ -369,7 +369,7 @@ public class FillinRowCaseRuleTest {
 
         // Test the Column
         TreeTentClue testing_col = board.getClue(2, 5);
-        cases = RULE.getCases(board, testing_col);
+        cases = RULE.getCasesFrom(board, testing_col);
 
         // assert correct number of cases created
         Assert.assertEquals(6, cases.size());
@@ -423,7 +423,7 @@ public class FillinRowCaseRuleTest {
 
         TreeTentBoard board = (TreeTentBoard) transition.getBoard();
         TreeTentClue testing_col = board.getClue(1, 7);
-        ArrayList<Board> cases = RULE.getCases(board, testing_col);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, testing_col);
 
         // assert that one case was found
         Assert.assertEquals(1, cases.size());

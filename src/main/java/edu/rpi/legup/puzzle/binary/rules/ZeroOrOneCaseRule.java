@@ -9,7 +9,6 @@ import edu.rpi.legup.puzzle.binary.BinaryBoard;
 import edu.rpi.legup.puzzle.binary.BinaryCell;
 import edu.rpi.legup.puzzle.binary.BinaryType;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ZeroOrOneCaseRule extends CaseRule {
 
@@ -22,44 +21,6 @@ public class ZeroOrOneCaseRule extends CaseRule {
     }
 
     /**
-     * Checks whether the {@link TreeTransition} logically follows from the parent node using this
-     * rule. This method is the one that should be overridden in child classes.
-     *
-     * @param transition transition to check
-     * @return null if the child node logically follow from the parent node, otherwise error message
-     */
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        if (childTransitions.size() != 2) {
-            return super.getInvalidUseOfRuleMessage() + ": This case rule must have 2 children.";
-        }
-
-        TreeTransition case1 = childTransitions.get(0);
-        TreeTransition case2 = childTransitions.get(1);
-        if (case1.getBoard().getModifiedData().size() != 1
-                || case2.getBoard().getModifiedData().size() != 1) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must have 1 modified cell for each case.";
-        }
-
-        BinaryCell mod1 = (BinaryCell) case1.getBoard().getModifiedData().iterator().next();
-        BinaryCell mod2 = (BinaryCell) case2.getBoard().getModifiedData().iterator().next();
-        if (!mod1.getLocation().equals(mod2.getLocation())) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must modify the same cell for each case.";
-        }
-
-        if (!((mod1.getType() == BinaryType.ZERO && mod2.getType() == BinaryType.ONE)
-                || (mod2.getType() == BinaryType.ZERO && mod1.getType() == BinaryType.ONE))) {
-            return super.getInvalidUseOfRuleMessage()
-                    + ": This case rule must modify an empty cell.";
-        }
-
-        return null;
-    }
-
-    /**
      * Generates a {@link CaseBoard} that includes all blank cells from the given board that this
      * case rule can be applied to
      *
@@ -67,7 +28,7 @@ public class ZeroOrOneCaseRule extends CaseRule {
      * @return A CaseBoard containing pickable elements where the case rule can be applied
      */
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         BinaryBoard binaryBoard = (BinaryBoard) board.copy();
         CaseBoard caseBoard = new CaseBoard(binaryBoard, this);
         binaryBoard.setModifiable(false);
@@ -87,7 +48,7 @@ public class ZeroOrOneCaseRule extends CaseRule {
      * @return a list of elements the specified could be
      */
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         ArrayList<Board> cases = new ArrayList<>();
         if (puzzleElement == null) {
             return cases;

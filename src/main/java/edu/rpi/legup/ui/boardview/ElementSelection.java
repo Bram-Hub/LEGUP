@@ -2,15 +2,17 @@ package edu.rpi.legup.ui.boardview;
 
 import java.awt.*;
 import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ElementSelection manages the selection and hover states of ElementViews. It maintains a list of
  * selected elements, the currently hovered element, and the mouse point location.
  */
 public class ElementSelection {
-    private ArrayList<ElementView> selection;
-    private ElementView hover;
-    private Point mousePoint;
+    private @NotNull ArrayList<ElementView> selection;
+    private @Nullable ElementView hover;
+    private @Nullable Point mousePoint;
 
     /**
      * Constructs an ElementSelection instance with an empty selection and no hover or mouse point
@@ -26,7 +28,7 @@ public class ElementSelection {
      *
      * @return the list of selected ElementViews
      */
-    public ArrayList<ElementView> getSelection() {
+    public @NotNull ArrayList<ElementView> getSelection() {
         return selection;
     }
 
@@ -35,7 +37,7 @@ public class ElementSelection {
      *
      * @return the first selected ElementView, or null if there are no selections
      */
-    public ElementView getFirstSelection() {
+    public @Nullable ElementView getFirstSelection() {
         return selection.size() == 0 ? null : selection.get(0);
     }
 
@@ -45,7 +47,7 @@ public class ElementSelection {
      *
      * @param elementView the ElementView to toggle
      */
-    public void toggleSelection(ElementView elementView) {
+    public void toggleSelection(@NotNull ElementView elementView) {
         if (selection.contains(elementView)) {
             selection.remove(elementView);
             elementView.setSelected(false);
@@ -61,7 +63,7 @@ public class ElementSelection {
      *
      * @param elementView the ElementView to select
      */
-    public void newSelection(ElementView elementView) {
+    public void newSelection(@NotNull ElementView elementView) {
         clearSelection();
         selection.add(elementView);
         elementView.setSelected(true);
@@ -80,7 +82,7 @@ public class ElementSelection {
      *
      * @return the currently hovered ElementView, or null if no element is hovered
      */
-    public ElementView getHover() {
+    public @Nullable ElementView getHover() {
         return hover;
     }
 
@@ -89,7 +91,7 @@ public class ElementSelection {
      *
      * @param newHovered the new ElementView to be hovered
      */
-    public void newHover(ElementView newHovered) {
+    public void newHover(@NotNull ElementView newHovered) {
         newHovered.setHover(true);
         if (hover != null) {
             hover.setHover(false);
@@ -110,7 +112,7 @@ public class ElementSelection {
      *
      * @return the current mouse point location
      */
-    public Point getMousePoint() {
+    public @Nullable Point getMousePoint() {
         return mousePoint;
     }
 
@@ -119,7 +121,7 @@ public class ElementSelection {
      *
      * @param point the new mouse point location
      */
-    public void setMousePoint(Point point) {
+    public void setMousePoint(@Nullable Point point) {
         this.mousePoint = point;
     }
 }

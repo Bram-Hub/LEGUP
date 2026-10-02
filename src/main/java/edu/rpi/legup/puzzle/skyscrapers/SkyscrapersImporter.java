@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import org.w3c.dom.Element;
@@ -225,7 +224,8 @@ public class SkyscrapersImporter extends PuzzleImporter {
                                     puzzle.getFactory()
                                             .importCell(cellList.item(i), skyscrapersBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    SkyscrapersCell boardCell = (SkyscrapersCell) skyscrapersBoard.getCell(cell.getLocation());
+                    SkyscrapersCell boardCell =
+                            (SkyscrapersCell) skyscrapersBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);

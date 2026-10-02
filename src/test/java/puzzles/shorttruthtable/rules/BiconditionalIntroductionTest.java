@@ -26,10 +26,10 @@ public class BiconditionalIntroductionTest {
     }
 
     /**
-     * Given a statement: A <-> B
+     * Given a statement: A biconditional B
      *
-     * <p>Asserts that if setting <-> to false is a valid application of this rule if and only if A
-     * and B do not match.
+     * <p>Asserts that if setting the biconditional to false is a valid application of this rule if
+     * and only if A and B do not match.
      *
      * @throws InvalidFileFormatException
      */
@@ -74,10 +74,10 @@ public class BiconditionalIntroductionTest {
     }
 
     /**
-     * Given a statement: A <-> B
+     * Given a statement: A biconditional B
      *
-     * <p>Asserts that if setting <-> to true is a valid application of this rule if and only if A
-     * and B match.
+     * <p>Asserts that if setting the biconditional to true is a valid application of this rule if
+     * and only if A and B match.
      *
      * @throws InvalidFileFormatException
      */

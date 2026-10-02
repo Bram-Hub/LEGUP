@@ -64,9 +64,9 @@ public class SudokuCell extends GridCell<Integer> {
     }
 
     /**
-     * Sets the type of this NurikabeCell
+     * Sets the type of this SudokuCell
      *
-     * @param e element to set the type of this nurikabe cell to
+     * @param e element to set the type of this SudokuCell to
      */
     @Override
     public void setType(Element e, MouseEvent m) {
@@ -92,11 +92,13 @@ public class SudokuCell extends GridCell<Integer> {
     }
 
     @Override
-    public boolean isKnown() {return !(data == 0);}
+    public boolean isKnown() {
+        return !(data == 0);
+    }
 
     @Override
     public String describeState(boolean isPlural) {
-        return switch(data) {
+        return switch (data) {
             case 1 -> "one";
             case 2 -> "two";
             case 3 -> "three";

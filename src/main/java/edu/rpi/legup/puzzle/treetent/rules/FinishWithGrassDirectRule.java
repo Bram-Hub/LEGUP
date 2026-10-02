@@ -14,6 +14,10 @@ import java.util.List;
 
 public class FinishWithGrassDirectRule extends DirectRule {
 
+    /**
+     * Constructs the FinishWithGrassDirectRule with its ID, name, description, and associated
+     * image.
+     */
     public FinishWithGrassDirectRule() {
         super(
                 "TREE-BASC-0002",
@@ -52,6 +56,13 @@ public class FinishWithGrassDirectRule extends DirectRule {
         }
     }
 
+    /**
+     * Determines whether a cell is forced to be grass based on row and column constraints.
+     *
+     * @param board the TreeTentBoard being evaluated
+     * @param cell the cell being checked
+     * @return true if the cell must be grass, false otherwise
+     */
     private boolean isForced(TreeTentBoard board, TreeTentCell cell) {
         Point loc = cell.getLocation();
         List<TreeTentCell> tentsRow = board.getRowCol(loc.y, TreeTentType.TENT, true);

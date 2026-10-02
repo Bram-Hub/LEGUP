@@ -2,6 +2,7 @@ package edu.rpi.legup.ui.boardview;
 
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import javax.swing.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A menu item view class that represents a selectable item in a menu, associated with a
@@ -18,7 +19,7 @@ public class SelectionItemView extends JMenuItem {
      * @param data the PuzzleElement associated with this menu item
      * @param icon the icon to be displayed on the menu item
      */
-    public SelectionItemView(PuzzleElement data, Icon icon) {
+    public SelectionItemView(@NotNull PuzzleElement data, @NotNull Icon icon) {
         super(icon);
         this.data = data;
     }
@@ -30,7 +31,7 @@ public class SelectionItemView extends JMenuItem {
      * @param data the PuzzleElement associated with this menu item
      * @param display the text to be displayed on the menu item
      */
-    public SelectionItemView(PuzzleElement data, String display) {
+    public SelectionItemView(@NotNull PuzzleElement data, @NotNull String display) {
         super(display);
         this.data = data;
     }
@@ -43,7 +44,7 @@ public class SelectionItemView extends JMenuItem {
      * @param data the PuzzleElement associated with this menu item
      * @param display the integer to be displayed on the menu item
      */
-    public SelectionItemView(PuzzleElement data, int display) {
+    public SelectionItemView(@NotNull PuzzleElement data, int display) {
         super(String.valueOf(display));
         this.data = data;
     }
@@ -54,7 +55,7 @@ public class SelectionItemView extends JMenuItem {
      *
      * @param data the PuzzleElement associated with this menu item
      */
-    public SelectionItemView(PuzzleElement data) {
+    public SelectionItemView(@NotNull PuzzleElement data) {
         this(data, (Integer) data.getData());
     }
 
@@ -63,7 +64,7 @@ public class SelectionItemView extends JMenuItem {
      *
      * @return the PuzzleElement associated with this menu item
      */
-    public PuzzleElement getData() {
+    public @NotNull PuzzleElement getData() {
         return data;
     }
 }

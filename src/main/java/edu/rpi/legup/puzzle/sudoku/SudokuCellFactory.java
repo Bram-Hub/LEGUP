@@ -1,6 +1,5 @@
 package edu.rpi.legup.puzzle.sudoku;
 
-import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.gameboard.ElementFactory;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -53,9 +52,8 @@ public class SudokuCellFactory extends ElementFactory {
         }
     }
 
-
     /**
-     * Creates a xml document puzzleElement from a cell for exporting
+     * Creates an xml document puzzleElement from a cell for exporting
      *
      * @param document xml document
      * @param puzzleElement PuzzleElement cell

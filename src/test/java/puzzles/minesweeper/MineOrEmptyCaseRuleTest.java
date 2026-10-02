@@ -30,7 +30,19 @@ public class MineOrEmptyCaseRuleTest {
 
     /**
      * Tests the Mine or Empty case rule by ensuring that it results in two children, that contain a
-     * modified cell that is either mine or empty
+     * modified cell that is either mine or empty. <br>
+     * <br>
+     * This is what MineOrEmpty.txt looks like:
+     *
+     * <pre>
+     *  _| _| _|
+     *  _| _| _|
+     *  _| _| _|</pre>
+     *
+     * <br>
+     * This test gets the cases for the top right corner cell and checks that there are two of them,
+     * that they are different, and that none of the other cells are different between the two
+     * cases.
      */
     @Test
     public void MineOrEmptyCaseRuleTest1() throws InvalidFileFormatException {
@@ -41,7 +53,7 @@ public class MineOrEmptyCaseRuleTest {
 
         MinesweeperBoard board = (MinesweeperBoard) transition.getBoard();
         MinesweeperCell cell = board.getCell(0, 0);
-        ArrayList<Board> cases = RULE.getCases(board, cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(board, cell);
 
         Assert.assertEquals(2, cases.size());
 

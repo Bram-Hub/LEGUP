@@ -60,7 +60,9 @@ public abstract class PuzzleElement<T> {
      *
      * @return data value that represents the goal condition for this puzzle element
      */
-    public T getGoalData() { return goalData; }
+    public T getGoalData() {
+        return goalData;
+    }
 
     /**
      * Sets the data value that represents this puzzle element.
@@ -76,7 +78,9 @@ public abstract class PuzzleElement<T> {
      *
      * @param goalData data value that represents the goal condition for this puzzle element
      */
-    public void setGoalData(T goalData) { this.goalData = goalData; }
+    public void setGoalData(T goalData) {
+        this.goalData = goalData;
+    }
 
     public void setType(Element e, MouseEvent m) {
         return;

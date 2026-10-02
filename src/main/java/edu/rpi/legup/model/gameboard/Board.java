@@ -1,7 +1,6 @@
 package edu.rpi.legup.model.gameboard;
 
 import edu.rpi.legup.model.Goal;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

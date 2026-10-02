@@ -6,7 +6,6 @@ import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
 import edu.rpi.legup.puzzle.skyscrapers.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class CellForNumberCaseRule extends CaseRule {
     private Integer selectedNumber;
 
     @Override
-    public CaseBoard getCaseBoard(Board board) {
+    public CaseBoard getApplicableLocationsBoard(Board board) {
         SkyscrapersBoard currentBoard = (SkyscrapersBoard) board.copy();
         currentBoard.setModifiable(false);
         CaseBoard caseBoard = new CaseBoard(currentBoard, this);
@@ -43,17 +42,21 @@ public class CellForNumberCaseRule extends CaseRule {
             possibleValues[i] = i + 1;
         }
         Object selectedValue;
-        do {
-            selectedValue =
-                    JOptionPane.showInputDialog(
-                            null,
-                            "Pick the number to be added",
-                            "Cell For Number",
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            possibleValues,
-                            possibleValues[0]);
-        } while (selectedValue == null);
+
+        selectedValue =
+                JOptionPane.showInputDialog(
+                        null,
+                        "Pick the number to be added",
+                        "Cell For Number",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        possibleValues,
+                        possibleValues[0]);
+        if (selectedValue == null) { // checks if input box was closed
+            throw (new IllegalArgumentException(
+                    "Rule was cancelled.")); // returns rule was cancelled error if input box is
+            // closed.
+        }
         selectedNumber = (Integer) selectedValue;
 
         return caseBoard;
@@ -98,49 +101,8 @@ public class CellForNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public ArrayList<Board> getCases(Board board, PuzzleElement puzzleElement) {
+    public ArrayList<Board> getCasesFrom(Board board, PuzzleElement puzzleElement) {
         return getCasesFor(board, puzzleElement, selectedNumber);
-    }
-
-    @Override
-    public String checkRuleRaw(TreeTransition transition) {
-        List<TreeTransition> childTransitions = transition.getParents().get(0).getChildren();
-        SkyscrapersBoard oldBoard = (SkyscrapersBoard) transition.getParents().get(0).getBoard();
-        if (childTransitions.size() == 0) {
-            return "This case rule must have at least one child.";
-        }
-
-        if (childTransitions.size()
-                != getCasesFor(
-                                oldBoard,
-                                oldBoard.getPuzzleElement(transition.getSelection()),
-                                (Integer)
-                                        childTransitions
-                                                .get(0)
-                                                .getBoard()
-                                                .getModifiedData()
-                                                .iterator()
-                                                .next()
-                                                .getData())
-                        .size()) {
-            // System.out.println("Wrong number of cases.");
-            return "Wrong number of cases.";
-        }
-
-        for (TreeTransition newTree : childTransitions) {
-            SkyscrapersBoard newBoard = (SkyscrapersBoard) newTree.getBoard();
-            if (newBoard.getModifiedData().size() != 1) {
-                // System.out.println("Only one cell should be modified.");
-                return "Only one cell should be modified.";
-            }
-            SkyscrapersCell newCell =
-                    (SkyscrapersCell) newBoard.getModifiedData().iterator().next();
-            if (newCell.getType() != SkyscrapersType.Number) {
-                // System.out.println("Changed value should be a number.");
-                return "Changed value should be a number.";
-            }
-        }
-        return null;
     }
 
     @Override

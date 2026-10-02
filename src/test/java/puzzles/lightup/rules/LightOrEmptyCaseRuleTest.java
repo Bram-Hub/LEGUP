@@ -39,7 +39,7 @@ public class LightOrEmptyCaseRuleTest {
         // get all new board states using caserule builtin function
         LightUpBoard b = (LightUpBoard) transition.getBoard();
         LightUpCell numbered_cell = b.getCell(0, 0); // the focus cell
-        ArrayList<Board> cases = RULE.getCases(b, numbered_cell);
+        ArrayList<Board> cases = RULE.getCasesFrom(b, numbered_cell);
 
         // assert correct number of cases
         Assert.assertEquals(2, cases.size());

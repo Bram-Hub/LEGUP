@@ -3,7 +3,6 @@ package edu.rpi.legup.puzzle.treetent;
 import edu.rpi.legup.model.Goal;
 import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.PuzzleImporter;
-import edu.rpi.legup.puzzle.nurikabe.NurikabeCell;
 import edu.rpi.legup.save.InvalidFileFormatException;
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,15 +12,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class TreeTentImporter extends PuzzleImporter {
+
+    /**
+     * Constructs a TreeTentImporter for the specified TreeTent puzzle.
+     *
+     * @param treeTent the TreeTent puzzle instance to import into
+     */
     public TreeTentImporter(TreeTent treeTent) {
         super(treeTent);
     }
 
+    /**
+     * Indicates that this importer supports row and column input.
+     *
+     * @return true, since TreeTent supports row/column input
+     */
     @Override
     public boolean acceptsRowsAndColumnsInput() {
         return true;
     }
 
+    /**
+     * Indicates that this importer does not support text-based input.
+     *
+     * @return false, since TreeTent does not support text input
+     */
     @Override
     public boolean acceptsTextInput() {
         return false;
@@ -219,17 +234,16 @@ public class TreeTentImporter extends PuzzleImporter {
                 for (int i = 0; i < cellList.getLength(); i++) {
                     TreeTentCell cell =
                             (TreeTentCell)
-                                    puzzle.getFactory()
-                                            .importCell(cellList.item(i), treeTentBoard);
+                                    puzzle.getFactory().importCell(cellList.item(i), treeTentBoard);
                     // Store the goal value as goalData and mark the board cell as goal
-                    TreeTentCell boardCell = (TreeTentCell) treeTentBoard.getCell(cell.getLocation());
+                    TreeTentCell boardCell =
+                            (TreeTentCell) treeTentBoard.getCell(cell.getLocation());
                     if (boardCell != null) {
                         boardCell.setGoalData(cell.getData());
                         boardCell.setGoal(true);
                     }
                     goal.addCell(cell);
                     treeTentBoard.getCell(cell.getLocation()).setGoal(true);
-
                 }
                 puzzle.setGoal(goal);
             } else {
@@ -243,11 +257,22 @@ public class TreeTentImporter extends PuzzleImporter {
         }
     }
 
+    /**
+     * Throws an exception since TreeTent does not support text-based initialization.
+     *
+     * @param statements the input statements
+     * @throws UnsupportedOperationException always thrown for TreeTent
+     */
     @Override
     public void initializeBoard(String[] statements) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Tree Tent cannot accept text input");
     }
 
+    /**
+     * Returns the list of XML element names that this importer recognizes.
+     *
+     * @return a list containing "cell" and "line"
+     */
     @Override
     public List<String> getImporterElements() {
         List<String> elements = new ArrayList<>();
