@@ -7,15 +7,7 @@ import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.ui.JitterlessScrollPane;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
@@ -25,7 +17,7 @@ public class ElementFrame extends JPanel {
     private JTabbedPane tabbedPane;
     private JComboBox<GoalType> goalTypeComboBox;
     private JComboBox<PlaceableElement> goalDataTypecomboBox;
-    private JCheckBox assumeSolutionCheckBox;
+    private JScrollPane elements;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
@@ -104,11 +96,6 @@ public class ElementFrame extends JPanel {
         selectorPanel2.add(new JLabel("Goal Data:"), BorderLayout.WEST);
         selectorPanel2.add(goalDataTypecomboBox, BorderLayout.CENTER);
         topPanel.add(selectorPanel2, BorderLayout.SOUTH);
-
-        assumeSolutionCheckBox = new JCheckBox("Assume solution");
-        assumeSolutionCheckBox.addActionListener(
-                e -> controller.setAssumeSolution(assumeSolutionCheckBox.isSelected()));
-        topPanel.add(assumeSolutionCheckBox, BorderLayout.CENTER);
 
         goalPanel.add(topPanel, BorderLayout.NORTH);
 

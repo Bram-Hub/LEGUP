@@ -34,44 +34,31 @@ public class ProveCellMustBeTest {
     /** Tests puzzle completion with only a root node */
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/RootCompleteWithAssumption", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/RootComplete", puzzle));
 
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/RootCompleteNoAssumption", puzzle));
-
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/RootIncompleteWithAssumption", puzzle));
-
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/RootIncompleteNoAssumption", puzzle));
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/RootIncomplete", puzzle));
     }
 
     /** Tests puzzle completion with a single path down the tree */
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/CompleteLineWithAssumption", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/CompleteLine", puzzle));
+
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/SolvedLine", puzzle));
 
         Assert.assertTrue(
                 TestUtilities.verifyBoard(
                         "goalConditions/ProveCellMustBe/OvercompleteLine", puzzle));
 
-        Assert.assertTrue(
-                TestUtilities.verifyBoard("goalConditions/ProveCellMustBe/SolvedLine", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/ContradictoryLine", puzzle));
 
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/ContradictoryLine", puzzle));
-
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveCellMustBe/CompleteLineNoAssumption", puzzle));
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveCellMustBe/IncompleteLine", puzzle));
 
         Assert.assertFalse(
                 TestUtilities.verifyBoard("goalConditions/ProveCellMustBe/IncompleteLine", puzzle));
