@@ -6,10 +6,7 @@
                 <cell value="2" x="0" y="0"/>
             </goal>
             <cells>
-                <cell value="2" x="0" y="0"/>
-                <cell value="2" x="0" y="1"/>
                 <cell value="2" x="1" y="0"/>
-                <cell value="2" x="1" y="1"/>
             </cells>
         </board>
     </puzzle>

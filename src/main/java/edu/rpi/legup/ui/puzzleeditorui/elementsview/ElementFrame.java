@@ -16,7 +16,6 @@ public class ElementFrame extends JPanel {
     private JTabbedPane tabbedPane;
     private JComboBox<GoalType> goalTypeComboBox;
     private JComboBox<PlaceableElement> goalDataTypecomboBox;
-    private JCheckBox assumeSolutionCheckBox;
     private JScrollPane elements;
     private ButtonGroup buttonGroup;
 
@@ -95,11 +94,6 @@ public class ElementFrame extends JPanel {
         selectorPanel2.add(new JLabel("Goal Data:"), BorderLayout.WEST);
         selectorPanel2.add(goalDataTypecomboBox, BorderLayout.CENTER);
         topPanel.add(selectorPanel2, BorderLayout.SOUTH);
-
-        assumeSolutionCheckBox = new JCheckBox("Assume solution");
-        assumeSolutionCheckBox.addActionListener(
-                e -> controller.setAssumeSolution(assumeSolutionCheckBox.isSelected()));
-        topPanel.add(assumeSolutionCheckBox, BorderLayout.CENTER);
 
         goalPanel.add(topPanel, BorderLayout.NORTH);
 

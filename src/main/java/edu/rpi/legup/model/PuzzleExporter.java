@@ -170,7 +170,6 @@ public abstract class PuzzleExporter {
 
         Element goalElement = newDocument.createElement("goal");
         goalElement.setAttribute("type", String.valueOf(goalType));
-        goalElement.setAttribute("assumeSolution", String.valueOf(puzzle.getGoal().assumeSolution()));
 
         boolean hasGoalCells = false;
 
@@ -187,7 +186,7 @@ public abstract class PuzzleExporter {
             }
         }
 
-        if (!hasGoalCells && puzzle.getGoal().assumeSolution() && puzzle.getGoal() != null) {
+        if (!hasGoalCells && puzzle.getGoal() != null) {
             for (GridCell goalCell : puzzle.getGoal().getCells()) {
                 Element cellElement = puzzle.getFactory().exportCell(newDocument, goalCell);
                 goalElement.appendChild(cellElement);
@@ -195,7 +194,7 @@ public abstract class PuzzleExporter {
             }
         }
 
-        if (hasGoalCells || !puzzle.getGoal().assumeSolution()) {
+        if (hasGoalCells) {
             boardElement.appendChild(goalElement);
         }
     }

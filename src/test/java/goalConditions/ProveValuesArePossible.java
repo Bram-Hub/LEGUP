@@ -36,16 +36,10 @@ public class ProveValuesArePossible{
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootCompleteNoAssumption", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootCompleteWithAssumption", puzzle));
+                "goalConditions/ProveValuesArePossible/RootComplete", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootIncompleteNoAssumption", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/RootIncompleteWithAssumption", puzzle));
+                "goalConditions/ProveValuesArePossible/RootIncomplete", puzzle));
     }
 
 
@@ -53,21 +47,15 @@ public class ProveValuesArePossible{
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/CompleteLineWithAssumption", puzzle));
+                "goalConditions/ProveValuesArePossible/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveValuesArePossible/SolvedLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/IncompleteLineWithMatchAndAssumption", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveValuesArePossible/CompleteLineNoAssumption", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveValuesArePossible/IncompleteLineWithMatch", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
+        Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveValuesArePossible/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(

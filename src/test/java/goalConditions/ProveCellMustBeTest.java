@@ -35,16 +35,10 @@ public class ProveCellMustBeTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootCompleteWithAssumption", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootCompleteNoAssumption", puzzle));
+                "goalConditions/ProveCellMustBe/RootComplete", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootIncompleteWithAssumption", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/RootIncompleteNoAssumption", puzzle));
+                "goalConditions/ProveCellMustBe/RootIncomplete", puzzle));
     }
 
 
@@ -52,7 +46,7 @@ public class ProveCellMustBeTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/CompleteLineWithAssumption", puzzle));
+                "goalConditions/ProveCellMustBe/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/OvercompleteLine", puzzle));
@@ -60,11 +54,8 @@ public class ProveCellMustBeTest {
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/SolvedLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
+        Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/ContradictoryLine", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveCellMustBe/CompleteLineNoAssumption", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveCellMustBe/IncompleteLine", puzzle));

@@ -35,16 +35,11 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootCompleteWithAssumption", puzzle));
-
-        Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootCompleteNoAssumption", puzzle));
+                "goalConditions/ProveSingleCellValue/RootComplete", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootIncompleteWithAssumption", puzzle));
+                "goalConditions/ProveSingleCellValue/RootIncomplete", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/RootIncompleteNoAssumption", puzzle));
     }
 
 
@@ -52,7 +47,7 @@ public class ProveSingleCellValueTest {
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
         Assert.assertTrue(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/CompleteLineWithAssumption", puzzle));
+                "goalConditions/ProveSingleCellValue/CompleteLine", puzzle));
 
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/SolvedLine", puzzle));
@@ -60,14 +55,11 @@ public class ProveSingleCellValueTest {
         Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/OvercompleteLine", puzzle));
 
-        Assert.assertFalse(TestUtilities.verifyBoard(
+        Assert.assertTrue(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
 
         Assert.assertFalse(TestUtilities.verifyBoard(
                 "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
-
-        Assert.assertFalse(TestUtilities.verifyBoard(
-                "goalConditions/ProveSingleCellValue/CompleteLineNoAssumption", puzzle));
     }
 
 
