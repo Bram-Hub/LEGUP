@@ -70,11 +70,6 @@ public class SudokuView extends GridBoardView {
 
     @Override
     public void drawBoard(Graphics2D graphics2D) {
-
-        if (board instanceof PossibleNumberCaseBoard) {
-            drawCaseBoard(graphics2D);
-            return;
-        }
         drawGrid(graphics2D);
 
         Graphics2D g = (Graphics2D) graphics2D.create();
@@ -95,55 +90,6 @@ public class SudokuView extends GridBoardView {
         if (hover != null) {
             hover.draw(g);
         }
-        g.dispose();
-    }
-
-    public void drawCaseBoard(Graphics2D graphics2D) {
-        drawGrid(graphics2D);
-
-        PossibleNumberCaseBoard caseBoard = (PossibleNumberCaseBoard) board;
-        SudokuBoard sudokuBoard = (SudokuBoard) board;
-
-        Graphics2D g = (Graphics2D) graphics2D.create();
-        g.setColor(UIManager.getColor("Sudoku.borderColor"));
-        g.setStroke(new BasicStroke(UIManager.getInt("Sudoku.minorBorderWidth")));
-        ElementView hover = null;
-        for (int i = 0; i < gridSize.height; i++) {
-            for (int k = 0; k < gridSize.width; k++) {
-                ElementView element = elementViews.get(i * gridSize.height + k);
-                if (!element.isHover()) {
-                    element.draw(g);
-                } else {
-                    hover = element;
-                }
-            }
-        }
-
-        g.setColor(UIManager.getColor("Sudoku.case"));
-        for (int r : caseBoard.getPickableRegions()) {
-            Set<SudokuCell> region = sudokuBoard.getRegion(r);
-            int x = Integer.MAX_VALUE,
-                    y = Integer.MAX_VALUE,
-                    w = Integer.MIN_VALUE,
-                    h = Integer.MIN_VALUE;
-            for (SudokuCell c : region) {
-                x = Math.min(x, c.getLocation().x);
-                y = Math.min(y, c.getLocation().y);
-                w = Math.max(w, c.getLocation().x);
-                h = Math.max(h, c.getLocation().y);
-            }
-
-            SudokuElementView firstElement = getElement(y * gridSize.width + x);
-            SudokuElementView lastElement = getElement(h * gridSize.width + w);
-            x = firstElement.getLocation().x;
-            y = firstElement.getLocation().y;
-            w = (lastElement.getLocation().x + elementSize.width) - x;
-            h = (lastElement.getLocation().y + elementSize.height) - y;
-            g.fillRect(x + 4, y + 4, w - 8, h - 8);
-        }
-
-        //        if(hover != null)
-        //            hover.draw(g);
         g.dispose();
     }
 
