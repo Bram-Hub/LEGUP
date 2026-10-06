@@ -36,30 +36,19 @@ public class ProveSingleCellValueTest {
     /** Tests puzzle completion with only a root node */
     @Test
     public void TestRootNode() throws InvalidFileFormatException {
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/RootCompleteWithAssumption", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/RootComplete", puzzle));
 
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/RootCompleteNoAssumption", puzzle));
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/RootIncomplete", puzzle));
 
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/RootIncompleteWithAssumption",
-                        puzzle));
-
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/RootIncompleteNoAssumption", puzzle));
     }
 
     /** Tests puzzle completion with a single path down the tree */
     @Test
     public void TestSinglePath() throws InvalidFileFormatException {
-        Assert.assertTrue(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/CompleteLineWithAssumption", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/CompleteLine", puzzle));
 
         Assert.assertTrue(
                 TestUtilities.verifyBoard(
@@ -69,17 +58,11 @@ public class ProveSingleCellValueTest {
                 TestUtilities.verifyBoard(
                         "goalConditions/ProveSingleCellValue/OvercompleteLine", puzzle));
 
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/ContradictoryLine", puzzle));
 
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
-
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveSingleCellValue/CompleteLineNoAssumption", puzzle));
+        Assert.assertFalse(TestUtilities.verifyBoard(
+                "goalConditions/ProveSingleCellValue/IncompleteLine", puzzle));
     }
 
     /** Tests puzzle completion with a multiple paths and contradictory paths */

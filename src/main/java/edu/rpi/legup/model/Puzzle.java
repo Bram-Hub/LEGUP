@@ -357,6 +357,10 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
             return false;
         }
 
+        // If the puzzle has no solution, this is a logical contradiction from which every
+        // claim can be derived
+        if (getOpenLeaves().isEmpty()) {return true;}
+
         // The goal determines what state the leaves must be in.
         return switch (this.goal.getType()) {
             case PROVE_CELL_MUST_BE -> {
@@ -366,8 +370,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                         yield false;
                     }
                 }
-                // There must be a proven solution
-                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
+                yield true;
             }
             case PROVE_CELL_MIGHT_NOT_BE -> {
                 // One solution differs from the given
@@ -394,9 +397,7 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 if (!cellsMatchBetweenBoards(getOpenLeaves())) {
                     yield false;
                 }
-
-                // There must be a proven solution
-                yield (goal.assumeSolution() || !getCompleteLeaves().isEmpty());
+                yield cellsMatchBetweenBoards(getOpenLeaves());
             }
             case PROVE_MULTIPLE_CELL_VALUE -> {
                 // The following line yielding true vs false determines if 0 solutions counts
@@ -422,15 +423,11 @@ public abstract class Puzzle implements IBoardSubject, ITreeSubject {
                 }
 
                 // If there is a solution, it must have this set of values
-                if (goal.assumeSolution() && !getOpenLeaves().isEmpty()) {
-                    for (TreeNode node : getOpenLeaves()) {
-                        if (countGoalMatches(node, true) != goal.getCells().size()) {
-                            yield false;
-                        }
-                    }
-                    yield true;
+                for (TreeNode node : getOpenLeaves())
+                {
+                    if (countGoalMatches(node, true) != goal.getCells().size()) {yield false;}
                 }
-                yield false;
+                yield true;
             }
             case PROVE_VALUES_ARE_IMPOSSIBLE -> {
                 // No open branch matches these values

@@ -16,30 +16,17 @@ import java.util.TreeMap;
 public class Goal {
     private ArrayList<GridCell> cellList;
     private final GoalType goalType;
-    private boolean assumeSolution;
 
     /**
-     * Constructs a Goal object with an empty cell list with no assumed solution
+     * Constructs a Goal object with an empty cell list
      *
      * @param goalType type of goal
      */
     public Goal(GoalType goalType) {
         this.cellList = new ArrayList<>();
         this.goalType = goalType;
-        this.assumeSolution = false;
     }
 
-    /**
-     * Constructs a Goal object with an empty cell list
-     *
-     * @param goalType type of goal
-     * @param assume whether to assume there is a solution to the puzzle
-     */
-    public Goal(GoalType goalType, boolean assume) {
-        this.cellList = new ArrayList<>();
-        this.goalType = goalType;
-        this.assumeSolution = assume;
-    }
 
     /**
      * Constructs a Goal object only requiring a given cell
@@ -53,7 +40,6 @@ public class Goal {
             cellList.add(cell);
         }
         this.goalType = goalType;
-        this.assumeSolution = false;
     }
 
     /**
@@ -80,24 +66,6 @@ public class Goal {
      */
     public GoalType getType() {
         return goalType;
-    }
-
-    /**
-     * Get the value of assumeSolution
-     *
-     * @return assumeSolution
-     */
-    public boolean assumeSolution() {
-        return assumeSolution;
-    }
-
-    /**
-     * Set the value of assumeSolution
-     *
-     * @param assume whether to assume there is a solution to the puzzle
-     */
-    public void setAssumeSolution(boolean assume) {
-        assumeSolution = assume;
     }
 
     /**
@@ -147,19 +115,11 @@ public class Goal {
         }
 
         String text = "Prove ";
-        if (assumeSolution) {
-            text += "that if there is a solution, then ";
-        }
-        return switch (goalType) {
-            case GoalType.PROVE_CELL_MUST_BE ->
-                    text
-                            + getValueSeparatedGoalText(" is forced to be ", " are forced to be ")
-                            + ".";
-            case GoalType.PROVE_CELL_MIGHT_NOT_BE ->
-                    text
-                            + getValueSeparatedGoalText(
-                                    " is not forced to be ", " are not forced to be ")
-                            + ".";
+        return switch(goalType) {
+            case GoalType.PROVE_CELL_MUST_BE -> text + getValueSeparatedGoalText(
+                    " is forced to be ", " are forced to be ") + ".";
+            case GoalType.PROVE_CELL_MIGHT_NOT_BE -> text + getValueSeparatedGoalText(
+                    " is not forced to be ", " are not forced to be ") + ".";
             case GoalType.PROVE_SINGLE_CELL_VALUE -> {
                 text += (cellList.size() > 1 ? "cells " : "cell ");
                 text += concatCellLocs(cellList);
@@ -174,12 +134,10 @@ public class Goal {
             }
             case GoalType.PROVE_ANY_SOLUTION -> "Find any solution to the puzzle.";
             case GoalType.PROVE_NO_SOLUTION -> "Prove that there are no solutions to the puzzle.";
-            case GoalType.PROVE_VALUES_ARE_POSSIBLE ->
-                    text + getValueSeparatedGoalText(" can be ", " can be ") + " at the same time.";
-            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE ->
-                    text
-                            + getValueSeparatedGoalText(" cannot be ", " cannot be ")
-                            + " at the same time";
+            case GoalType.PROVE_VALUES_ARE_POSSIBLE -> text + getValueSeparatedGoalText(
+                    " can be ", " can be ") + (cellList.size() > 1? " at the same time." : ".");
+            case GoalType.PROVE_VALUES_ARE_IMPOSSIBLE -> text + getValueSeparatedGoalText(
+                    " cannot be ", " cannot be ") + (cellList.size() > 1? " at the same time." : ".");
 
             default -> "Unrecognized goal condition.";
         };
