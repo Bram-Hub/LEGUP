@@ -17,7 +17,6 @@ public class ElementFrame extends JPanel {
     private JTabbedPane tabbedPane;
     private JComboBox<GoalType> goalTypeComboBox;
     private JComboBox<PlaceableElement> goalDataTypecomboBox;
-    private JScrollPane elements;
     private ButtonGroup buttonGroup;
 
     private EditorElementController controller;
