@@ -51,7 +51,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
     private static final Logger LOGGER = LogManager.getLogger(ProofEditorPanel.class.getName());
-    private JMenuBar mBar;
+    private JMenu[] menus;
+    private JMenuBar menuBar;
     private TreePanel treePanel;
     private JFileChooser fileChooser;
     private JFrame frame;
@@ -142,18 +143,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         setPreferredSize(new Dimension(800, 700));
     }
 
-    /**
-     * Makes the panel visible by setting up the toolbar and content components. This method also
-     * sets the menu bar of the frame to the one used by this panel.
-     */
-    @Override
-    public void makeVisible() {
-        this.removeAll();
-
-        setupToolBar1();
-        setupContent();
-        frame.setJMenuBar(getMenuBar());
-    }
 
     /**
      * Constructs and returns the {@code JMenuBar} for this panel. It populates it with various
@@ -175,122 +164,15 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *
      * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
      */
-    @NotNull public JMenuBar getMenuBar() {
-        if (mBar != null) return mBar;
-        mBar = new JMenuBar();
-
-        file = new JMenu("File");
-        newPuzzle = new JMenuItem("Open");
-        resetPuzzle = new JMenuItem("Reset");
-        //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle
-        // generator
-        saveProofAs = new JMenuItem("Save As"); // create a new file to save
-        saveProofChange = new JMenuItem("Save"); // save to the current file
-        preferences = new JMenuItem("Preferences");
-        helpTutorial = new JMenuItem("Help"); // jump to web page
-        exit = new JMenuItem("Exit");
-
-        edit = new JMenu("Edit");
-        undo = new JMenuItem("Undo");
-        redo = new JMenuItem("Redo");
-
-        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
-        fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
-
-        view = new JMenu("View");
-
-        proof = new JMenu("Proof");
-
+     public void setMenuBar() {
         String os = LegupUI.getOS();
+        menuBar = new JMenuBar();
+        menus = new JMenu[4];
 
-        add = new JMenuItem("Add");
-        add.addActionListener(a -> treePanel.add());
-        if (os.equals("mac")) {
-            add.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
-            add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
-        }
-        proof.add(add);
+        menus[0] = new JMenu("File");
 
-        delete = new JMenuItem("Delete");
-        delete.addActionListener(a -> treePanel.delete());
-        if (os.equals("mac")) {
-            delete.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
-            delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
-        }
-        proof.add(delete);
-
-        merge = new JMenuItem("Merge");
-        merge.addActionListener(a -> treePanel.merge());
-        if (os.equals("mac")) {
-            merge.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
-            merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
-        }
-        proof.add(merge);
-
-        collapse = new JMenuItem("Collapse");
-        collapse.addActionListener(a -> treePanel.collapse());
-        if (os.equals("mac")) {
-            collapse.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
-            collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
-        }
-        collapse.setEnabled(false);
-        proof.add(collapse);
-
-        allowDefault =
-                new JCheckBoxMenuItem(
-                        "Allow Default Rule Applications", LegupPreferences.allowDefaultRules());
-        allowDefault.addChangeListener(
-                e -> {
-                    LegupPreferences.getInstance()
-                            .setUserPref(
-                                    LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES,
-                                    allowDefault.isSelected());
-                });
-        proof.add(allowDefault);
-
-        caseRuleGen =
-                new JCheckBoxMenuItem(
-                        "Automatically generate cases for CaseRule",
-                        LegupPreferences.autoGenerateCases());
-        caseRuleGen.addChangeListener(
-                e -> {
-                    LegupPreferences.getInstance()
-                            .setUserPref(
-                                    LegupPreferences.LegupPreference.AUTO_GENERATE_CASES,
-                                    caseRuleGen.isSelected());
-                });
-        proof.add(caseRuleGen);
-
-        imdFeedback =
-                new JCheckBoxMenuItem(
-                        "Provide immediate feedback", LegupPreferences.immediateFeedback());
-        imdFeedback.addChangeListener(
-                e -> {
-                    LegupPreferences.getInstance()
-                            .setUserPref(
-                                    LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK,
-                                    imdFeedback.isSelected());
-                });
-        proof.add(imdFeedback);
-
-        about = new JMenu("About");
-        legupWiki = new JMenuItem("LEGUP Wiki");
-        aboutLegup = new JMenuItem("About LEGUP");
-
-        mBar.add(file);
-        file.add(newPuzzle);
+        // File > Open
+        newPuzzle = new JMenuItem("Open");
         newPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
             newPuzzle.setAccelerator(
@@ -300,7 +182,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             newPuzzle.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         }
 
-        file.add(resetPuzzle);
+        // File > Reset
+        resetPuzzle = new JMenuItem("Reset");
         resetPuzzle.addActionListener(
                 a -> {
                     Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
@@ -343,19 +226,19 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     }
                 });
         if (os.equals("mac")) {
-            resetPuzzle.setAccelerator(
-                    KeyStroke.getKeyStroke(
-                            'R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        } else {
+             resetPuzzle.setAccelerator(
+                     KeyStroke.getKeyStroke(
+                             'R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+         } else {
             resetPuzzle.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.CTRL_DOWN_MASK));
         }
+        //        genPuzzle = new JMenuItem("Puzzle Generators"); // TODO: implement puzzle
+        // generator
 
-        file.addSeparator();
-
-        file.add(saveProofAs);
+        // File > Save As
+        saveProofAs = new JMenuItem("Save As"); // create a new file to save
         saveProofAs.addActionListener((ActionEvent) -> saveProofAs());
 
-        // save proof as...
         if (os.equals("mac")) {
             saveProofAs.setAccelerator(
                     KeyStroke.getKeyStroke(
@@ -364,7 +247,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             saveProofAs.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
         }
 
-        // save proof change
+        // File > Save
+        saveProofChange = new JMenuItem("Save"); // save to the current file
+        saveProofChange.addActionListener((ActionEvent) -> saveProofChange());
         if (os.equals("mac")) {
             saveProofChange.setAccelerator(
                     KeyStroke.getKeyStroke(
@@ -373,19 +258,16 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             saveProofChange.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
         }
 
-        file.add(saveProofChange);
-        saveProofChange.addActionListener((ActionEvent) -> saveProofChange());
-        file.addSeparator();
-
-        // preference
-        file.add(preferences);
+        // File > Preferences
+        preferences = new JMenuItem("Preferences");
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog.CreateDialogForProofEditor(this.frame, this.ruleFrame);
                 });
-        file.addSeparator();
 
-        // help function
+        // File > Help
+        helpTutorial = new JMenuItem("Help");
+        helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
         if (os.equals("mac")) {
             helpTutorial.setAccelerator(
                     KeyStroke.getKeyStroke(
@@ -393,13 +275,10 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             helpTutorial.setAccelerator(KeyStroke.getKeyStroke('H', InputEvent.CTRL_DOWN_MASK));
         }
-        file.add(helpTutorial);
 
-        helpTutorial.addActionListener((ActionEvent) -> helpTutorial());
-        file.addSeparator();
 
-        // exit
-        file.add(exit);
+        // File > Exit
+        exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
             exit.setAccelerator(
@@ -408,9 +287,25 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
-        mBar.add(edit);
 
-        edit.add(undo);
+        menus[0].add(newPuzzle);
+        menus[0].add(resetPuzzle);
+        menus[0].addSeparator();
+        menus[0].add(saveProofAs);
+        menus[0].add(saveProofChange);
+        menus[0].addSeparator();
+        menus[0].add(preferences);
+        menus[0].addSeparator();
+        menus[0].add(helpTutorial);
+        menus[0].addSeparator();
+        menus[0].add(exit);
+
+
+        // EDIT
+        menus[1] = new JMenu("Edit");
+
+        // Edit > Undo
+        undo = new JMenuItem("Undo");
         undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
         if (os.equals("mac")) {
             undo.setAccelerator(
@@ -419,9 +314,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         }
-
-        edit.add(redo);
-
+         // Edit > Redo
+        redo = new JMenuItem("Redo");
         // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
         Action redoAction =
                 new AbstractAction() {
@@ -463,23 +357,128 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     KeyStroke.getKeyStroke(
                             'Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
-
-        edit.add(fitBoardToScreen);
+        // Edit > Fit Board to Screen
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
         fitBoardToScreen.addActionListener(
                 (ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
-
-        edit.add(fitTreeToScreen);
+        // Edit > Fit Tree to Screen
+        fitTreeToScreen = new JMenuItem("Fit Tree to Screen");
         fitTreeToScreen.addActionListener((ActionEvent) -> this.fitTreeViewToScreen());
 
-        mBar.add(proof);
+        menus[1].add(undo);
+        menus[1].add(redo);
+        menus[1].addSeparator();
+        menus[1].add(fitBoardToScreen);
+        menus[1].add(fitTreeToScreen);
 
-        about.add(aboutLegup);
+        view = new JMenu("View");
+
+        // PROOF
+        menus[2] = new JMenu("Proof");
+
+        // Proof > Add
+        add = new JMenuItem("Add");
+        add.addActionListener(a -> treePanel.add());
+        if (os.equals("mac")) {
+            add.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
+            add.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
+        }
+
+        // Proof > Delete
+        delete = new JMenuItem("Delete");
+        delete.addActionListener(a -> treePanel.delete());
+        if (os.equals("mac")) {
+            delete.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
+            delete.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
+        }
+
+        // Proof > Merge
+        merge = new JMenuItem("Merge");
+        merge.addActionListener(a -> treePanel.merge());
+        if (os.equals("mac")) {
+            merge.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'M', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
+            merge.setAccelerator(KeyStroke.getKeyStroke('M', InputEvent.CTRL_DOWN_MASK));
+        }
+
+        // Proof > Collapse
+        collapse = new JMenuItem("Collapse");
+        collapse.addActionListener(a -> treePanel.collapse());
+        if (os.equals("mac")) {
+            collapse.setAccelerator(
+                    KeyStroke.getKeyStroke(
+                            'C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        } else {
+            collapse.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
+        }
+        collapse.setEnabled(false);
+
+        // Proof > Allow Default Rule Applications
+        allowDefault =
+                new JCheckBoxMenuItem(
+                        "Allow Default Rule Applications", LegupPreferences.allowDefaultRules());
+        allowDefault.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.LegupPreference.ALLOW_DEFAULT_RULES,
+                                    allowDefault.isSelected());
+                });
+
+        // Proof > Automatically generate cases for CaseRule
+        caseRuleGen =
+                new JCheckBoxMenuItem(
+                        "Automatically generate cases for CaseRule",
+                        LegupPreferences.autoGenerateCases());
+        caseRuleGen.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.LegupPreference.AUTO_GENERATE_CASES,
+                                    caseRuleGen.isSelected());
+                });
+
+        // Proof > Provide immediate feedback
+        imdFeedback =
+                new JCheckBoxMenuItem(
+                        "Provide immediate feedback", LegupPreferences.immediateFeedback());
+        imdFeedback.addChangeListener(
+                e -> {
+                    LegupPreferences.getInstance()
+                            .setUserPref(
+                                    LegupPreferences.LegupPreference.IMMEDIATE_FEEDBACK,
+                                    imdFeedback.isSelected());
+                });
+
+        menus[2].add(add);
+        menus[2].add(delete);
+        menus[2].add(merge);
+        menus[2].add(collapse);
+        menus[2].addSeparator();
+        menus[2].add(allowDefault);
+        menus[2].add(caseRuleGen);
+        menus[2].add(imdFeedback);
+
+
+        // HELP
+        menus[3] = new JMenu("Help");
+
+        // Help > About LEGUP
+        aboutLegup = new JMenuItem("About LEGUP");
         aboutLegup.addActionListener(
                 l -> {
                     JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
                 });
-
-        about.add(legupWiki);
+        // Help > LEGUP Wiki
+        legupWiki = new JMenuItem("LEGUP Wiki");
         legupWiki.addActionListener(
                 l -> {
                     try {
@@ -490,9 +489,27 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
                     }
                 });
 
-        mBar.add(about);
+        menus[3].add(aboutLegup);
+        menus[3].add(legupWiki);
 
-        return mBar;
+        // add menus to menubar
+        for (JMenu menu : menus) {
+            menuBar.add(menu);
+        }
+        frame.setJMenuBar(menuBar);
+    }
+
+    /**
+     * Makes the panel visible by setting up the toolbar and content components. This method also
+     * sets the menu bar of the frame to the one used by this panel.
+     */
+    @Override
+    public void makeVisible() {
+        this.removeAll();
+
+        setupToolBar1();
+        setupContent();
+        setMenuBar();
     }
 
     /**
