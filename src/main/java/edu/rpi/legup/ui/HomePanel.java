@@ -79,7 +79,7 @@ public class HomePanel extends LegupPanel {
      *
      * @return the menu bar
      */
-    @NotNull public JMenuBar getMenuBar() {
+     public void setMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         menuBar.add(settings);
@@ -105,15 +105,14 @@ public class HomePanel extends LegupPanel {
                     }
                 });
         settings.add(contribute);
-
-        return this.menuBar;
+        frame.setJMenuBar(this.menuBar);
     }
 
     /** Makes the panel visible and sets the menu bar of the frame */
     @Override
     public void makeVisible() {
         render();
-        frame.setJMenuBar(this.getMenuBar());
+        this.setMenuBar();
     }
 
     /**

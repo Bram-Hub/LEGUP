@@ -182,7 +182,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // FILE
         menus[0] = new JMenu("File");
 
-        // file>new
+        // File > Open
         JMenuItem openPuzzle = new JMenuItem("Open");
         openPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
@@ -192,7 +192,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             openPuzzle.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         }
-        // file>create
+        // File > Create
         JMenuItem createPuzzle = new JMenuItem("Create");
         createPuzzle.addActionListener(
                 (ActionEvent) -> {
@@ -210,6 +210,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             createPuzzle.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
 
+        // File > Exit
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
@@ -220,7 +221,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
 
-        // Implements the "Preferences" under "File"
+        // File > Preferences
         JMenuItem preferences = new JMenuItem("Preferences");
         preferences.addActionListener(
                 a -> {
@@ -239,10 +240,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[1] = new JMenu("Edit");
         // edit>undo
         undo = new JMenuItem("Undo");
-        // edit>redo
-        redo = new JMenuItem("Redo");
-        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
-
         // TODO: Undo operation currently does not get updated correctly in history
         // menus[1].add(undo);
         undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
@@ -253,7 +250,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         }
-
+        // edit>redo
+        redo = new JMenuItem("Redo");
         // TODO: Redo operation currently does not get updated correctly in history
         // menus[1].add(redo);
         // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
@@ -298,16 +296,26 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                             'Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
 
-        menus[1].add(fitBoardToScreen);
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
+
         fitBoardToScreen.addActionListener(
                 (ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
+        // menus[1].add(undo);
+        // menus[1].add(redo);
+        menus[1].addSeparator();
+        menus[1].add(fitBoardToScreen);
+
         // HELP
         menus[2] = new JMenu("Help");
-        legupWiki = new JMenuItem("LEGUP Wiki");
+
         aboutLegup = new JMenuItem("About LEGUP");
-        menus[2].add(legupWiki);
-        menus[2].add(aboutLegup);
+        aboutLegup.addActionListener(
+                l -> {
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
+                });
+
+        legupWiki = new JMenuItem("LEGUP Wiki");
         legupWiki.addActionListener(
                 l -> {
                     try {
@@ -317,11 +325,11 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         LOGGER.error("Can't open web page");
                     }
                 });
+
+
         menus[2].add(aboutLegup);
-        aboutLegup.addActionListener(
-                l -> {
-                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
-                });
+        menus[2].add(legupWiki);
+
         // add menus to menubar
         for (JMenu menu : menus) {
             menuBar.add(menu);
