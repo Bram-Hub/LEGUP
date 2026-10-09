@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.sudoku.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -40,15 +39,16 @@ public class PossibleCellsForNumberRegionCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         SudokuBoard sudokuBoard = (SudokuBoard) board.copy();
         lagBoard = (SudokuBoard) sudokuBoard.copy();
-        CaseBoard caseBoard = new CaseBoard(sudokuBoard, this);
+        sudokuBoard.setCaseRule(this);
+
         for (PuzzleElement puzzleElement : sudokuBoard.getPuzzleElements()) {
             puzzleElement.setData(model.getModelRegionNumbers(puzzleElement.getIndex()));
-            caseBoard.addPickableElement(puzzleElement);
+            sudokuBoard.addCasePickableElement(puzzleElement);
         }
-        return caseBoard;
+        return sudokuBoard;
     }
 
     /**

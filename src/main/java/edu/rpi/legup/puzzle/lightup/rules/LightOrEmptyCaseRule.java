@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.lightup.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -21,16 +20,17 @@ public class LightOrEmptyCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
         lightUpBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
+        lightUpBoard.setCaseRule(this);
+
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             if (((LightUpCell) data).getType() == LightUpCellType.UNKNOWN) {
-                caseBoard.addPickableElement(data);
+                lightUpBoard.addCasePickableElement(data);
             }
         }
-        return caseBoard;
+        return lightUpBoard;
     }
 
     /**

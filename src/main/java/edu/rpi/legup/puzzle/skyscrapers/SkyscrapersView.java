@@ -2,7 +2,6 @@ package edu.rpi.legup.puzzle.skyscrapers;
 
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.ElementView;
 import edu.rpi.legup.ui.boardview.GridBoardView;
@@ -137,7 +136,7 @@ public class SkyscrapersView extends GridBoardView {
         if (this.board != board) {
             this.board = board;
 
-            if (board instanceof CaseBoard) {
+            if (board.getCaseRule() != null) {
                 setCasePickable();
             } else {
                 for (ElementView elementView : elementViews) {
@@ -157,29 +156,27 @@ public class SkyscrapersView extends GridBoardView {
         }
     }
 
+
     @Override
     protected void setCasePickable() {
-        CaseBoard caseBoard = (CaseBoard) board;
-        Board baseBoard = caseBoard.getBaseBoard();
-
         for (ElementView elementView : elementViews) {
             PuzzleElement puzzleElement =
-                    baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+                    board.getPuzzleElement(elementView.getPuzzleElement());
             elementView.setPuzzleElement(puzzleElement);
             elementView.setShowCasePicker(true);
-            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+            elementView.setCaseRulePickable(board.isPickable(puzzleElement, null));
         }
         for (SkyscrapersClueView clueView : northClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
+            PuzzleElement puzzleElement = board.getPuzzleElement(clueView.getPuzzleElement());
             clueView.setPuzzleElement(puzzleElement);
             clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+            clueView.setCaseRulePickable(board.isPickable(puzzleElement, null));
         }
         for (SkyscrapersClueView clueView : westClues) {
-            PuzzleElement puzzleElement = baseBoard.getPuzzleElement(clueView.getPuzzleElement());
+            PuzzleElement puzzleElement = board.getPuzzleElement(clueView.getPuzzleElement());
             clueView.setPuzzleElement(puzzleElement);
             clueView.setShowCasePicker(true);
-            clueView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+            clueView.setCaseRulePickable(board.isPickable(puzzleElement, null));
         }
     }
 

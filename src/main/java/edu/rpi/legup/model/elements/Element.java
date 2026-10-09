@@ -1,8 +1,10 @@
 package edu.rpi.legup.model.elements;
 
-import java.awt.*;
+import edu.rpi.legup.ui.SmoothImageIcon;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +40,7 @@ public abstract class Element {
         this.elementName = elementName;
         this.description = description;
         this.imageName = imageName;
-        this.INVALID_USE_MESSAGE = "Invalid use of the rule " + this.elementName;
+        this.INVALID_USE_MESSAGE = "Invalid use of the element " + this.elementName;
         loadImage();
     }
 
@@ -48,7 +50,7 @@ public abstract class Element {
      */
     private void loadImage() {
         if (imageName != null) {
-            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
+            this.image = new SmoothImageIcon(ClassLoader.getSystemClassLoader().getResource(imageName));
             // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
@@ -65,7 +67,7 @@ public abstract class Element {
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bimage.createGraphics();
             g.drawImage(image, 0, 0, 100, height, null);
-            this.image = new ImageIcon(bimage);
+            this.image = new SmoothImageIcon(bimage);
         }
     }
 
@@ -124,7 +126,7 @@ public abstract class Element {
     }
 
     /**
-     * Gets the message for invalid use of the rule
+     * Gets the message for invalid use of the element
      *
      * @return The invalid use message
      */

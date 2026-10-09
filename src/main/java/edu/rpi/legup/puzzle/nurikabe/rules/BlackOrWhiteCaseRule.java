@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.nurikabe.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -29,16 +28,17 @@ public class BlackOrWhiteCaseRule extends CaseRule {
      * @return a case board
      */
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         NurikabeBoard nurikabeBoard = (NurikabeBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(nurikabeBoard, this);
+        nurikabeBoard.setCaseRule(this);
+
         nurikabeBoard.setModifiable(false);
         for (PuzzleElement element : nurikabeBoard.getPuzzleElements()) {
             if (((NurikabeCell) element).getType() == NurikabeType.UNKNOWN) {
-                caseBoard.addPickableElement(element);
+                nurikabeBoard.addCasePickableElement(element);
             }
         }
-        return caseBoard;
+        return nurikabeBoard;
     }
 
     /**

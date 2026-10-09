@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.fillapix.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -20,17 +19,18 @@ public class BlackOrWhiteCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         FillapixBoard fillapixBoard = (FillapixBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(fillapixBoard, this);
+        fillapixBoard.setCaseRule(this);
+
         fillapixBoard.setModifiable(false);
         for (PuzzleElement data : fillapixBoard.getPuzzleElements()) {
             FillapixCell cell = (FillapixCell) data;
             if (cell.getType() == FillapixCellType.UNKNOWN) {
-                caseBoard.addPickableElement(data);
+                fillapixBoard.addCasePickableElement(data);
             }
         }
-        return caseBoard;
+        return fillapixBoard;
     }
 
     @Override

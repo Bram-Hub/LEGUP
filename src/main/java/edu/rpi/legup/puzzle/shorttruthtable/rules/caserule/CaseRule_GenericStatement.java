@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.shorttruthtable.rules.caserule;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableBoard;
 import edu.rpi.legup.puzzle.shorttruthtable.ShortTruthTableCell;
@@ -42,11 +41,11 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
 
     // Adds all elements that can be selected for this caserule
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         // copy the board and add all elements that can be selected
         ShortTruthTableBoard sttBoard = (ShortTruthTableBoard) board.copy();
         sttBoard.setModifiable(false);
-        CaseBoard caseBoard = new CaseBoard(sttBoard, this);
+        sttBoard.setCaseRule(this);
 
         // add all elements that can be selected for the case rule statement
         for (PuzzleElement element : sttBoard.getPuzzleElements()) {
@@ -70,9 +69,9 @@ public abstract class CaseRule_GenericStatement extends CaseRule_Generic {
                 continue;
             }
             // if the element has passed all the checks, it can be selected
-            caseBoard.addPickableElement(element);
+            sttBoard.addCasePickableElement(element);
         }
-        return caseBoard;
+        return sttBoard;
     }
 
     /**

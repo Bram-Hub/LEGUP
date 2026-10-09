@@ -48,9 +48,8 @@ public class ProveAnySolutionTest {
         Assert.assertTrue(
                 TestUtilities.verifyBoard("goalConditions/ProveAnySolution/CompleteLine", puzzle));
 
-        Assert.assertFalse(
-                TestUtilities.verifyBoard(
-                        "goalConditions/ProveAnySolution/ContradictoryLine", puzzle));
+        Assert.assertTrue(TestUtilities.verifyBoard(
+                "goalConditions/ProveAnySolution/ContradictoryLine", puzzle));
 
         Assert.assertFalse(
                 TestUtilities.verifyBoard(

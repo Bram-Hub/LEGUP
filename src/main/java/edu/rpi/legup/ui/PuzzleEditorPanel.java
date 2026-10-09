@@ -13,7 +13,6 @@ import edu.rpi.legup.model.GoalType;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.PuzzleExporter;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -35,6 +34,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -122,19 +122,17 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // Use a multi-line, wrapped, non-editable JTextArea so
         // longer goal descriptions wrap and look consistent with the solver UI.
         goalText = new JTextArea();
-        goalText.setRows(2);
+        goalText.setRows(1);
         goalText.setEditable(false);
         // Make opaque so it renders reliably inside the scroll pane
         goalText.setOpaque(true);
-        // Show a default message so the box is visible before a puzzle is loaded
-        goalText.setText("Find all solutions to the puzzle or prove none exist.");
-        // Use the panel background so it blends with the UI and remains readable
-        goalText.setBackground(UIManager.getColor("Panel.background"));
         goalText.setFocusable(false);
         goalText.setLineWrap(true);
         goalText.setWrapStyleWord(true);
+        // Stop caret (and scroll pane) from jumping to bottom of text area when updated
+        ((DefaultCaret) goalText.getCaret()).setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
         // Create and store the scroll pane on the field so it can be reused
-        goalPane = new JScrollPane(goalText);
+        goalPane = new JitterlessScrollPane(goalText);
         // Give the pane a small preferred height so it doesn't collapse in the layout
         goalPane.setPreferredSize(new Dimension(0, 50));
         // Also set a minimum size and reasonable max height to prevent layout collapsing
@@ -806,7 +804,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         }
 
                         @Override
-                        public void onCaseBoardAdded(CaseBoard caseBoard) {
+                        public void onCaseBoardAdded(Board caseBoard) {
                             // not relevant for goal text updates
                         }
 

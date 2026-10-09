@@ -27,7 +27,6 @@ public class EditorElementController implements ActionListener {
     protected ElementButton prevButton;
     private SelectionMode selectionMode;
     private Object goalValueData;
-    private boolean assumeSolution;
 
     public EditorElementController() {
         super();
@@ -35,7 +34,6 @@ public class EditorElementController implements ActionListener {
         prevButton = null;
         selectionMode = SelectionMode.PLACEABLE;
         goalValueData = null;
-        assumeSolution = false;
     }
 
     /**
@@ -73,13 +71,6 @@ public class EditorElementController implements ActionListener {
                 goalValueData = elementType;
                 elementController.setGoalValueData(goalValueData);
             }
-        }
-    }
-
-    public void setAssumeSolution(boolean assume) {
-        if (elementController != null) {
-            assumeSolution = assume;
-            elementController.setAssumeSolution(assume);
         }
     }
 

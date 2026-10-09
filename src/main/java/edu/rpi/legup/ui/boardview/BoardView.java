@@ -3,7 +3,6 @@ package edu.rpi.legup.ui.boardview;
 import edu.rpi.legup.controller.BoardController;
 import edu.rpi.legup.controller.ElementController;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.observer.IBoardListener;
 import edu.rpi.legup.model.tree.TreeElement;
@@ -121,7 +120,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
         if (this.board != board) {
             this.board = board;
 
-            if (board instanceof CaseBoard) {
+            if (board.getCaseRule() != null) {
                 setCasePickable();
             } else {
                 for (ElementView elementView : elementViews) {
@@ -135,15 +134,12 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
 
     /** Configures the view to handle case interactions */
     protected void setCasePickable() {
-        CaseBoard caseBoard = (CaseBoard) board;
-        Board baseBoard = caseBoard.getBaseBoard();
-
         for (ElementView elementView : elementViews) {
             PuzzleElement puzzleElement =
-                    baseBoard.getPuzzleElement(elementView.getPuzzleElement());
+                    board.getPuzzleElement(elementView.getPuzzleElement());
             elementView.setPuzzleElement(puzzleElement);
             elementView.setShowCasePicker(true);
-            elementView.setCaseRulePickable(caseBoard.isPickable(puzzleElement, null));
+            elementView.setCaseRulePickable(board.isPickable(puzzleElement, null));
         }
     }
 
@@ -165,7 +161,7 @@ public abstract class BoardView extends ScrollView implements IBoardListener {
      * @param caseBoard case board to be added
      */
     @Override
-    public void onCaseBoardAdded(@NotNull CaseBoard caseBoard) {
+    public void onCaseBoardAdded(@NotNull Board caseBoard) {
         setBoard(caseBoard);
         repaint();
     }

@@ -13,7 +13,6 @@ import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.elements.Element;
 import edu.rpi.legup.model.elements.PlaceableElement;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.GridBoard;
 import edu.rpi.legup.model.gameboard.GridCell;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
@@ -42,7 +41,6 @@ public class ElementController
     private GoalType currentGoalType;
     private PlaceableElement currentGoalValue;
     private Object goalValueData;
-    private boolean assumeSolution;
 
     /**
      * ElementController Constructor controller to handle ui events associated interacting with a
@@ -55,7 +53,6 @@ public class ElementController
         this.currentGoalType = GoalType.DEFAULT;
         this.currentGoalValue = null;
         this.goalValueData = null;
-        this.assumeSolution = false;
     }
 
     /**
@@ -104,12 +101,6 @@ public class ElementController
 
     public PlaceableElement getCurrentGoalValue() {
         return this.currentGoalValue;
-    }
-
-    public void setAssumeSolution(boolean assume) {
-        this.assumeSolution = assume;
-        Puzzle puzzle = GameBoardFacade.getInstance().getPuzzleModule();
-        puzzle.getGoal().setAssumeSolution(assume);
     }
 
     /**
@@ -163,11 +154,10 @@ public class ElementController
         }
         // funny
         if (elementView != null) {
-            if (board instanceof CaseBoard) {
-                CaseBoard caseBoard = (CaseBoard) board;
+            if (board.getCaseRule() != null) {
                 AutoCaseRuleCommand autoCaseRuleCommand =
                         new AutoCaseRuleCommand(
-                                elementView, selection, caseBoard.getCaseRule(), caseBoard, e);
+                                elementView, selection, board.getCaseRule(), board, e);
                 if (autoCaseRuleCommand.canExecute()) {
                     autoCaseRuleCommand.execute();
                     getInstance().getHistory().pushChange(autoCaseRuleCommand);
@@ -498,10 +488,9 @@ public class ElementController
             boardView = getInstance().getLegupUI().getEditorBoardView();
         }
         Board board = boardView.getBoard();
-        if (board instanceof CaseBoard) {
-            CaseBoard caseBoard = (CaseBoard) board;
+        if (board.getCaseRule() != null) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(caseBoard));
+                puzzle.notifyBoardListeners(listener -> listener.onCaseBoardAdded(board));
             }
         }
     }

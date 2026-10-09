@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import edu.rpi.legup.app.LegupPreferences;
+import javax.swing.border.EmptyBorder;
+
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
 
@@ -218,11 +220,11 @@ public class PreferencesDialog extends JDialog {
                             })
                     int fileSelectionMode) {
         final JPanel row = new JPanel();
-        row.setLayout(new BorderLayout());
+        row.setLayout(new BorderLayout(10, 0));
         final JLabel fileLabel = new JLabel(label);
         fileLabel.setToolTipText(hoverText);
         row.add(fileLabel, BorderLayout.WEST);
-        final JTextField file = new JTextField(currentFile);
+        final JTextField file = new JTextField(currentFile, 1);
         row.add(file, BorderLayout.CENTER);
         final JButton openFile = new JButton(imageIcon);
         openFile.addActionListener(
@@ -251,8 +253,10 @@ public class PreferencesDialog extends JDialog {
      * @return a JScrollPane containing the general preferences panel
      */
     @NotNull private JScrollPane createGeneralTab() {
-        LegupPreferences prefs = LegupPreferences.getInstance();
-        JScrollPane scrollPane = new JScrollPane();
+        JScrollPane scrollPane = new JitterlessScrollPane();
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(new EmptyBorder(0, 10, 10, 0));
+
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
@@ -388,8 +392,9 @@ public class PreferencesDialog extends JDialog {
      * @return a JScrollPane containing the puzzle preferences panel
      */
     @NotNull private JScrollPane createPuzzleTab(@NotNull Puzzle puzzle) {
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JitterlessScrollPane();
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(new EmptyBorder(0, 10, 10, 0));
 
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));

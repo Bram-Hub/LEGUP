@@ -8,7 +8,6 @@ import edu.rpi.legup.history.AutoCaseRuleCommand;
 import edu.rpi.legup.history.EditDataCommand;
 import edu.rpi.legup.history.ICommand;
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.ui.boardview.BoardView;
 import edu.rpi.legup.ui.boardview.ElementView;
@@ -66,11 +65,10 @@ public class TreeTentController extends ElementController {
             TreeViewSelection selection = treeView.getSelection();
 
             if (dragStart != null) {
-                if (board instanceof CaseBoard) {
-                    CaseBoard caseBoard = (CaseBoard) board;
+                if (board.getCaseRule() != null) {
                     AutoCaseRuleCommand autoCaseRuleCommand =
                             new AutoCaseRuleCommand(
-                                    dragStart, selection, caseBoard.getCaseRule(), caseBoard, e);
+                                    dragStart, selection, board.getCaseRule(), board, e);
                     if (autoCaseRuleCommand.canExecute()) {
                         autoCaseRuleCommand.execute();
                         getInstance().getHistory().pushChange(autoCaseRuleCommand);

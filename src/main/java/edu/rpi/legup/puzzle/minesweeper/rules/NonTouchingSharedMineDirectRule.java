@@ -17,7 +17,7 @@ import java.util.List;
 public class NonTouchingSharedMineDirectRule extends DirectRule {
     public NonTouchingSharedMineDirectRule() {
         super(
-                "MINE-BASC-0003",
+                "MINE-BASC-0004",
                 "Non Shared Mine",
                 "Adjacent cells with numbers have the same difference in mine in their unshared\n"
                         + "regions as the difference in their numbers",

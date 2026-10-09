@@ -3,6 +3,7 @@ package edu.rpi.legup.model.rules;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.tree.TreeTransition;
+import edu.rpi.legup.ui.SmoothImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -94,7 +95,7 @@ public abstract class Rule {
             if (name.contains("shorttruthtable") && LegupPreferences.colorBlind()) {
                 name = name.replace("ruleimages", "ruleimages_cb");
             }
-            this.image = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
+            this.image = new SmoothImageIcon(ClassLoader.getSystemClassLoader().getResource(name));
             // Resize images to be 100px wide
             Image image = this.image.getImage();
             if (this.image.getIconWidth() < 120) return;
@@ -111,7 +112,7 @@ public abstract class Rule {
             BufferedImage bimage = new BufferedImage(100, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bimage.createGraphics();
             g.drawImage(image, 0, 0, 100, height, null);
-            this.image = new ImageIcon(bimage);
+            this.image = new SmoothImageIcon(bimage);
         }
     }
 

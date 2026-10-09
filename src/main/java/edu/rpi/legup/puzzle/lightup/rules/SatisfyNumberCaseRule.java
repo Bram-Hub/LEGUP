@@ -1,7 +1,6 @@
 package edu.rpi.legup.puzzle.lightup.rules;
 
 import edu.rpi.legup.model.gameboard.Board;
-import edu.rpi.legup.model.gameboard.CaseBoard;
 import edu.rpi.legup.model.gameboard.PuzzleElement;
 import edu.rpi.legup.model.rules.CaseRule;
 import edu.rpi.legup.model.tree.TreeTransition;
@@ -29,16 +28,17 @@ public class SatisfyNumberCaseRule extends CaseRule {
     }
 
     @Override
-    public CaseBoard getApplicableLocationsBoard(Board board) {
+    public Board getApplicableLocationsBoard(Board board) {
         LightUpBoard lightUpBoard = (LightUpBoard) board.copy();
-        CaseBoard caseBoard = new CaseBoard(lightUpBoard, this);
+        lightUpBoard.setCaseRule( this );
+
         lightUpBoard.setModifiable(false);
         for (PuzzleElement data : lightUpBoard.getPuzzleElements()) {
             if (((LightUpCell) data).getType() == LightUpCellType.NUMBER) {
-                caseBoard.addPickableElement(data);
+                lightUpBoard.addCasePickableElement(data);
             }
         }
-        return caseBoard;
+        return lightUpBoard;
     }
 
     /**

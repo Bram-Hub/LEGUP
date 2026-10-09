@@ -4,9 +4,14 @@ import edu.rpi.legup.controller.RuleController;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.gameboard.Board;
 import edu.rpi.legup.model.rules.Rule;
+import edu.rpi.legup.ui.JitterlessScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -49,7 +54,7 @@ public class RuleFrame extends JPanel {
         this.buttonGroup = new ButtonGroup();
 
         DirectRulePanel = new DirectRulePanel(this);
-        JScrollPane newbrp = new JScrollPane(DirectRulePanel);
+        JitterlessScrollPane newbrp = new JitterlessScrollPane(DirectRulePanel);
         newbrp.getVerticalScrollBar().setUnitIncrement(16);
         tabbedPane.addTab(
                 DirectRulePanel.getName(),
@@ -58,18 +63,18 @@ public class RuleFrame extends JPanel {
                 DirectRulePanel.getToolTip());
 
         casePanel = new CaseRulePanel(this);
-        JScrollPane newcp = new JScrollPane(casePanel);
+        JitterlessScrollPane newcp = new JitterlessScrollPane(casePanel);
         newcp.getVerticalScrollBar().setUnitIncrement(16);
         tabbedPane.addTab(casePanel.name, casePanel.icon, newcp, casePanel.toolTip);
 
         contradictionPanel = new ContradictionRulePanel(this);
-        JScrollPane newp = new JScrollPane(contradictionPanel);
+        JitterlessScrollPane newp = new JitterlessScrollPane(contradictionPanel);
         newp.getVerticalScrollBar().setUnitIncrement(16);
         tabbedPane.addTab(
                 contradictionPanel.name, contradictionPanel.icon, newp, contradictionPanel.toolTip);
 
         searchPanel = new SearchBarPanel(this);
-        JScrollPane newsp = new JScrollPane(searchPanel);
+        JitterlessScrollPane newsp = new JitterlessScrollPane(searchPanel);
         newsp.getVerticalScrollBar().setUnitIncrement(16);
         tabbedPane.addTab(searchPanel.name, searchPanel.icon, newsp, searchPanel.toolTip);
 
