@@ -282,10 +282,10 @@ public class PreferencesDialog extends JDialog {
         fullScreen.addActionListener(
                 event-> {
                     LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
-                    if(!LegupPreferences.setFullScreen())
+                    if(!LegupPreferences.setFullScreen()) {
                         ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-                    else
-                        ui.setExtendedState(JFrame.NORMAL);
+                    } else {
+                        ui.setExtendedState(JFrame.NORMAL); }
                     }
                 );
 
