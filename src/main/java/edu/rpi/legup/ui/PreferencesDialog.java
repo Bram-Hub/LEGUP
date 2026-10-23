@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
@@ -273,9 +274,20 @@ public class PreferencesDialog extends JDialog {
         fullScreen =
                 addDefaultCheckBox(
                         "Full Screen",
-                        LegupPreferences.startFullScreen(),
+                        LegupPreferences.getFullScreen(),
                         "If checked this starts LEGUP in full screen.",
                         contentPane);
+
+        fullScreen.addActionListener(
+                event-> {
+                    LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
+                    if(!LegupPreferences.getFullScreen()) {
+                        ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+                    } else {
+                        ui.setExtendedState(JFrame.NORMAL); }
+                    }
+                );
+
         autoUpdate =
                 addDefaultCheckBox(
                         "Automatically Check for Updates",
@@ -522,7 +534,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(
                 LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
         prefs.setUserPref(
-                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+                LegupPreferences.LegupPreference.FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
         prefs.setUserPref(

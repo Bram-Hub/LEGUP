@@ -13,4 +13,5 @@ public abstract class LegupPanel extends JPanel {
 
     /** Abstract method to make the panel visible */
     public abstract void makeVisible();
+    public abstract void setMenuBar();
 }
