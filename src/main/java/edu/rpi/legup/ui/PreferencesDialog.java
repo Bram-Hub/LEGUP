@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import edu.rpi.legup.app.LegupPreferences;
 import javax.swing.border.EmptyBorder;
 
 import org.intellij.lang.annotations.MagicConstant;
@@ -275,14 +274,14 @@ public class PreferencesDialog extends JDialog {
         fullScreen =
                 addDefaultCheckBox(
                         "Full Screen",
-                        LegupPreferences.setFullScreen(),
+                        LegupPreferences.getFullScreen(),
                         "If checked this starts LEGUP in full screen.",
                         contentPane);
 
         fullScreen.addActionListener(
                 event-> {
                     LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
-                    if(!LegupPreferences.setFullScreen()) {
+                    if(!LegupPreferences.getFullScreen()) {
                         ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
                     } else {
                         ui.setExtendedState(JFrame.NORMAL); }

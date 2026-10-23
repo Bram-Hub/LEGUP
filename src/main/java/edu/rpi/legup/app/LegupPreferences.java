@@ -227,7 +227,7 @@ public class LegupPreferences {
         return LegupPreference.WORK_DIRECTORY.stringValue();
     }
 
-    public static boolean setFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
+    public static boolean getFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
 
     public static boolean autoUpdate() {
         return LegupPreference.AUTO_UPDATE.asBoolean();

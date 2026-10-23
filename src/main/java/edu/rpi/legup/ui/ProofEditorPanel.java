@@ -140,7 +140,17 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(800, 700));
+
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+
+
+        if(LegupPreferences.getFullScreen()) {
+            setPreferredSize(new Dimension(width, height));
+        } else {
+            setPreferredSize(new Dimension(800, 700)); }
+        System.out.print("ProofEditorPanel()\n");
     }
 
 
@@ -497,7 +507,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             menuBar.add(menu);
         }
         frame.setJMenuBar(menuBar);
-    }
+         System.out.print("SetMenuBar1()\n");
+
+     }
 
     /**
      * Makes the panel visible by setting up the toolbar and content components. This method also
@@ -505,8 +517,8 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void makeVisible() {
+        System.out.print("makeVisible() Reached in Proof and SetFullScreen is: " + LegupPreferences.getFullScreen() + "\n");
         this.removeAll();
-
         setupToolBar1();
         setupContent();
         setMenuBar();
@@ -872,6 +884,9 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
 
         revalidate();
+
+        System.out.print("SetUpContent()\n");
+
     }
 
     /**
@@ -880,10 +895,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      * puzzle when clicked.
      */
     private void setupToolBar1() {
-        toolBar1 = new JToolBar();
-        toolBar1.setFloatable(false);
-        toolBar1.setRollover(true);
-        setToolBar2Buttons(new JButton[1]);
+        setToolBar1Buttons(new JButton[1]);
 
         JButton open =
                 new JButton(
@@ -896,8 +908,12 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
 
         open.addActionListener((ActionEvent) -> loadPuzzle());
 
-        getToolBar2Buttons()[0] = open;
-        toolBar1.add(getToolBar2Buttons()[0]);
+        getToolBar1Buttons()[0] = open;
+
+        toolBar1 = new JToolBar();
+        toolBar1.setFloatable(false);
+        toolBar1.setRollover(true);
+        toolBar1.add(getToolBar1Buttons()[0]);
 
         this.add(toolBar1, BorderLayout.NORTH);
     }
