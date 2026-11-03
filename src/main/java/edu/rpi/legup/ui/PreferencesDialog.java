@@ -519,6 +519,13 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
+     * Gives a Panel the capability to deactivate the FullScreen checkbox
+     *
+     * @param active the boolean that determines the box's state
+     */
+    public void fullScreenBox(boolean active) { fullScreen.setEnabled(active); }
+
+    /**
      * Applies the current user preferences and updates the associated components. This method
      * retrieves user preferences from the dialog's components and stores them in the {@link
      * LegupPreferences} instance. It also updates the rule panels in the rules frame if it is not

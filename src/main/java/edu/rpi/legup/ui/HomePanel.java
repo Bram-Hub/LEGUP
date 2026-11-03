@@ -88,6 +88,7 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
+                    preferencesDialog.fullScreenBox(false);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Preferences clicked");
                     }
