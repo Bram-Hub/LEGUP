@@ -113,6 +113,71 @@ public class FinishWithWhiteDirectRuleTest {
         Assert.assertNull(RULE.checkRule(transition));
     }
 
-    
+    /**
+     * Tests a false application of the Finish With White Direct Rule on a 3x3 board.
+     * There is a value square of 6 in the center. The Middle and Right columns are colored black, and the
+     * Left column is colored white.
+     * The same test can be found in the FinishWithBlackDirectRuleTest
+     */
+    @Test
+    public void FinishWithWhiteDirectRuleTest_3x3FalseWhiteBlackTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/fillapix/rules/FinishWithWhiteDirectRule/3x3FalseWhiteBlack", fillapix );
+        TreeNode rootNode = fillapix.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().getFirst();
+        transition.setRule(RULE);
 
+        FillapixBoard board = (FillapixBoard) transition.getBoard(); // Reset Board
+        // loop through all cells within the board. i = x, j = y
+        for ( int i = 0; i < 3; i++ ) {
+            for ( int j = 0; j < 3; j++ ) {
+                FillapixCell cell = board.getCell(i, j); // set the current cell
+                Assert.assertNotNull(cell);
+
+                // set everything but first column to black
+                if ( i == 0 ) {
+                    cell.setCellType(FillapixCellType.WHITE); // 2: WHITE
+                }
+                else {
+                    cell.setCellType(FillapixCellType.BLACK); // 1: BLACK
+                }
+
+                board.addModifiedData(cell);
+            }
+        }
+
+        // Test once gone through entire board
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Tests a false application of the Finish With White Direct Rule on a 1x3 board.
+     * There is a value tile of 2 in the center preset to the color black.
+     * The left & right tiles are colored white.
+     */
+    @Test
+    public void FinishWithWhiteDirectRuleTest_1x3FalseMixTest() throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/fillapix/rules/FinishWithWhiteDirectRule/1x3FalseMix", fillapix );
+        TreeNode rootNode = fillapix.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().getFirst();
+        transition.setRule(RULE);
+
+        FillapixBoard board = (FillapixBoard) transition.getBoard(); // Reset Board
+
+        // loop through the row of the board. i = x
+        for ( int i = 0; i < 3; i++ ) {
+            FillapixCell cell = board.getCell(i, 0); // set the current cell
+            Assert.assertNotNull(cell);
+
+            if ( i != 1 ) {
+                cell.setCellType(FillapixCellType.WHITE); // 2: WHITE
+                board.addModifiedData(cell);
+            }
+
+        }
+
+        // Test once gone through entire board
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
 }
