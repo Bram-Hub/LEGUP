@@ -274,7 +274,7 @@ public class PreferencesDialog extends JDialog {
         fullScreen =
                 addDefaultCheckBox(
                         "Full Screen",
-                        LegupPreferences.getFullScreen(),
+                        LegupPreferences.fullScreen(),
                         "If checked this starts LEGUP in full screen.",
                         contentPane);
 

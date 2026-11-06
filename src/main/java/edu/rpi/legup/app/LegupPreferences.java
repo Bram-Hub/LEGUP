@@ -260,7 +260,7 @@ public class LegupPreferences {
      *
      * @return the FULL_SCREEN state as a boolean
      */
-    public static boolean getFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
+    public static boolean fullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
 
     /**
      * Sets the screen to FullScreen or Windowed. Enters FullScreen if the screen is Windowed
@@ -273,8 +273,8 @@ public class LegupPreferences {
         LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
         if(ui == null) { return; }
 
-        boolean full = ( isClick && !LegupPreferences.getFullScreen() )
-                || ( !isClick && LegupPreferences.getFullScreen() );
+        boolean full = ( isClick && !LegupPreferences.fullScreen() )
+                || ( !isClick && LegupPreferences.fullScreen() );
 
         if( full ) {
             ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
