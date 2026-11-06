@@ -210,34 +210,69 @@ public class LegupPreferences {
         savedPath = path;
     }
 
+    /**
+     * Gets the state of COLOR_BLIND
+     *
+     * @return the COLOR_BLIND state as a boolean
+     */
     public static boolean colorBlind() {
         return LegupPreference.COLOR_BLIND.asBoolean();
     }
 
+    /**
+     * Gets the state of DARK_MODE
+     *
+     * @return the DARK_MODE state as a boolean
+     */
     public static boolean darkMode() {
         return LegupPreference.DARK_MODE.asBoolean();
     }
 
+    /**
+     * Gets the state of SHOW_ANNOTATIONS
+     *
+     * @return the SHOW_ANNOTATIONS state as a boolean
+     */
     public static boolean showAnnotations() {
         return LegupPreference.SHOW_ANNOTATIONS.asBoolean();
     }
 
+    /**
+     * Gets the state of ALLOW_DEFAULT_RULES
+     *
+     * @return the ALLOW_DEFAULT_RULES state as a boolean
+     */
     public static boolean allowDefaultRules() {
         return LegupPreference.ALLOW_DEFAULT_RULES.asBoolean();
     }
 
+    /**
+     * Gets the state of WORK_DIRECTORY
+     *
+     * @return the WORK_DIRECTORY as a string
+     */
     public static String workDirectory() {
         return LegupPreference.WORK_DIRECTORY.stringValue();
     }
 
+    /**
+     * Gets the state of FULL_SCREEN
+     *
+     * @return the FULL_SCREEN state as a boolean
+     */
     public static boolean getFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
 
+    /**
+     * Sets the screen to FullScreen or Windowed. Enters FullScreen if the screen is Windowed
+     * and the caller was a click event OR if the screen is FullScreen and the
+     * caller wasn't a click event
+     *
+     * @param isClick a boolean correlating to if the caller was an OnClick function or not
+     */
     public static void setScreenSize(boolean isClick) {
         LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
         boolean full = ( isClick && !LegupPreferences.getFullScreen() )
                 || ( !isClick && LegupPreferences.getFullScreen() );
-        System.out.print("Bool for Fullscreen is: " + full + "\n");
-
 
         if( full ) {
             ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -245,27 +280,56 @@ public class LegupPreferences {
             ui.setExtendedState(JFrame.NORMAL); }
     }
 
-
+    /**
+     * Gets the state of AUTO_UPDATE
+     *
+     * @return the AUTO_UPDATE state as a boolean
+     */
     public static boolean autoUpdate() {
         return LegupPreference.AUTO_UPDATE.asBoolean();
     }
 
+    /**
+     * Gets the state of SHOW_MISTAKES
+     *
+     * @return the SHOW_MISTAKES state as a boolean
+     */
     public static boolean showMistakes() {
         return LegupPreference.SHOW_MISTAKES.asBoolean();
     }
 
+    /**
+     * Gets the state of AUTO_GENERATE_CASES
+     *
+     * @return the AUTO_GENERATE_CASES state as a boolean
+     */
     public static boolean autoGenerateCases() {
         return LegupPreference.AUTO_GENERATE_CASES.asBoolean();
     }
 
+    /**
+     * Gets the state of IMMEDIATE_FEEDBACK
+     *
+     * @return the IMMEDIATE_FEEDBACK state as a boolean
+     */
     public static boolean immediateFeedback() {
         return LegupPreference.IMMEDIATE_FEEDBACK.asBoolean();
     }
 
+    /**
+     * Gets the state of USE_CUSTOM_COLOR_THEME
+     *
+     * @return the USE_CUSTOM_COLOR_THEME state as a boolean
+     */
     public static boolean useCustomColorTheme() {
         return LegupPreference.USE_CUSTOM_COLOR_THEME.asBoolean();
     }
 
+    /**
+     * Gets the state of COLOR_THEME_FILE
+     *
+     * @return the COLOR_THEME_FILE as a string
+     */
     public static String colorThemeFile() {
         return LegupPreference.COLOR_THEME_FILE.stringValue();
     }

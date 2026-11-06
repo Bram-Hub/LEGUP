@@ -100,7 +100,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
-        setPreferredSize(null);
+        setPreferredSize(new Dimension(800, 700));
     }
 
     /**
@@ -166,11 +166,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation() + 100);
         this.splitPanel = splitPanel;
 
-        System.out.print("Pre Size: " + frame.getSize());
         revalidate();
-        //setPreferredSize(new Dimension(500,900));
-
-        System.out.print("Post Size: " + frame.getSize());
     }
 
     /**

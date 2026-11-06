@@ -140,17 +140,7 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
-
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-
-
-        if(LegupPreferences.getFullScreen()) {
-            setPreferredSize(new Dimension(width, height));
-        } else {
-            setPreferredSize(new Dimension(800, 700)); }
-        System.out.print("ProofEditorPanel()\n");
+        setPreferredSize(new Dimension(800, 700));
     }
 
 
@@ -517,7 +507,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      */
     @Override
     public void makeVisible() {
-        System.out.print("makeVisible() Reached in Proof and SetFullScreen is: " + LegupPreferences.getFullScreen() + "\n");
         this.removeAll();
         setupToolBar1();
         setupContent();

@@ -73,6 +73,7 @@ public class HomePanel extends LegupPanel {
         setPreferredSize(new Dimension(440, 250));
         initText();
         initButtons();
+        this.frame.setExtendedState(JFrame.NORMAL);
     }
 
     /**
