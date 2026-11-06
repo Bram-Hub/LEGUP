@@ -369,8 +369,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         setupToolBar1();
         setupContent();
         setMenuBar();
-
-        LegupPreferences.setScreenSize( false );
     }
 
     /**

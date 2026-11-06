@@ -262,6 +262,7 @@ public class LegupUI extends JFrame implements WindowListener {
         setLocationRelativeTo(null);
         revalidate();
         repaint();
+        if(option != 0 ) { LegupPreferences.setScreenSize(false); }
     }
 
     /**

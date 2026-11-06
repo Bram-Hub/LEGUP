@@ -873,9 +873,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
         mainPanel.setDividerLocation(mainPanel.getMaximumDividerLocation() + 100);
 
         revalidate();
-
-        System.out.print("SetUpContent()\n");
-
     }
 
     /**
