@@ -170,8 +170,23 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
-     * Configures the menu bar with menus and menu items for the application. Adds actions for
-     * opening, creating, and exiting puzzles. Also sets up help and about menu items.
+     * Constructs and returns the {@code JMenuBar} for this panel. It populates it with various
+     * {@code JMenu} and {@code JMenuItem} components related to file operations, editing, viewing.
+     * The menu bar includes:
+     *
+     * <ul>
+     *   <li>{@code File} menu with options to open a puzzle, create a new puzzle,
+     *       access preferences, and exit the editor.
+     *   <li>{@code Edit} menu with options for undo, redo, and fitting the board to the
+     *       screen.
+     *   <li>{@code Help} menu with options to view information about the application and access
+     *              the Wiki.
+     * </ul>
+     *
+     * <p>Accelerator keys are set based on the operating system (Mac or non-Mac).
+     *
+     * <p>Adds the {@code JMenu} to the {@code JMenuBar} instance before finally
+     * being added to the {@code JFrame} instance
      */
     public void setMenuBar() {
         String os = LegupUI.getOS();
@@ -347,6 +362,18 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
     }
 
     /**
+     * Makes the panel visible by setting up the toolbar, content, and menu bar. This method is
+     * called to refresh the panel's user interface.
+     */
+    @Override
+    public void makeVisible() {
+        this.removeAll();
+        setupToolBar1();
+        setupContent();
+        setMenuBar();
+    }
+
+    /**
      * Exits the puzzle editor and resets the application state to its initial condition. This
      * method clears the current puzzle from the {@code GameBoardFacade}, resets the display to the
      * initial panel, and nullifies references to the tree panel and board view.
@@ -357,18 +384,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.legupUI.displayPanel(0);
         treePanel = null;
         boardView = null;
-    }
-
-    /**
-     * Makes the panel visible by setting up the toolbar, content, and menu bar. This method is
-     * called to refresh the panel's user interface.
-     */
-    @Override
-    public void makeVisible() {
-        this.removeAll();
-        setupToolBar1();
-        setupContent();
-        setMenuBar();
     }
 
     /**
@@ -710,7 +725,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     /**
      * Displays a confirmation dialog with the given instruction message. The method returns true if
-     * the user selected "No" or cancelled the dialog, and false if the user selected "Yes".
+     * the user selected "No" or canceled the dialog, and false if the user selected "Yes".
      *
      * @param instr the instruction message to display in the confirmation dialog
      * @return true if the user selected "No" or canceled; false if the user selected "Yes"

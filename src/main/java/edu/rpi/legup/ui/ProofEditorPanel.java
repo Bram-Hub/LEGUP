@@ -156,13 +156,14 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
      *       screen.
      *   <li>{@code Proof} menu with options for adding, deleting, merging, collapsing elements, and
      *       toggling settings related to rule applications and feedback.
-     *   <li>{@code About} menu with options to view information about the application and access
-     *       help resources.
+     *   <li>{@code Help} menu with options to view information about the application and access
+     *              the Wiki.
      * </ul>
      *
      * <p>Accelerator keys are set based on the operating system (Mac or non-Mac).
      *
-     * @return the {@code JMenuBar} instance containing the menus and menu items for this panel
+     *<p>Adds the {@code JMenu} to the {@code JMenuBar} instance before finally
+     *being added to the {@code JFrame} instance
      */
      public void setMenuBar() {
         String os = LegupUI.getOS();
@@ -497,8 +498,6 @@ public class ProofEditorPanel extends LegupPanel implements IHistoryListener {
             menuBar.add(menu);
         }
         frame.setJMenuBar(menuBar);
-         System.out.print("SetMenuBar1()\n");
-
      }
 
     /**
