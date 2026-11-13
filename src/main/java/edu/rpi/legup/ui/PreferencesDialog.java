@@ -1,6 +1,7 @@
 package edu.rpi.legup.ui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import edu.rpi.legup.app.GameBoardFacade;
 import edu.rpi.legup.app.LegupPreferences;
 import edu.rpi.legup.model.Puzzle;
 import edu.rpi.legup.model.rules.Rule;
@@ -273,9 +274,15 @@ public class PreferencesDialog extends JDialog {
         fullScreen =
                 addDefaultCheckBox(
                         "Full Screen",
-                        LegupPreferences.startFullScreen(),
+                        LegupPreferences.fullScreen(),
                         "If checked this starts LEGUP in full screen.",
                         contentPane);
+
+        fullScreen.addActionListener(
+                event-> {
+                    LegupPreferences.setScreenSize( true ); }
+                );
+
         autoUpdate =
                 addDefaultCheckBox(
                         "Automatically Check for Updates",
@@ -512,6 +519,13 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
+     * Gives a Panel the capability to deactivate the FullScreen checkbox
+     *
+     * @param active the boolean that determines the box's state
+     */
+    public void fullScreenBox(boolean active) { fullScreen.setEnabled(active); }
+
+    /**
      * Applies the current user preferences and updates the associated components. This method
      * retrieves user preferences from the dialog's components and stores them in the {@link
      * LegupPreferences} instance. It also updates the rule panels in the rules frame if it is not
@@ -522,7 +536,7 @@ public class PreferencesDialog extends JDialog {
         prefs.setUserPref(
                 LegupPreferences.LegupPreference.WORK_DIRECTORY, workDirectory.file.getText());
         prefs.setUserPref(
-                LegupPreferences.LegupPreference.START_FULL_SCREEN, fullScreen.isSelected());
+                LegupPreferences.LegupPreference.FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
         prefs.setUserPref(

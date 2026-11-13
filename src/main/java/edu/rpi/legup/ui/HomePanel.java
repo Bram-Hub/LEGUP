@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,6 +73,7 @@ public class HomePanel extends LegupPanel {
         setPreferredSize(new Dimension(440, 250));
         initText();
         initButtons();
+        this.frame.setExtendedState(JFrame.NORMAL);
     }
 
     /**
@@ -79,7 +81,7 @@ public class HomePanel extends LegupPanel {
      *
      * @return the menu bar
      */
-    @NotNull public JMenuBar getMenuBar() {
+     public void setMenuBar() {
         this.menuBar = new JMenuBar();
         JMenu settings = new JMenu("Settings");
         menuBar.add(settings);
@@ -87,6 +89,7 @@ public class HomePanel extends LegupPanel {
         preferences.addActionListener(
                 a -> {
                     PreferencesDialog preferencesDialog = new PreferencesDialog(this.frame);
+                    preferencesDialog.fullScreenBox(false);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Preferences clicked");
                     }
@@ -105,15 +108,14 @@ public class HomePanel extends LegupPanel {
                     }
                 });
         settings.add(contribute);
-
-        return this.menuBar;
+        frame.setJMenuBar(this.menuBar);
     }
 
     /** Makes the panel visible and sets the menu bar of the frame */
     @Override
     public void makeVisible() {
         render();
-        frame.setJMenuBar(this.getMenuBar());
+        this.setMenuBar();
     }
 
     /**
