@@ -126,6 +126,64 @@ public class TouchingCornersDirectRuleTest {
         Assert.assertNull(RULE.checkRule(transition));
     }
 
-    
+    /**
+     * Tests a false application of the Touching Corners Direct Rule on a 4x4 board.
+     * There is a value tile of 6 in the top-right middle, and a value tile of 7 in the bottom-left middle.
+     * The 6-tile has 3 black tiles in range, the 7-tile has 4 black tiles in range.
+     * No Tile needs to be colored black, this shows when the 6 and 7 corners both have 4 black tiles
+     */
+    @Test
+    public void TouchingCornersDirectRuleTest_4x4FalseMatchBlack () throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/fillapix/rules/TouchingCornersDirectRule/4x4FalseMatchBlack", fillapix );
+        TreeNode rootNode = fillapix.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().getFirst();
+        transition.setRule(RULE);
+
+        FillapixBoard board = (FillapixBoard) transition.getBoard(); // Reset Board
+
+        // Color (0,2) BLACK
+        FillapixCell cell = board.getCell(0, 2); // set the current cell
+        Assert.assertNotNull(cell);
+        cell.setCellType(FillapixCellType.BLACK); // 1: BLACK
+        board.addModifiedData(cell);
+
+        // Color (3,3) WHITE
+        cell = board.getCell(3, 3); // set the current cell
+        Assert.assertNotNull(cell);
+        cell.setCellType(FillapixCellType.WHITE); // 2: WHITE
+        board.addModifiedData(cell);
+
+        // Test once gone through entire board
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+    /**
+     * Tests a false application of the Touching Corners Direct Rule on a 4x4 board.
+     * There is a value tile of 6 in the top-right middle, and a value tile of 7 in the bottom-left middle.
+     * The 6-tile has 3 black tiles in range, the 7-tile has 4 black tiles in range.
+     * No Tile needs to be colored black, this shows when the 6 and 7 corners have 3 and 5 black tiles respectively.
+     */
+    @Test
+    public void TouchingCornersDirectRuleTest_4x4FalseOverBlack () throws InvalidFileFormatException {
+        TestUtilities.importTestBoard(
+                "puzzles/fillapix/rules/TouchingCornersDirectRule/4x4FalseOverBlack", fillapix );
+        TreeNode rootNode = fillapix.getTree().getRootNode();
+        TreeTransition transition = rootNode.getChildren().getFirst();
+        transition.setRule(RULE);
+
+        FillapixBoard board = (FillapixBoard) transition.getBoard(); // Reset Board
+
+        // Color (3,3) BLACK
+        FillapixCell cell = board.getCell(3, 3); // set the current cell
+        Assert.assertNotNull(cell);
+        cell.setCellType(FillapixCellType.BLACK); // 1: BLACK
+        board.addModifiedData(cell);
+
+        // Test once gone through entire board
+        Assert.assertNotNull(RULE.checkRule(transition));
+    }
+
+
 
 }
