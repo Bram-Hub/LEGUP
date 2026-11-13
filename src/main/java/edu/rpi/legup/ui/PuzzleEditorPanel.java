@@ -644,9 +644,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         fileChooser.setVisible(true);
 
         File puzzleFile = fileChooser.getSelectedFile();
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzleFile.getAbsolutePath());
-        }
 
         if (puzzleFile != null) {
             preferences.setSavedPath(puzzleFile.getParentFile().getAbsolutePath());
@@ -656,6 +653,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleFile.getAbsolutePath());
             LOGGER.trace(preferences.getSavedPath());
         }
         return new Object[] {puzzleFile.getAbsolutePath(), puzzleFile};
