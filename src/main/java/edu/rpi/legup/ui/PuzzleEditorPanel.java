@@ -25,6 +25,8 @@ import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
@@ -163,12 +165,28 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation() + 100);
         this.splitPanel = splitPanel;
+
         revalidate();
     }
 
     /**
-     * Configures the menu bar with menus and menu items for the application. Adds actions for
-     * opening, creating, and exiting puzzles. Also sets up help and about menu items.
+     * Constructs and returns the {@code JMenuBar} for this panel. It populates it with various
+     * {@code JMenu} and {@code JMenuItem} components related to file operations, editing, viewing.
+     * The menu bar includes:
+     *
+     * <ul>
+     *   <li>{@code File} menu with options to open a puzzle, create a new puzzle,
+     *       access preferences, and exit the editor.
+     *   <li>{@code Edit} menu with options for undo, redo, and fitting the board to the
+     *       screen.
+     *   <li>{@code Help} menu with options to view information about the application and access
+     *              the Wiki.
+     * </ul>
+     *
+     * <p>Accelerator keys are set based on the operating system (Mac or non-Mac).
+     *
+     * <p>Adds the {@code JMenu} to the {@code JMenuBar} instance before finally
+     * being added to the {@code JFrame} instance
      */
     public void setMenuBar() {
         String os = LegupUI.getOS();
@@ -180,7 +198,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         // FILE
         menus[0] = new JMenu("File");
 
-        // file>new
+        // File > Open
         JMenuItem openPuzzle = new JMenuItem("Open");
         openPuzzle.addActionListener((ActionEvent) -> loadPuzzle());
         if (os.equals("mac")) {
@@ -190,7 +208,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             openPuzzle.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         }
-        // file>create
+        // File > Create
         JMenuItem createPuzzle = new JMenuItem("Create");
         createPuzzle.addActionListener(
                 (ActionEvent) -> {
@@ -208,6 +226,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             createPuzzle.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK));
         }
 
+        // File > Exit
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener((ActionEvent) -> exitEditor());
         if (os.equals("mac")) {
@@ -218,7 +237,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
             exit.setAccelerator(KeyStroke.getKeyStroke('Q', InputEvent.CTRL_DOWN_MASK));
         }
 
-        // Implements the "Preferences" under "File"
+        // File > Preferences
         JMenuItem preferences = new JMenuItem("Preferences");
         preferences.addActionListener(
                 a -> {
@@ -237,10 +256,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[1] = new JMenu("Edit");
         // edit>undo
         undo = new JMenuItem("Undo");
-        // edit>redo
-        redo = new JMenuItem("Redo");
-        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
-
         // TODO: Undo operation currently does not get updated correctly in history
         // menus[1].add(undo);
         undo.addActionListener((ActionEvent) -> GameBoardFacade.getInstance().getHistory().undo());
@@ -251,7 +266,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         } else {
             undo.setAccelerator(KeyStroke.getKeyStroke('Z', InputEvent.CTRL_DOWN_MASK));
         }
-
+        // edit>redo
+        redo = new JMenuItem("Redo");
         // TODO: Redo operation currently does not get updated correctly in history
         // menus[1].add(redo);
         // Created action to support two keybinds (CTRL-SHIFT-Z, CTRL-Y)
@@ -296,16 +312,26 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                             'Z', InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         }
 
-        menus[1].add(fitBoardToScreen);
+        fitBoardToScreen = new JMenuItem("Fit Board to Screen");
+
         fitBoardToScreen.addActionListener(
                 (ActionEvent) -> dynamicBoardView.fitBoardViewToScreen());
 
+        // menus[1].add(undo);
+        // menus[1].add(redo);
+        menus[1].addSeparator();
+        menus[1].add(fitBoardToScreen);
+
         // HELP
         menus[2] = new JMenu("Help");
-        legupWiki = new JMenuItem("LEGUP Wiki");
+
         aboutLegup = new JMenuItem("About LEGUP");
-        menus[2].add(legupWiki);
-        menus[2].add(aboutLegup);
+        aboutLegup.addActionListener(
+                l -> {
+                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
+                });
+
+        legupWiki = new JMenuItem("LEGUP Wiki");
         legupWiki.addActionListener(
                 l -> {
                     try {
@@ -315,16 +341,36 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
                         LOGGER.error("Can't open web page");
                     }
                 });
+
+
         menus[2].add(aboutLegup);
-        aboutLegup.addActionListener(
-                l -> {
-                    JOptionPane.showMessageDialog(null, "Version: " + VersionInfo.getVersion());
-                });
+        menus[2].add(legupWiki);
+
+
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                System.out.println("JFrame resized to: " + frame.getSize());
+            }
+        });
+
         // add menus to menubar
         for (JMenu menu : menus) {
             menuBar.add(menu);
         }
         frame.setJMenuBar(menuBar);
+    }
+
+    /**
+     * Makes the panel visible by setting up the toolbar, content, and menu bar. This method is
+     * called to refresh the panel's user interface.
+     */
+    @Override
+    public void makeVisible() {
+        this.removeAll();
+        setupToolBar1();
+        setupContent();
+        setMenuBar();
     }
 
     /**
@@ -338,18 +384,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.legupUI.displayPanel(0);
         treePanel = null;
         boardView = null;
-    }
-
-    /**
-     * Makes the panel visible by setting up the toolbar, content, and menu bar. This method is
-     * called to refresh the panel's user interface.
-     */
-    @Override
-    public void makeVisible() {
-        this.removeAll();
-        setupToolBar1();
-        setupContent();
-        setMenuBar();
     }
 
     /**
@@ -610,9 +644,6 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         fileChooser.setVisible(true);
 
         File puzzleFile = fileChooser.getSelectedFile();
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(puzzleFile.getAbsolutePath());
-        }
 
         if (puzzleFile != null) {
             preferences.setSavedPath(puzzleFile.getParentFile().getAbsolutePath());
@@ -622,6 +653,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         }
 
         if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(puzzleFile.getAbsolutePath());
             LOGGER.trace(preferences.getSavedPath());
         }
         return new Object[] {puzzleFile.getAbsolutePath(), puzzleFile};
@@ -691,7 +723,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
     /**
      * Displays a confirmation dialog with the given instruction message. The method returns true if
-     * the user selected "No" or cancelled the dialog, and false if the user selected "Yes".
+     * the user selected "No" or canceled the dialog, and false if the user selected "Yes".
      *
      * @param instr the instruction message to display in the confirmation dialog
      * @return true if the user selected "No" or canceled; false if the user selected "Yes"
