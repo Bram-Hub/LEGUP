@@ -263,9 +263,8 @@ public class LegupPreferences {
     public static boolean fullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
 
     /**
-     * Sets the screen to FullScreen or Windowed. Enters FullScreen if the screen is Windowed
-     * and the caller was a click event OR if the screen is FullScreen and the
-     * caller wasn't a click event
+     * Sets the screen to FullScreen or Windowed. Enters FullScreen if Windowed
+     * or Windowed if Fullscreen
      */
     public static void setScreenSize() {
         LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
