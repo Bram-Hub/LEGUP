@@ -266,15 +266,12 @@ public class LegupPreferences {
      * Sets the screen to FullScreen or Windowed. Enters FullScreen if the screen is Windowed
      * and the caller was a click event OR if the screen is FullScreen and the
      * caller wasn't a click event
-     *
-     * @param isClick a boolean correlating to if the caller was an OnClick function
      */
-    public static void setScreenSize(boolean isClick) {
+    public static void setScreenSize() {
         LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
         if(ui == null) { return; }
 
-        boolean full = ( isClick && !LegupPreferences.fullScreen() )
-                || ( !isClick && LegupPreferences.fullScreen() );
+        boolean full = LegupPreferences.fullScreen();
 
         if( full ) {
             ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);

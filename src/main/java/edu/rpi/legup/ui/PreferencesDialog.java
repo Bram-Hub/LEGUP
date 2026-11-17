@@ -277,12 +277,6 @@ public class PreferencesDialog extends JDialog {
                         LegupPreferences.fullScreen(),
                         "If checked this starts LEGUP in full screen.",
                         contentPane);
-
-        fullScreen.addActionListener(
-                event-> {
-                    LegupPreferences.setScreenSize( true ); }
-                );
-
         autoUpdate =
                 addDefaultCheckBox(
                         "Automatically Check for Updates",
@@ -539,6 +533,7 @@ public class PreferencesDialog extends JDialog {
                 LegupPreferences.LegupPreference.FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.AUTO_UPDATE, autoUpdate.isSelected());
         prefs.setUserPref(LegupPreferences.LegupPreference.DARK_MODE, darkMode.isSelected());
+        prefs.setUserPref(LegupPreferences.LegupPreference.FULL_SCREEN, fullScreen.isSelected());
         prefs.setUserPref(
                 LegupPreferences.LegupPreference.USE_CUSTOM_COLOR_THEME,
                 customColorTheme.isSelected());
@@ -561,7 +556,9 @@ public class PreferencesDialog extends JDialog {
             rulesFrame.getDirectRulePanel().updateRules();
             rulesFrame.getContradictionPanel().updateRules();
         }
-
+        if(fullScreen.isEnabled()) {
+            LegupPreferences.setScreenSize();
+        }
         updateColorTheme(prefs);
     }
 }
